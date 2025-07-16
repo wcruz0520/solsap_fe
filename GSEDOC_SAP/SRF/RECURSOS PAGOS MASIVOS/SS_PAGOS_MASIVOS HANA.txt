@@ -1,0 +1,150 @@
+CREATE PROCEDURE SS_PAGOS_MASIVOS
+(IN CardCode nvarchar(25), IN FechaCorte datetime, IN Sucursal nvarchar(50))
+AS
+BEGIN
+CardCode := NULLIF(CardCode,'');
+FechaCorte := NULLIF(FechaCorte,'1900-01-01 0:00:00');
+Sucursal := IFNULL(Sucursal,'');
+
+CREATE COLUMN TABLE "AgrupaSolicitudes"
+("U_DocEntry" varchar(250),/* "U_Cuota" INTEGER, */"U_Pago" DECIMAL(16,2), "U_ObjType" VARCHAR(25));
+
+INSERT INTO "AgrupaSolicitudes"
+SELECT  A."U_DocEntry",/* A."U_Cuota" AS "U_NumLinea", */SUM(A."U_Pago") AS "SumaPagos", "U_ObjType"
+FROM "@SS_PM_DET1" A WHERE IFNULL(A."U_DocEntry",'') <> '' GROUP BY "U_DocEntry", "U_ObjType"/*, "U_Cuota"*/;
+
+SELECT
+	DISTINCT 'Anticipo' AS "Tipo", 'N' AS "Chek", T0."DocEntry", 
+	(CASE WHEN IFNULL(T0."NumAtCard",'') = '' THEN TO_VARCHAR(T0."FolioNum") ELSE T0."NumAtCard" END) AS "DocNum",
+	IFNULL(
+		(SELECT STRING_AGG(T."DocEntry", ' ') FROM (SELECT DISTINCT W."DocEntry" FROM "DPO1" Q INNER JOIN "OPOR" W ON Q."BaseEntry" = W."DocEntry" WHERE Q."DocEntry" = T0."DocEntry") T)
+		,IFNULL(
+		(SELECT STRING_AGG(T."RefDocEntr", ' ') FROM (SELECT DISTINCT U."RefDocEntr" FROM "DPO21" U WHERE U."DocEntry" = T0."DocEntry") T),'0')) AS "OrdenCompra",
+	IFNULL(
+		(SELECT STRING_AGG(T."DocNum", ' ') FROM (SELECT DISTINCT W."DocNum" FROM "DPO1" Q INNER JOIN "OPOR" W ON Q."BaseEntry" = W."DocEntry" WHERE Q."DocEntry" = T0."DocEntry") T)
+		,IFNULL(
+		(SELECT STRING_AGG(T."RefDocNum", ' ') FROM (SELECT DISTINCT U."RefDocNum"  FROM "DPO21" U WHERE U."DocEntry" = T0."DocEntry") T), '0'))AS "NumOrdenCompra",
+	T0."CardCode", T0."CardName", T0."TaxDate", (CASE WHEN A."BankCode" = -1 THEN '' ELSE A."BankCode" END) AS "Banco", 
+	IFNULL(A."DflAccount", '') AS "Cuenta",
+	(SELECT SUBSTRING(B."SeriesName", INSTR(B."SeriesName", '_') + 1) FROM "NNM1" B WHERE T0."Series" = B."Series") AS "Sucursal",
+	'' AS "Proyecto", T1."InstlmntID" AS "Cuota", DAYS_BETWEEN(T1."DueDate", current_date) AS "Vencimiento", 
+	T1."DueDate" AS "DocDueDate", T1."InsTotal" AS "DocTotal", T1."InsTotal" - T1."PaidToDate" AS "saldo",	
+	T0."ObjType" AS "ObjType", IFNULL(T0."Comments",'') AS "Comments", IFNULL(A."BankCode",0) AS "CodBanco",
+	IFNULL(A."DflBranch",'') AS "TipoCuenta"
+FROM "ODPO" T0
+LEFT JOIN "DPO6" T1 ON T0."DocEntry" = T1."DocEntry"
+LEFT JOIN "OCRD" A ON T0."CardCode" = A."CardCode" LEFT JOIN "ODSC" B ON A."BankCode" = B."BankCode"
+LEFT JOIN "AgrupaSolicitudes" P ON T0."DocEntry" = P."U_DocEntry" and T0."ObjType" = P."U_ObjType" --AND T1."InstlmntID" = P."U_Cuota"
+WHERE T0."CardCode" = IFNULL(CardCode, T0."CardCode")
+	AND T1."DueDate" BETWEEN  T1."DueDate" AND IFNULL(FechaCorte, T1."DueDate")
+	AND (P."U_Pago" IS NULL OR T0."DocTotal"> IFNULL(P."U_Pago", 0)) AND T1."Status" <> 'C' AND T0."DocSubType" = '--'
+	
+UNION
+
+SELECT
+	DISTINCT 'Factura' AS "Tipo", 'N' AS "Chek", T0."DocEntry", 
+	(CASE WHEN IFNULL(T0."NumAtCard",'') = '' THEN TO_VARCHAR(T0."FolioNum") ELSE T0."NumAtCard" END) AS "DocNum",
+	IFNULL(
+		(SELECT STRING_AGG(T."DocEntry", ' ') FROM (SELECT DISTINCT (CASE Q."BaseType" WHEN 20 THEN (SELECT W."BaseEntry" FROM "PDN1" W WHERE Q."BaseEntry" = W."DocEntry" AND W."BaseLine" = Q."LineNum")
+			WHEN 22 THEN Q."BaseEntry" END) AS "DocEntry" FROM "PCH1" Q WHERE Q."DocEntry" = T0."DocEntry") T)
+		,IFNULL(
+		(SELECT STRING_AGG(T."RefDocEntr", ' ') FROM (SELECT DISTINCT U."RefDocEntr" FROM "PCH21" U WHERE U."DocEntry" = T0."DocEntry") T),'0')) AS "OrdenCompra",
+	IFNULL(
+		(SELECT STRING_AGG(T."DocNum", ' ') FROM (SELECT DISTINCT (CASE Q."BaseType" WHEN 20 THEN (SELECT W."BaseRef" FROM "PDN1" W WHERE Q."BaseEntry" = W."DocEntry" AND W."BaseLine" = Q."LineNum")
+			WHEN 22 THEN Q."BaseRef" END) AS "DocNum" FROM "PCH1" Q WHERE Q."DocEntry" = T0."DocEntry") T)
+		,IFNULL(
+		(SELECT STRING_AGG(T."RefDocNum", ' ') FROM (SELECT DISTINCT U."RefDocNum"  FROM "PCH21" U WHERE U."DocEntry" = T0."DocEntry") T), '0'))AS "NumOrdenCompra",
+	T0."CardCode", T0."CardName", T0."TaxDate", (CASE WHEN A."BankCode" = -1 THEN '' ELSE A."BankCode" END) AS "Banco", 
+	IFNULL(A."DflAccount", '') AS "Cuenta",
+	(SELECT SUBSTRING(B."SeriesName", INSTR(B."SeriesName", '_') + 1) FROM "NNM1" B WHERE T0."Series" = B."Series") AS "Sucursal",
+	'' AS "Proyecto", T1."InstlmntID" AS "Cuota", DAYS_BETWEEN(T1."DueDate", current_date) AS "Vencimiento", 
+	T1."DueDate" AS "DocDueDate", T1."InsTotal" AS "DocTotal",
+	 T1."InsTotal" - T1."PaidToDate"/* - IFNULL(P."U_Pago",0)*/ AS "saldo",	
+	T0."ObjType" AS "ObjType", IFNULL(T0."Comments",'') AS "Comments", IFNULL(A."BankCode",0) AS "CodBanco",
+	IFNULL(A."DflBranch",'') AS "TipoCuenta"
+FROM "OPCH" T0
+LEFT JOIN "PCH6" T1 ON T0."DocEntry" = T1."DocEntry"
+LEFT JOIN "OCRD" A ON T0."CardCode" = A."CardCode" LEFT JOIN "ODSC" B ON A."BankCode" = B."BankCode"
+LEFT JOIN "AgrupaSolicitudes" P ON T0."DocEntry" = P."U_DocEntry" and T0."ObjType" = P."U_ObjType" --AND T1."InstlmntID" = P."U_Cuota"
+WHERE T0."CardCode" = IFNULL(CardCode, T0."CardCode")
+	AND T1."DueDate" BETWEEN  T1."DueDate" AND IFNULL(FechaCorte, T1."DueDate")
+	AND (P."U_Pago" IS NULL OR T0."DocTotal"> IFNULL(P."U_Pago", 0)) AND T1."Status" <> 'C' AND T0."DocSubType" = '--'	
+	AND ((Sucursal = 'MN' AND T0."Series" IN (109,113,105,122)) OR  
+		(Sucursal = 'MS' AND T0."Series" IN (106,110,102,119)) OR 
+		(Sucursal = 'VI' AND T0."Series" IN (107,111,103,120)) OR
+		(Sucursal = 'CM' AND T0."Series" IN (121,108,112,104)) OR
+		(Sucursal = '' AND T0."Series" IN (121,108,112,104,207,201,122,119,120,223,222,204,198,109,106,107,219,218,206,199,113,110,111,
+		221,220,203,193,105,102,103,217,216,14,127,130,423,250)))
+		
+UNION
+
+SELECT
+	DISTINCT 'Reserva' AS "Tipo", 'N' AS "Chek", T0."DocEntry", 
+	(CASE WHEN IFNULL(T0."NumAtCard",'') = '' THEN TO_VARCHAR(T0."FolioNum") ELSE T0."NumAtCard" END) AS "DocNum",
+	IFNULL(
+		(SELECT STRING_AGG(T."DocEntry", ' ') FROM (SELECT DISTINCT W."DocEntry" FROM "PCH1" Q INNER JOIN "OPOR" W ON Q."BaseEntry" = W."DocEntry" WHERE Q."DocEntry" = T0."DocEntry") T)
+		,IFNULL(
+		(SELECT STRING_AGG(T."RefDocEntr", ' ') FROM (SELECT DISTINCT U."RefDocEntr" FROM "PCH21" U WHERE U."DocEntry" = T0."DocEntry") T),'0')) AS "OrdenCompra",
+	IFNULL(
+		(SELECT STRING_AGG(T."DocNum", ' ') FROM (SELECT DISTINCT W."DocNum" FROM "PCH1" Q INNER JOIN "OPOR" W ON Q."BaseEntry" = W."DocEntry" WHERE Q."DocEntry" = T0."DocEntry") T)
+		,IFNULL(
+		(SELECT STRING_AGG(T."RefDocNum", ' ') FROM (SELECT DISTINCT U."RefDocNum" FROM "PCH21" U WHERE U."DocEntry" = T0."DocEntry") T), '0'))AS "NumOrdenCompra",
+	T0."CardCode", T0."CardName", T0."TaxDate", (CASE WHEN A."BankCode" = -1 THEN '' ELSE A."BankCode" END) AS "Banco", 
+	IFNULL(A."DflAccount", '') AS "Cuenta",
+	(SELECT SUBSTRING(B."SeriesName", INSTR(B."SeriesName", '_') + 1) FROM "NNM1" B WHERE T0."Series" = B."Series") AS "Sucursal",
+	'' AS "Proyecto", T1."InstlmntID" AS "Cuota", DAYS_BETWEEN(T1."DueDate", current_date) AS "Vencimiento", 
+	T1."DueDate" AS "DocDueDate", T1."InsTotal" AS "DocTotal",
+	 T1."InsTotal" - T1."PaidToDate"/* - IFNULL(P."U_Pago",0)*/ AS "saldo",	
+	T0."ObjType" AS "ObjType", IFNULL(T0."Comments",'') AS "Comments", IFNULL(A."BankCode",0) AS "CodBanco",
+	IFNULL(A."DflBranch",'') AS "TipoCuenta"
+FROM "OPCH" T0
+LEFT JOIN "PCH6" T1 ON T0."DocEntry" = T1."DocEntry"
+LEFT JOIN "OCRD" A ON T0."CardCode" = A."CardCode" LEFT JOIN "ODSC" B ON A."BankCode" = B."BankCode"
+LEFT JOIN "AgrupaSolicitudes" P ON T0."DocEntry" = P."U_DocEntry" and T0."ObjType" = P."U_ObjType" --AND T1."InstlmntID" = P."U_Cuota"
+WHERE T0."CardCode" = IFNULL(CardCode, T0."CardCode")
+	AND T1."DueDate" BETWEEN  T1."DueDate" AND IFNULL(FechaCorte, T1."DueDate")
+	AND (P."U_Pago" IS NULL OR T0."DocTotal"> IFNULL(P."U_Pago", 0)) AND T1."Status" <> 'C' AND T0."DocSubType" = '--'	
+	AND ((Sucursal = 'MS' AND T0."Series" IN (350)) OR
+		(Sucursal = '' AND T0."Series" IN (350)))
+		
+UNION
+
+SELECT
+	'Nota Debito' AS "Tipo", 'N' AS "Chek", T0."DocEntry", 
+	(CASE WHEN IFNULL(T0."NumAtCard",'') = '' THEN TO_VARCHAR(T0."FolioNum") ELSE T0."NumAtCard" END) AS "DocNum",
+	IFNULL((SELECT DISTINCT TO_VARCHAR(W."DocEntry") FROM "PCH1" Q INNER JOIN "OPOR" W ON Q."BaseEntry" = W."DocEntry" WHERE Q."DocEntry" = T0."DocEntry"),'0')
+	 AS "OrdenCompra",
+	IFNULL((SELECT DISTINCT TO_VARCHAR(W."DocNum") FROM "PCH1" Q INNER JOIN "OPOR" W ON Q."BaseEntry" = W."DocEntry" WHERE Q."DocEntry" = T0."DocEntry"),'0')
+	 AS "NumOrdenCompra",
+	T0."CardCode", T0."CardName", T0."TaxDate", (CASE WHEN A."BankCode" = -1 THEN '' ELSE A."BankCode" END) AS "Banco", 
+	IFNULL(A."DflAccount", '') AS "Cuenta",
+	(SELECT SUBSTRING(B."SeriesName", INSTR(B."SeriesName", '_') + 1) FROM "NNM1" B WHERE T0."Series" = B."Series") AS "Sucursal",
+	'' AS "Proyecto", T1."InstlmntID" AS "Cuota", DAYS_BETWEEN(T1."DueDate", current_date) AS "Vencimiento", 
+	T1."DueDate" AS "DocDueDate", T1."InsTotal" AS "DocTotal", T1."InsTotal" - T1."PaidToDate" AS "saldo",	
+	T0."ObjType" AS "ObjType", IFNULL(T0."Comments",'') AS "Comments", IFNULL(A."BankCode",0) AS "CodBanco",
+	IFNULL(A."DflBranch",'') AS "TipoCuenta"
+FROM "OPCH" T0
+LEFT JOIN "PCH6" T1 ON T0."DocEntry" = T1."DocEntry"
+LEFT JOIN "OCRD" A ON T0."CardCode" = A."CardCode" LEFT JOIN "ODSC" B ON A."BankCode" = B."BankCode"
+LEFT JOIN "AgrupaSolicitudes" P ON T0."DocEntry" = P."U_DocEntry" and T0."ObjType" = P."U_ObjType" --AND T1."InstlmntID" = P."U_Cuota"
+WHERE T0."CardCode" = IFNULL(CardCode, T0."CardCode") AND T0."DocStatus" <> 'C'
+	AND T1."DueDate" BETWEEN  T1."DueDate" AND IFNULL(FechaCorte, T1."DueDate")
+	AND (P."U_Pago" IS NULL OR T0."DocTotal"> IFNULL(P."U_Pago", 0)) AND T1."Status" <> 'C' AND T0."DocSubType" = 'DM'	
+	ORDER BY T0."CardName" ASC;
+	
+DROP TABLE "AgrupaSolicitudes";
+END
+/*
+SELECT * FROM "PCH6" WHERE "DocEntry" = 941
+CALL SS_PAGOS_MASIVOS('','20251231', ''); --P0992126396001
+
+SELECT "DocSubType",* FROM "OPCH" WHERE "DocNum" = 120000001
+SELECT DISTINCT "Series" FROM "OPCH"
+SELECT * FROM "OPCH" C WHERE C."DocSubType" = 'DM';
+SELECT C."DocEntry", C."LineNum" ,C."BaseEntry" FROM "PCH1" C
+CALL SS_PAGOS_MASIVOS('','20251231', ''); --P0992126396001
+ Select TOP 1 * from OPCH
+ 
+ SELECT (CASE WHEN "BankCode" = -1 THEN '' ELSE "BankCode" END) , * FROM "OCRD" WHERE "CardCode" = 'P0991398767001'
+ SELECT DISTINCT "BankCode" FROM "OCRD"
+*/

@@ -1,0 +1,57 @@
+
+https://labcr.guru-soft.com/eDocCR/Sitios_Solsap/WS_LICENCIA_SAP/Licencia.svc
+
+https://cr.edocnube.com/eDocCR/Sitios_Solsap/WS_LICENCIA_SAP/Licencia.svc
+
+******************  PRUEBAS *****************************
+RECEPCION - 17/08/2020
+https://labec.guru-soft.com/eDocEcuador/WSEDOC_RECEPCION/WSRAD_KEY_CONSULTA.svc
+https://labec.guru-soft.com/eDocEcuador/WSEDOC_RECEPCION/WSRAD_KEY_CAMBIARESTADO.svc
+https://labec.guru-soft.com/eDocEcuador/WSEDOC_RECEPCION/WSRAD_KEY_ARCHIVO.svc
+
+EMISION - 17/08/2020
+https://labec.guru-soft.com/eDocEcuador/4.3/Nube/WSEDOC/
+https://labec.guru-soft.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_FACTURAS.svc
+https://labec.guru-soft.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_NOTAS_DEBITO.svc
+https://labec.guru-soft.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_NOTAS_CREDITO.svc
+https://labec.guru-soft.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_RETENCIONES.svc
+https://labec.guru-soft.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_GUIAS_REMISION.svc
+https://labec.guru-soft.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_LIQUIDACIONES_COMPRA.svc
+https://labec.guru-soft.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_CONSULTA.svc
+https://labec.guru-soft.com/eDocEcuador/WSEDOC_REENVIO/WSEDOC_ENVIARMAIL.svc
+
+
+0992737964001 GuruSoft S.A.
+em0Bj0PLsvOPAWGSmzg2m3rblHCiiGKipamJXZ1te20WIcdlRiyPs8pfKWEtgJGPqy5hJtQ6gIk25oR3UMrBEA==
+
+****************** END NUBE PRUEBAS *****************************
+
+
+****************** NUBE 4.1 PRUEBAS *****************************
+http://gurusoft-lab.com/eDocEcuador4.1/WsEdoc_Emision/WSEDOC_FACTURAS.svc
+http://gurusoft-lab.com/eDocEcuador4.1/WsEdoc_Emision/WSEDOC_GUIAS_REMISION.svc
+http://gurusoft-lab.com/eDocEcuador4.1/WsEdoc_Emision/WSEDOC_NOTAS_CREDITO.svc
+http://gurusoft-lab.com/eDocEcuador4.1/WsEdoc_Emision/WSEDOC_NOTAS_DEBITO.svc
+http://gurusoft-lab.com/eDocEcuador4.1/WsEdoc_Emision/WSEDOC_RETENCIONES.svc
+http://gurusoft-lab.com/eDocEcuador4.1/WsEdoc_Emision/WSEDOC_consulta.svc
+
+****************** END NUBE 4.1 PRUEBAS *****************************
+clave: G353D0C_4.1
+
+****************** NUBE 4.1 PRODUCCION *****************************
+PORTAL INTERNO
+https://edocnube.com/eDocEcuador4.1/Nube/Consulta/
+
+PORTAL ADMIN
+https://edocnube.com/eDocEcuador4.1/Nube/Admin/
+
+WS EMISION
+https://edocnube.com/eDocEcuador4.1/Nube/WsEdoc_Emision/WSEDOCNUBE_FACTURAS.svc?wsdl
+https://edocnube.com/eDocEcuador4.1/Nube/WsEdoc_Emision/WSEDOCNUBE_GUIAS_REMISION.svc?wsdl
+https://edocnube.com/eDocEcuador4.1/Nube/WsEdoc_Emision/WSEDOCNUBE_NOTAS_CREDITO.svc?wsdl
+https://edocnube.com/eDocEcuador4.1/Nube/WsEdoc_Emision/WSEDOCNUBE_NOTAS_DEBITO.svc?wsdl
+https://edocnube.com/eDocEcuador4.1/Nube/WsEdoc_Emision/WSEDOCNUBE_RETENCIONES.svc?wsdl
+https://edocnube.com/eDocEcuador4.1/Nube/WsEdoc_Emision/WSEDOCNUBE_CONSULTA.svc?wsdl
+CLAVE = Credencial del cliente
+
+****************** END NUBE 4.1 PRODUCCION *****************************

@@ -1,0 +1,715 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{644DDD23-E0C0-4E6C-97DF-30A9CB84CAC5}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>Sub Main</StartupObject>
+    <RootNamespace>slnGSEDOC_SAP_EC</RootNamespace>
+    <AssemblyName>slnGSEDOC_SAP_EC</AssemblyName>
+    <MyType>WindowsFormsWithCustomSubMain</MyType>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+    <PublishUrl>http://localhost/KSap/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>slnGSEDOC_SAP_EC.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>slnGSEDOC_SAP_EC.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>slnGSEDOC_SAP_EC.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Addon.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>slnGSEDOC_SAP_EC.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Addon.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>slnGSEDOC_SAP_EC.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Addon.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>slnGSEDOC_SAP_EC.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Addon.exe.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="adodb, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Users\Thinkpad\Solsap\SOLSAP - Documentos\PROYECTOS\UTILITARIO\DLLs Crystal 14.2.8\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Users\Thinkpad\Solsap\SOLSAP - Documentos\PROYECTOS\UTILITARIO\DLLs Crystal 14.2.8\CrystalDecisions.ReportSource.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Users\Thinkpad\Solsap\SOLSAP - Documentos\PROYECTOS\UTILITARIO\DLLs Crystal 14.2.8\CrystalDecisions.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=3.0.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.3.0.1\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml.Framework, Version=3.0.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.Framework.3.0.1\lib\net46\DocumentFormat.OpenXml.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelNumberFormat, Version=1.1.0.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelNumberFormat.1.1.0\lib\net20\ExcelNumberFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.SAPbobsCOM_SAP10">
+      <HintPath>..\..\..\SERUVI\LIB\Interop.SAPbobsCOM_SAP10.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.SAPbouiCOM_SAP10">
+      <HintPath>..\..\..\SERUVI\LIB\Interop.SAPbouiCOM_SAP10.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>..\AddOnInstall 90_x86\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.licensekey">
+      <HintPath>..\AddOnInstall 90_x86\itextsharp.licensekey.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.pdfa">
+      <HintPath>..\AddOnInstall 90_x86\itextsharp.pdfa.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xtra">
+      <HintPath>..\AddOnInstall 90_x86\itextsharp.xtra.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.HashCode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.HashCode.1.1.1\lib\net461\Microsoft.Bcl.HashCode.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1001\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RBush, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RBush.3.2.0\lib\netstandard1.2\RBush.dll</HintPath>
+    </Reference>
+    <Reference Include="SixLabors.Fonts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13, processorArchitecture=MSIL">
+      <HintPath>..\packages\SixLabors.Fonts.1.0.0\lib\netstandard2.0\SixLabors.Fonts.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.License">
+      <HintPath>..\..\..\SERUVI\LIB\Spire.License.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Pdf">
+      <HintPath>..\..\..\SERUVI\LIB\Spire.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.AppContext, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.AppContext.4.3.0\lib\net463\System.AppContext.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Console, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Console.4.3.0\lib\net46\System.Console.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.3.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Tracing, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.Tracing.4.3.0\lib\net462\System.Diagnostics.Tracing.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.4.3.0\lib\net46\System.IO.FileSystem.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Packaging.8.0.0\lib\net462\System.IO.Packaging.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.4.3.0\lib\net463\System.Linq.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Linq.Expressions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Expressions.4.3.0\lib\net463\System.Linq.Expressions.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.0\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Sockets, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reflection.4.3.0\lib\net462\System.Reflection.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.7.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Extensions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.Extensions.4.3.0\lib\net462\System.Runtime.Extensions.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.4.3.0\lib\net463\System.Runtime.InteropServices.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Text.RegularExpressions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.RegularExpressions.4.3.0\lib\net463\System.Text.RegularExpressions.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuracion\frmProxy.vb" />
+    <Compile Include="Configuracion\frmConfMenu.vb" />
+    <Compile Include="Configuracion\frmConfClave.vb" />
+    <Compile Include="Configuracion\frmParametrosAddon.vb" />
+    <Compile Include="Configuracion\frmValidarUsuario.vb" />
+    <Compile Include="Emision\frmConsultasDB.vb" />
+    <Compile Include="Emision\frmListaAEnviar.vb" />
+    <Compile Include="Emision\frmLogEmision.vb" />
+    <Compile Include="Emision\frmImpresionPorBloque.vb" />
+    <Compile Include="Emision\SelectFileDialog.vb" />
+    <Compile Include="Entidades\Factura\Factura.vb" />
+    <Compile Include="Entidades\Factura\FacturaCabecera.vb" />
+    <Compile Include="Entidades\Factura\FacturaCabeceraImpuestos.vb" />
+    <Compile Include="Entidades\Factura\FacturaDetalle.vb" />
+    <Compile Include="Entidades\Factura\FacturaDetalleImpuesto.vb" />
+    <Compile Include="Entidades\NotaCredito\NotaCredito.vb" />
+    <Compile Include="Entidades\NotaCredito\NotaCreditoCabecera.vb" />
+    <Compile Include="Entidades\NotaCredito\NotaCreditoCabeceraImpuesto.vb" />
+    <Compile Include="Entidades\NotaCredito\NotaCreditoDetalle.vb" />
+    <Compile Include="Entidades\NotaCredito\NotaCreditoDetalleImpuesto.vb" />
+    <Compile Include="Entidades\Retencion\RetCabecera.vb" />
+    <Compile Include="Entidades\Retencion\RetDetalleImpuestos.vb" />
+    <Compile Include="Entidades\Retencion\Retencion.vb" />
+    <Compile Include="Eventos.vb" />
+    <Compile Include="Configuracion\frmAcercaDe.vb" />
+    <Compile Include="Licencia.vb" />
+    <Compile Include="Localizacion\Anexos\frmAnexoCompras.vb" />
+    <Compile Include="Localizacion\Anexos\frmAnexoVentas.vb" />
+    <Compile Include="Localizacion\ATS\frmGeneradorATS.vb" />
+    <Compile Include="Localizacion\Cash_Management\frmCashManagemet.vb" />
+    <Compile Include="Localizacion\Cash_Management\frmMapeoCuentasCM.vb" />
+    <Compile Include="Localizacion\Cheques_Protesto\clsCheque.vb" />
+    <Compile Include="Localizacion\Cheques_Protesto\frmChequeP.vb" />
+    <Compile Include="Localizacion\Cheques_Protesto\frmChequeP_Detalle.vb" />
+    <Compile Include="Localizacion\Configuracion\frmAcercaDeLE.vb" />
+    <Compile Include="Localizacion\Configuracion\frmCargaRPT.vb" />
+    <Compile Include="Localizacion\Configuracion\frmClave.vb" />
+    <Compile Include="Localizacion\Configuracion\frmConfClaveLE.vb" />
+    <Compile Include="Localizacion\Configuracion\frmConfMenuLE.vb" />
+    <Compile Include="Localizacion\Configuracion\frmConsultasDbLE.vb" />
+    <Compile Include="Localizacion\Configuracion\frmParametrosAddonLE.vb" />
+    <Compile Include="Localizacion\Configuracion\frmSRI.vb" />
+    <Compile Include="Localizacion\Configuracion\frmSRIConsulta.vb" />
+    <Compile Include="Localizacion\DINARDAP\frmDinardap.vb" />
+    <Compile Include="Localizacion\Guia_Remision\frmGuiasRemision.vb" />
+    <Compile Include="Localizacion\Pagos_Masivos\frmImprimir.vb" />
+    <Compile Include="Localizacion\Pagos_Masivos\frmPagosAprobacion.vb" />
+    <Compile Include="Localizacion\Pagos_Masivos\frmPagosMasivos.vb" />
+    <Compile Include="Localizacion\Reportes\frmGenerarRPT.vb" />
+    <Compile Include="Localizacion\Servicios_Basicos\frmServiciosBasicos.vb" />
+    <Compile Include="Localizacion\TranferenciasEntreCompañias\clsError.vb" />
+    <Compile Include="Localizacion\TranferenciasEntreCompañias\frmConsultaBodega.vb" />
+    <Compile Include="Localizacion\TranferenciasEntreCompañias\frmConsultaDetalleTrans.vb" />
+    <Compile Include="Localizacion\TranferenciasEntreCompañias\frmConsultaSalidaEntrada.vb" />
+    <Compile Include="Localizacion\TranferenciasEntreCompañias\frmTransEntreCompañias.vb" />
+    <Compile Include="Localizacion\TranferenciasEntreCompañias\SalidaCabecera.vb" />
+    <Compile Include="Localizacion\TranferenciasEntreCompañias\SalidaDetalle.vb" />
+    <Compile Include="RecepcionXML\frmDocumentoNCXML.vb" />
+    <Compile Include="RecepcionXML\frmDocumentoREXML.vb" />
+    <Compile Include="RecepcionXML\frmDocumentosRecibidosXML.vb" />
+    <Compile Include="RecepcionXML\frmDocumentoXML.vb" />
+    <Compile Include="RecepcionXML\frmProcesoLoteXML.vb" />
+    <Compile Include="Recepcion\frmConsultasDB_RE.vb" />
+    <Compile Include="Recepcion\frmProcesoLote.vb" />
+    <Compile Include="Recepcion\frmProcesoLote2.vb" />
+    <Compile Include="Recepcion\frmProcesoLoteC.vb" />
+    <Compile Include="Recepcion\frmProcesoLoteManamer.vb" />
+    <Compile Include="Recepcion\frmSubirArchivo.vb" />
+    <Compile Include="Recepcion\frmDocumentoRE.vb" />
+    <Compile Include="Recepcion\frmDocumentoNC.vb" />
+    <Compile Include="Recepcion\frmParametrosRecepcion.vb" />
+    <Compile Include="Emision\EventosEmision.vb" />
+    <Compile Include="Estructura.vb" />
+    <Compile Include="Recepcion\EventosRecepcion.vb" />
+    <Compile Include="Recepcion\frmConsultaOrdenes.vb" />
+    <Compile Include="Recepcion\frmDocumento.vb" />
+    <Compile Include="Emision\frmDocumentosEnviados.vb" />
+    <Compile Include="Recepcion\frmDocumentosIntegrados.vb" />
+    <Compile Include="Recepcion\frmDocumentosRecibidos.vb" />
+    <Compile Include="Recepcion\frmMapeo.vb" />
+    <Compile Include="ProcedimientosAlmacenados.Designer.vb">
+      <DependentUpon>ProcedimientosAlmacenados.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ProcedimientosAlmacenados.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubMain.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Web References\WSRAD_KEY_CONSULTA_4_3\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProcedimientosAlmacenados.resx">
+      <DependentUpon>ProcedimientosAlmacenados.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="My Project\app.manifest" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Web References\WSRAD_KEY_CONSULTA_4_3\ENTFactura1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WSRAD_KEY_CONSULTA_4_3\ENTGuiaRemision1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WSRAD_KEY_CONSULTA_4_3\ENTLiquidacionCompra1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WSRAD_KEY_CONSULTA_4_3\ENTNotaCredito1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WSRAD_KEY_CONSULTA_4_3\ENTNotaDebito1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WSRAD_KEY_CONSULTA_4_3\ENTRetencion1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WSRAD_KEY_CONSULTA_4_3\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\WSRAD_KEY_CONSULTA_4_3\WSRAD_KEY_CONSULTA.wsdl" />
+    <None Include="Web References\WSRAD_KEY_CONSULTA_4_3\WSRAD_KEY_CONSULTA.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{967B4E0D-AD0C-4609-AB67-0FA40C0206D8}" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Entidades\Entidades.vbproj">
+      <Project>{c94b41c4-df02-47ae-aa99-a369b913f39a}</Project>
+      <Name>Entidades</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Funciones_SAP\Funciones_SAP.vbproj">
+      <Project>{70470f86-6284-49a5-9146-f85f3cf92ba6}</Project>
+      <Name>Funciones_SAP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Negocio\Negocio.vbproj">
+      <Project>{f15cb0a7-dc8c-4f1b-9503-39fc68979025}</Project>
+      <Name>Negocio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilitario\Utilitario.vbproj">
+      <Project>{8725A4ED-C65E-4AD4-8E1D-1DE25D598700}</Project>
+      <Name>Utilitario</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\x64\Debug\adodb.dll" />
+    <Content Include="bin\x64\Debug\CrystalDecisions.CrystalReports.Engine.dll" />
+    <Content Include="bin\x64\Debug\CrystalDecisions.ReportSource.dll" />
+    <Content Include="bin\x64\Debug\Entidades.dll" />
+    <Content Include="bin\x64\Debug\frmAcercaDe.srf" />
+    <Content Include="bin\x64\Debug\frmAcercaDeLE.srf" />
+    <Content Include="bin\x64\Debug\frmAnexoCompras.srf" />
+    <Content Include="bin\x64\Debug\frmAnexoVentas.srf" />
+    <Content Include="bin\x64\Debug\frmCargaRPT.srf" />
+    <Content Include="bin\x64\Debug\frmCashManagement.srf" />
+    <Content Include="bin\x64\Debug\frmChequeP.srf" />
+    <Content Include="bin\x64\Debug\frmChequePD.srf" />
+    <Content Include="bin\x64\Debug\frmClave.srf" />
+    <Content Include="bin\x64\Debug\frmConfClave.srf" />
+    <Content Include="bin\x64\Debug\frmConfClaveLE.srf" />
+    <Content Include="bin\x64\Debug\frmConfMenu.srf" />
+    <Content Include="bin\x64\Debug\frmConfMenuLE.srf" />
+    <Content Include="bin\x64\Debug\frmConsultaBodega.srf" />
+    <Content Include="bin\x64\Debug\frmConsultaDetalleTrans.srf" />
+    <Content Include="bin\x64\Debug\frmConsultaDetalleTrans3.srf" />
+    <Content Include="bin\x64\Debug\frmConsultaOrdenes.srf" />
+    <Content Include="bin\x64\Debug\frmConsultaSalidaEntrada.srf" />
+    <Content Include="bin\x64\Debug\frmConsultasDB.srf" />
+    <Content Include="bin\x64\Debug\frmConsultasDbLE.srf" />
+    <Content Include="bin\x64\Debug\frmConsultasDB_RE.srf" />
+    <Content Include="bin\x64\Debug\frmDinardap.srf" />
+    <Content Include="bin\x64\Debug\frmDocumento.srf" />
+    <Content Include="bin\x64\Debug\frmDocumentoNC.srf" />
+    <Content Include="bin\x64\Debug\frmDocumentoNCXML.srf" />
+    <Content Include="bin\x64\Debug\frmDocumentoRE.srf" />
+    <Content Include="bin\x64\Debug\frmDocumentoREXML.srf" />
+    <Content Include="bin\x64\Debug\frmDocumentosEnviados.srf" />
+    <Content Include="bin\x64\Debug\frmDocumentosIntegrados.srf" />
+    <Content Include="bin\x64\Debug\frmDocumentosRecibidos.srf" />
+    <Content Include="bin\x64\Debug\frmDocumentosRecibidosXML.srf" />
+    <Content Include="bin\x64\Debug\frmDocumentoXML.srf" />
+    <Content Include="bin\x64\Debug\frmGeneradorATS.srf" />
+    <Content Include="bin\x64\Debug\frmGenerarRPT.srf" />
+    <Content Include="bin\x64\Debug\frmGuiasRemision.srf" />
+    <Content Include="bin\x64\Debug\frmImpresionPorBloque.srf" />
+    <Content Include="bin\x64\Debug\frmImprimir.srf" />
+    <Content Include="bin\x64\Debug\frmLimpio.srf" />
+    <Content Include="bin\x64\Debug\frmListaAEnviar.srf" />
+    <Content Include="bin\x64\Debug\frmLogEmision.srf" />
+    <Content Include="bin\x64\Debug\frmMapeo.srf" />
+    <Content Include="bin\x64\Debug\frmMapeoCuentasCM.srf" />
+    <Content Include="bin\x64\Debug\frmPagosAprobacion.srf" />
+    <Content Include="bin\x64\Debug\frmPagosMasivos.srf" />
+    <Content Include="bin\x64\Debug\frmParametrosAddon.srf" />
+    <Content Include="bin\x64\Debug\frmParametrosAddonLE.srf" />
+    <Content Include="bin\x64\Debug\frmParametrosRecepcion.srf" />
+    <Content Include="bin\x64\Debug\frmProcesoLote.srf" />
+    <Content Include="bin\x64\Debug\frmProcesoLoteC.srf" />
+    <Content Include="bin\x64\Debug\frmProcesoLoteManamer.srf" />
+    <Content Include="bin\x64\Debug\frmProcesoLoteXML.srf" />
+    <Content Include="bin\x64\Debug\frmProxy.srf" />
+    <Content Include="bin\x64\Debug\frmServiciosBasicos.srf" />
+    <Content Include="bin\x64\Debug\frmSRI.srf" />
+    <Content Include="bin\x64\Debug\frmSRIConsulta.srf" />
+    <Content Include="bin\x64\Debug\frmSubirArchivo.srf" />
+    <Content Include="bin\x64\Debug\frmTransEntreCompanias.srf" />
+    <Content Include="bin\x64\Debug\frmValidarUsuario.srf" />
+    <Content Include="bin\x64\Debug\Functions.dll" />
+    <Content Include="bin\x64\Debug\itextsharp.dll" />
+    <Content Include="bin\x64\Debug\itextsharp.licensekey.dll" />
+    <Content Include="bin\x64\Debug\itextsharp.pdfa.dll" />
+    <Content Include="bin\x64\Debug\itextsharp.xtra.dll" />
+    <Content Include="bin\x64\Debug\logo11.png" />
+    <Content Include="bin\x64\Debug\LogoLoc.png" />
+    <Content Include="bin\x64\Debug\LogoSS.png" />
+    <Content Include="bin\x64\Debug\Negocio.dll" />
+    <Content Include="bin\x64\Debug\Newtonsoft.Json.dll" />
+    <Content Include="bin\x64\Debug\SAPBusinessOneSDK.dll" />
+    <Content Include="bin\x64\Debug\slnGSEDOC_SAP_EC.exe" />
+    <Content Include="bin\x64\Debug\Spire.License.dll" />
+    <Content Include="bin\x64\Debug\Spire.Pdf.dll" />
+    <Content Include="bin\x64\Debug\SRI.jpg" />
+    <Content Include="bin\x64\Debug\stdole.dll" />
+    <Content Include="bin\x64\Debug\Utilitario.dll" />
+    <Content Include="bin\x64\Debug\zxing.dll" />
+    <Content Include="Emision\frmImpresionPorBloque.srf" />
+    <Content Include="Emision\frmLogEmision.srf" />
+    <Content Include="Localizacion\Cheques_Protesto\StoresProcedures.txt" />
+    <Content Include="Recepcion\frmSubirArchivo.srf" />
+    <Content Include="Recepcion\frmDocumentosIntegrados.srf" />
+    <Content Include="Recepcion\frmDocumento_OLD.srf" />
+    <Content Include="Recepcion\frmConsultaOrdenes.srf" />
+    <Content Include="Recepcion\frmDocumento.srf" />
+    <Content Include="FrmVerPdf.srf" />
+    <Content Include="Recepcion\frmDocumentosRecibidos.srf" />
+    <Content Include="Emision\frmDocumentosEnviados.srf" />
+    <Content Include="Recepcion\frmMapeo.srf" />
+    <None Include="Web References\WSRAD_KEY_CONSULTA_4_3\WSRAD_KEY_CONSULTA.disco" />
+    <Content Include="WS.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="https://gurusoft-lab.com/eDocEcuador/SSL/WSEDOC_RECEPCION/WSRAD_KEY_CONSULTA.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WSRAD_KEY_CONSULTA_4_3\</RelPath>
+      <UpdateFromURL>https://gurusoft-lab.com/eDocEcuador/SSL/WSEDOC_RECEPCION/WSRAD_KEY_CONSULTA.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>slnGSEDOC_SAP_WSRAD_KEY_CONSULTA_4_3_WSRAD_KEY_CONSULTA</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AddOnRegData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" SlientInstallation="No" SlientUpgrade="No" Partnernmsp="SOLSAP S.A" SchemaVersion="3.0" Type="" MultipleVersion="false" OnDemand="" OnPremise="" ExtName="SAED PLUS LW2" ExtVersion="3.9.1.2.3" Contdata="info@soluciones-sap.com" Partner="SOLSAP S.A" DBType="Both" ClientType="A">
+  <Validity>
+    <SBOCompatibility>
+      <Version From="920.200.00" To="1000.250.00" />
+    </SBOCompatibility>
+  </Validity>
+  <Configuration>
+    <Repository>
+      <Properties />
+    </Repository>
+    <Deployment>
+      <Properties />
+    </Deployment>
+    <Assignment>
+      <Properties />
+    </Assignment>
+  </Configuration>
+  <Addons>
+    <Addon Name="" Group="" ForceFlag="" Visible="" AutoAssign="" SelfUpgrd="">
+      <x86 AddonExe="" AddonSig="" AddonSigSha256="">
+        <Installation>
+          <Files />
+        </Installation>
+        <Uninstallation>
+          <Files />
+        </Uninstallation>
+      </x86>
+      <x64 AddonExe="C:\REPOSITORIO GIT\SAED_LOCALIZACION_2025\GSEDOC_SAP\bin\x64\Debug\slnGSEDOC_SAP_EC.exe" AddonSig="">
+        <Installation>
+          <Files>
+            <File FileName="adodb.dll">
+              <Actions />
+            </File>
+            <File FileName="CrystalDecisions.CrystalReports.Engine.dll">
+              <Actions />
+            </File>
+            <File FileName="CrystalDecisions.ReportSource.dll">
+              <Actions />
+            </File>
+            <File FileName="CrystalDecisions.Shared.dll">
+              <Actions />
+            </File>
+            <File FileName="Entidades.dll">
+              <Actions />
+            </File>
+            <File FileName="ExcelNumberFormat.dll">
+              <Actions />
+            </File>
+            <File FileName="frmAcercaDe.srf">
+              <Actions />
+            </File>
+            <File FileName="frmAcercaDeLE.srf">
+              <Actions />
+            </File>
+            <File FileName="frmAnexoCompras.srf">
+              <Actions />
+            </File>
+            <File FileName="frmAnexoVentas.srf">
+              <Actions />
+            </File>
+            <File FileName="frmCargaRPT.srf">
+              <Actions />
+            </File>
+            <File FileName="frmCashManagement.srf">
+              <Actions />
+            </File>
+            <File FileName="frmChequeP.srf">
+              <Actions />
+            </File>
+            <File FileName="frmChequePD.srf">
+              <Actions />
+            </File>
+            <File FileName="frmClave.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConfClave.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConfClaveLE.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConfMenu.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConfMenuLE.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConsultaBodega.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConsultaDetalleTrans.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConsultaDetalleTrans3.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConsultaOrdenes.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConsultaSalidaEntrada.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConsultasDB.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConsultasDbLE.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConsultasDB_RE.srf">
+              <Actions />
+            </File>
+            <File FileName="frmDinardap.srf">
+              <Actions />
+            </File>
+            <File FileName="frmDocumento.srf">
+              <Actions />
+            </File>
+            <File FileName="frmDocumentoNC.srf">
+              <Actions />
+            </File>
+            <File FileName="frmDocumentoNCXML.srf">
+              <Actions />
+            </File>
+            <File FileName="frmDocumentoRE.srf">
+              <Actions />
+            </File>
+            <File FileName="frmDocumentoREXML.srf">
+              <Actions />
+            </File>
+            <File FileName="frmDocumentosEnviados.srf">
+              <Actions />
+            </File>
+            <File FileName="frmDocumentosIntegrados.srf">
+              <Actions />
+            </File>
+            <File FileName="frmDocumentosRecibidos.srf">
+              <Actions />
+            </File>
+            <File FileName="frmDocumentosRecibidosXML.srf">
+              <Actions />
+            </File>
+            <File FileName="frmDocumentoXML.srf">
+              <Actions />
+            </File>
+            <File FileName="frmGeneradorATS.srf">
+              <Actions />
+            </File>
+            <File FileName="frmGenerarRPT.srf">
+              <Actions />
+            </File>
+            <File FileName="frmGuiasRemision.srf">
+              <Actions />
+            </File>
+            <File FileName="frmImpresionPorBloque.srf">
+              <Actions />
+            </File>
+            <File FileName="frmImprimir.srf">
+              <Actions />
+            </File>
+            <File FileName="frmLimpio.srf">
+              <Actions />
+            </File>
+            <File FileName="frmListaAEnviar.srf">
+              <Actions />
+            </File>
+            <File FileName="frmLogEmision.srf">
+              <Actions />
+            </File>
+            <File FileName="frmMapeo.srf">
+              <Actions />
+            </File>
+            <File FileName="frmMapeoCuentasCM.srf">
+              <Actions />
+            </File>
+            <File FileName="frmPagosAprobacion.srf">
+              <Actions />
+            </File>
+            <File FileName="frmPagosMasivos.srf">
+              <Actions />
+            </File>
+            <File FileName="frmParametrosAddon.srf">
+              <Actions />
+            </File>
+            <File FileName="frmParametrosAddonLE.srf">
+              <Actions />
+            </File>
+            <File FileName="frmParametrosRecepcion.srf">
+              <Actions />
+            </File>
+            <File FileName="frmProcesoLote.srf">
+              <Actions />
+            </File>
+            <File FileName="frmProcesoLoteC.srf">
+              <Actions />
+            </File>
+            <File FileName="frmProcesoLoteManamer.srf">
+              <Actions />
+            </File>
+            <File FileName="frmProcesoLoteXML.srf">
+              <Actions />
+            </File>
+            <File FileName="frmProxy.srf">
+              <Actions />
+            </File>
+            <File FileName="frmServiciosBasicos.srf">
+              <Actions />
+            </File>
+            <File FileName="frmSRI.srf">
+              <Actions />
+            </File>
+            <File FileName="frmSRIConsulta.srf">
+              <Actions />
+            </File>
+            <File FileName="frmSubirArchivo.srf">
+              <Actions />
+            </File>
+            <File FileName="frmTransEntreCompanias.srf">
+              <Actions />
+            </File>
+            <File FileName="frmValidarUsuario.srf">
+              <Actions />
+            </File>
+            <File FileName="Functions.dll">
+              <Actions />
+            </File>
+            <File FileName="itextsharp.dll">
+              <Actions />
+            </File>
+            <File FileName="itextsharp.licensekey.dll">
+              <Actions />
+            </File>
+            <File FileName="itextsharp.pdfa.dll">
+              <Actions />
+            </File>
+            <File FileName="itextsharp.xtra.dll">
+              <Actions />
+            </File>
+            <File FileName="logo11.png">
+              <Actions />
+            </File>
+            <File FileName="LogoLoc.png">
+              <Actions />
+            </File>
+            <File FileName="LogoSS.png">
+              <Actions />
+            </File>
+            <File FileName="Microsoft.Bcl.HashCode.dll">
+              <Actions />
+            </File>
+            <File FileName="Microsoft.mshtml.dll">
+              <Actions />
+            </File>
+            <File FileName="Negocio.dll">
+              <Actions />
+            </File>
+            <File FileName="Newtonsoft.Json.dll">
+              <Actions />
+            </File>
+            <File FileName="slnGSEDOC_SAP_EC.exe">
+              <Actions />
+            </File>
+            <File FileName="Spire.License.dll">
+              <Actions />
+            </File>
+            <File FileName="Spire.Pdf.dll">
+              <Actions />
+            </File>
+            <File FileName="SRI.jpg">
+              <Actions />
+            </File>
+            <File FileName="stdole.dll">
+              <Actions />
+            </File>
+            <File FileName="System.Buffers.dll">
+              <Actions />
+            </File>
+            <File FileName="System.Numerics.Vectors.dll">
+              <Actions />
+            </File>
+            <File FileName="Utilitario.dll">
+              <Actions />
+            </File>
+            <File FileName="zxing.dll">
+              <Actions />
+            </File>
+          </Files>
+        </Installation>
+        <Uninstallation>
+          <Files>
+            <File FileName="adodb.dll">
+              <Actions />
+            </File>
+            <File FileName="CrystalDecisions.CrystalReports.Engine.dll">
+              <Actions />
+            </File>
+            <File FileName="CrystalDecisions.ReportSource.dll">
+              <Actions />
+            </File>
+            <File FileName="CrystalDecisions.Shared.dll">
+              <Actions />
+            </File>
+            <File FileName="Entidades.dll">
+              <Actions />
+            </File>
+            <File FileName="ExcelNumberFormat.dll">
+              <Actions />
+            </File>
+            <File FileName="frmAcercaDe.srf">
+              <Actions />
+            </File>
+            <File FileName="frmAcercaDeLE.srf">
+              <Actions />
+            </File>
+            <File FileName="frmAnexoCompras.srf">
+              <Actions />
+            </File>
+            <File FileName="frmAnexoVentas.srf">
+              <Actions />
+            </File>
+            <File FileName="frmCargaRPT.srf">
+              <Actions />
+            </File>
+            <File FileName="frmCashManagement.srf">
+              <Actions />
+            </File>
+            <File FileName="frmChequeP.srf">
+              <Actions />
+            </File>
+            <File FileName="frmChequePD.srf">
+              <Actions />
+            </File>
+            <File FileName="frmClave.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConfClave.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConfClaveLE.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConfMenu.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConfMenuLE.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConsultaBodega.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConsultaDetalleTrans.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConsultaDetalleTrans3.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConsultaOrdenes.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConsultaSalidaEntrada.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConsultasDB.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConsultasDbLE.srf">
+              <Actions />
+            </File>
+            <File FileName="frmConsultasDB_RE.srf">
+              <Actions />
+            </File>
+            <File FileName="frmDinardap.srf">
+              <Actions />
+            </File>
+            <File FileName="frmDocumento.srf">
+              <Actions />
+            </File>
+            <File FileName="frmDocumentoNC.srf">
+              <Actions />
+            </File>
+            <File FileName="frmDocumentoNCXML.srf">
+              <Actions />
+            </File>
+            <File FileName="frmDocumentoRE.srf">
+              <Actions />
+            </File>
+            <File FileName="frmDocumentoREXML.srf">
+              <Actions />
+            </File>
+            <File FileName="frmDocumentosEnviados.srf">
+              <Actions />
+            </File>
+            <File FileName="frmDocumentosIntegrados.srf">
+              <Actions />
+            </File>
+            <File FileName="frmDocumentosRecibidos.srf">
+              <Actions />
+            </File>
+            <File FileName="frmDocumentosRecibidosXML.srf">
+              <Actions />
+            </File>
+            <File FileName="frmDocumentoXML.srf">
+              <Actions />
+            </File>
+            <File FileName="frmGeneradorATS.srf">
+              <Actions />
+            </File>
+            <File FileName="frmGenerarRPT.srf">
+              <Actions />
+            </File>
+            <File FileName="frmGuiasRemision.srf">
+              <Actions />
+            </File>
+            <File FileName="frmImpresionPorBloque.srf">
+              <Actions />
+            </File>
+            <File FileName="frmImprimir.srf">
+              <Actions />
+            </File>
+            <File FileName="frmLimpio.srf">
+              <Actions />
+            </File>
+            <File FileName="frmListaAEnviar.srf">
+              <Actions />
+            </File>
+            <File FileName="frmLogEmision.srf">
+              <Actions />
+            </File>
+            <File FileName="frmMapeo.srf">
+              <Actions />
+            </File>
+            <File FileName="frmMapeoCuentasCM.srf">
+              <Actions />
+            </File>
+            <File FileName="frmPagosAprobacion.srf">
+              <Actions />
+            </File>
+            <File FileName="frmPagosMasivos.srf">
+              <Actions />
+            </File>
+            <File FileName="frmParametrosAddon.srf">
+              <Actions />
+            </File>
+            <File FileName="frmParametrosAddonLE.srf">
+              <Actions />
+            </File>
+            <File FileName="frmParametrosRecepcion.srf">
+              <Actions />
+            </File>
+            <File FileName="frmProcesoLote.srf">
+              <Actions />
+            </File>
+            <File FileName="frmProcesoLoteC.srf">
+              <Actions />
+            </File>
+            <File FileName="frmProcesoLoteManamer.srf">
+              <Actions />
+            </File>
+            <File FileName="frmProcesoLoteXML.srf">
+              <Actions />
+            </File>
+            <File FileName="frmProxy.srf">
+              <Actions />
+            </File>
+            <File FileName="frmServiciosBasicos.srf">
+              <Actions />
+            </File>
+            <File FileName="frmSRI.srf">
+              <Actions />
+            </File>
+            <File FileName="frmSRIConsulta.srf">
+              <Actions />
+            </File>
+            <File FileName="frmSubirArchivo.srf">
+              <Actions />
+            </File>
+            <File FileName="frmTransEntreCompanias.srf">
+              <Actions />
+            </File>
+            <File FileName="frmValidarUsuario.srf">
+              <Actions />
+            </File>
+            <File FileName="Functions.dll">
+              <Actions />
+            </File>
+            <File FileName="itextsharp.dll">
+              <Actions />
+            </File>
+            <File FileName="itextsharp.licensekey.dll">
+              <Actions />
+            </File>
+            <File FileName="itextsharp.pdfa.dll">
+              <Actions />
+            </File>
+            <File FileName="itextsharp.xtra.dll">
+              <Actions />
+            </File>
+            <File FileName="logo11.png">
+              <Actions />
+            </File>
+            <File FileName="LogoLoc.png">
+              <Actions />
+            </File>
+            <File FileName="LogoSS.png">
+              <Actions />
+            </File>
+            <File FileName="Microsoft.Bcl.HashCode.dll">
+              <Actions />
+            </File>
+            <File FileName="Microsoft.mshtml.dll">
+              <Actions />
+            </File>
+            <File FileName="Negocio.dll">
+              <Actions />
+            </File>
+            <File FileName="Newtonsoft.Json.dll">
+              <Actions />
+            </File>
+            <File FileName="slnGSEDOC_SAP_EC.exe">
+              <Actions />
+            </File>
+            <File FileName="Spire.License.dll">
+              <Actions />
+            </File>
+            <File FileName="Spire.Pdf.dll">
+              <Actions />
+            </File>
+            <File FileName="SRI.jpg">
+              <Actions />
+            </File>
+            <File FileName="stdole.dll">
+              <Actions />
+            </File>
+            <File FileName="System.Buffers.dll">
+              <Actions />
+            </File>
+            <File FileName="System.Numerics.Vectors.dll">
+              <Actions />
+            </File>
+            <File FileName="Utilitario.dll">
+              <Actions />
+            </File>
+            <File FileName="zxing.dll">
+              <Actions />
+            </File>
+          </Files>
+        </Uninstallation>
+      </x64>
+    </Addon>
+  </Addons>
+  <XApps>
+    <XApp Name="" Path="" FileName="" />
+  </XApps>
+  <UDQs>
+    <UDQ udqname="">
+      <Hana FileName="" />
+    </UDQ>
+  </UDQs>
+</AddOnRegData>

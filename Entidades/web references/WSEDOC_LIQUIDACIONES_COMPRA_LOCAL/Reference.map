@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DiscoveryClientResultsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Results>
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="https://labec.guru-soft.com/eDocEcuador/4.3/WSEDOC/WSEDOC_LIQUIDACIONES_COMPRA.svc?wsdl" filename="WSEDOC_LIQUIDACIONES_COMPRA.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="https://labec.guru-soft.com/eDocEcuador/4.3/WSEDOC/WSEDOC_LIQUIDACIONES_COMPRA.svc?xsd=xsd0" filename="WSEDOC_LIQUIDACIONES_COMPRA.xsd" />
+  </Results>
+</DiscoveryClientResultsFile>

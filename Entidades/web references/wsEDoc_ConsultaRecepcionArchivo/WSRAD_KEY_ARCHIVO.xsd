@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="ConsultaArchivoProveedor_PDF">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="CiaTipoAlojamientoKey" type="xs:string" />
+        <xs:element minOccurs="1" maxOccurs="1" name="TipoDocumento" type="xs:int" />
+        <xs:element minOccurs="1" maxOccurs="1" name="IdDocumento" type="xs:long" />
+        <xs:element minOccurs="0" maxOccurs="1" name="mensaje" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConsultaArchivoProveedor_PDFResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="ConsultaArchivoProveedor_PDFResult" type="xs:base64Binary" />
+        <xs:element minOccurs="0" maxOccurs="1" name="mensaje" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConsultaArchivoProveedor_PDF_URL">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="CiaTipoAlojamientoKey" type="xs:string" />
+        <xs:element minOccurs="1" maxOccurs="1" name="TipoDocumento" type="xs:int" />
+        <xs:element minOccurs="1" maxOccurs="1" name="IdDocumento" type="xs:long" />
+        <xs:element minOccurs="0" maxOccurs="1" name="mensaje" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConsultaArchivoProveedor_PDF_URLResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="ConsultaArchivoProveedor_PDF_URLResult" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="mensaje" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CargarClavesAcceso">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="CiaTipoAlojamientoKey" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="ListaClaveAcceso" type="tns:ArrayOfString" />
+        <xs:element minOccurs="0" maxOccurs="1" name="mensaje" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="ArrayOfString">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CargarClavesAccesoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="1" name="CargarClavesAccesoResult" type="xs:boolean" />
+        <xs:element minOccurs="0" maxOccurs="1" name="mensaje" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

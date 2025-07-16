@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Licencia" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="BasicHttpBinding_ILicencia_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken RequireClientCertificate="false" />
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="https://labcr.guru-soft.com/eDocCR/Sitios_Solsap/WS_LICENCIA_SAP/Licencia.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ILicencia_ValidarClave_InputMessage">
+    <wsdl:part name="parameters" element="tns:ValidarClave" />
+  </wsdl:message>
+  <wsdl:message name="ILicencia_ValidarClave_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ValidarClaveResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILicencia_ValidarLicencia_InputMessage">
+    <wsdl:part name="parameters" element="tns:ValidarLicencia" />
+  </wsdl:message>
+  <wsdl:message name="ILicencia_ValidarLicencia_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ValidarLicenciaResponse" />
+  </wsdl:message>
+  <wsdl:message name="ILicencia_ConsultarParametros_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarParametros" />
+  </wsdl:message>
+  <wsdl:message name="ILicencia_ConsultarParametros_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarParametrosResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ILicencia">
+    <wsdl:operation name="ValidarClave">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILicencia/ValidarClave" message="tns:ILicencia_ValidarClave_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILicencia/ValidarClaveResponse" message="tns:ILicencia_ValidarClave_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidarLicencia">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILicencia/ValidarLicencia" message="tns:ILicencia_ValidarLicencia_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILicencia/ValidarLicenciaResponse" message="tns:ILicencia_ValidarLicencia_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarParametros">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILicencia/ConsultarParametros" message="tns:ILicencia_ConsultarParametros_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILicencia/ConsultarParametrosResponse" message="tns:ILicencia_ConsultarParametros_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_ILicencia" type="tns:ILicencia">
+    <wsp:PolicyReference URI="#BasicHttpBinding_ILicencia_policy" />
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ValidarClave">
+      <soap:operation soapAction="http://tempuri.org/ILicencia/ValidarClave" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidarLicencia">
+      <soap:operation soapAction="http://tempuri.org/ILicencia/ValidarLicencia" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarParametros">
+      <soap:operation soapAction="http://tempuri.org/ILicencia/ConsultarParametros" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Licencia">
+    <wsdl:port name="BasicHttpBinding_ILicencia" binding="tns:BasicHttpBinding_ILicencia">
+      <soap:address location="https://labcr.guru-soft.com/eDocCR/Sitios_Solsap/WS_LICENCIA_SAP/Licencia.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

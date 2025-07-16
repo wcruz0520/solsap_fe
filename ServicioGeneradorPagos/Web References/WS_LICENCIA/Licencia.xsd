@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="ValidarClave">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="cre" type="tns:Credencial" />
+        <xs:element minOccurs="0" maxOccurs="1" name="mensaje" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="Credencial">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="NombreAddon" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="VersionAddon" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Usuario" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Clave" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Pais" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="NombreCliente" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="NombreBD" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="IPLocal" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="IPPublica" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="MotivoIngreso" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ValidarClaveResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="1" name="ValidarClaveResult" type="xs:boolean" />
+        <xs:element minOccurs="0" maxOccurs="1" name="mensaje" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ValidarLicencia">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="dato" type="tns:DatosSap" />
+        <xs:element minOccurs="0" maxOccurs="1" name="Mensaje" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="DatosSap">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="RucEmpresa" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="NombreProducto" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="NombreDB" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DireccionIPSERVER" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="VersionProducto" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Ambiente" type="xs:int" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Inhouse" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ValidarLicenciaResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="ValidarLicenciaResult" type="tns:CLsRespLic" />
+        <xs:element minOccurs="0" maxOccurs="1" name="Mensaje" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="CLsRespLic">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="Estado" type="xs:boolean" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TipoLic" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="MailResponsable" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="VersionTributaria" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ListaUrlWS" type="tns:ArrayOfClsConfigValores" />
+      <xs:element minOccurs="0" maxOccurs="1" name="VersionProducto" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ReleaseNoteProducto" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TipoRecepcion" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfClsConfigValores">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ClsConfigValores" nillable="true" type="tns:ClsConfigValores" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ClsConfigValores">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="IdLinea" type="xs:long" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Nombre" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Valor" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ConsultarParametros">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="modulo" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="tipo" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="subtipo" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="Mensaje" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConsultarParametrosResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="ConsultarParametrosResult" type="tns:ArrayOfClsConfigValores" />
+        <xs:element minOccurs="0" maxOccurs="1" name="Mensaje" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

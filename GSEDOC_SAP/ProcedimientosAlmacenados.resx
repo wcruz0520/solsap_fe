@@ -1,0 +1,1609 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="txt1.Text" xml:space="preserve">
+    <value>create FUNCTION [dbo].[PI_FUN_FactElec_Get_Secuencial]
+(
+@Codigo BIGINT
+)
+RETURNS NVARCHAR(9)
+AS
+BEGIN
+	-- Declare the return variable here
+	DECLARE @Secuencial AS NVARCHAR(9) = convert(nvarchar(9), @codigo)
+	DECLARE @Ceros AS INT = (9 - LEN(@Secuencial))
+	DECLARE @Cont AS INT = 1
+
+	-- Add the T-SQL statements to compute the return value here
+	WHILE @Cont &lt;= @Ceros 
+		begin
+		  SET @Secuencial = ('0' + @Secuencial)
+		  SET @Cont = @Cont + 1
+		end
+			
+	-- Return the result of the function
+	RETURN @Secuencial
+
+END
+
+-- select dbo.SIS_FUN_FactElec_Get_Secuencial(123) 
+</value>
+  </data>
+  <data name="txt2.Text" xml:space="preserve">
+    <value>CREATE PROCEDURE [dbo].[GS_SAP_FE_ObtenerFacturadeVenta] 
+-- exec [GS_SAP_FE_ObtenerFacturadeVenta]  1813
+	@DocKey INT
+AS
+BEGIN
+--DECLARE @DocKey INT
+--SEt @DocKey = 29593
+-- 8056
+-- select * from oinv where docnum = 100000026
+SELECT OINV.DocNum,0 AS IdFactura
+		,'AutorizacionSRI' AS AutorizacionSRI
+		,GETDATE() AS FechaAutorizacion
+		,1 AS Ambiente
+		,1 AS TipoEmision
+		,(select TaxIdNum2 from OADM) AS RazonSocial
+		,(select TaxIdNum2 from OADM) AS NombreComercial
+		,(select TaxIdNum from OADM) AS Ruc
+		,ISNULL(U_CLAVE_ACCESO,'') AS ClaveAcceso
+		,'01' AS CodigoDocumento
+		,OINV.U_SER_EST AS Establecimiento
+		,OINV.U_SER_PE AS PuntoEmision		
+		--,'001' AS Establecimiento
+		--,'001' AS PuntoEmision
+		,(select dbo.PI_FUN_FactElec_Get_Secuencial(OINV.FolioNum)) AS SecuencialDocumento
+		,(select Street from ADM1) AS DireccionMatriz
+		,OINV.DocDate AS FechaEmision
+		,(select Street from ADM1) AS DireccionEstablecimiento
+		,(SELECT isnull(U_N_RESOLUCION,0) FROM "@EXX_INF_ADMIN") AS ContribuyenteEspecial		
+		,'SI' AS ObligadoContabilidad
+		,CASE WHEN OCRD.U_TIPO_ID = 'C' THEN '05' ELSE 
+		 CASE WHEN OCRD.U_TIPO_ID = 'P' THEN '06' ELSE 
+		 CASE WHEN OCRD.U_TIPO_ID = 'R' THEN '04' ELSE 
+		 CASE WHEN OCRD.U_TIPO_ID = 'F' THEN '07' END END END END AS TipoIdentificadorComprador
+		 /* 'N' FACTURA DE CLIENTES; 'Y' ES FACTURA DE RESERVA */
+		 ,CASE WHEN OINV.isIns = 'N' THEN 
+				ISNULL((SELECT TOP 1 ODLN.U_SER_EST+'-'+ODLN.U_SER_PE+'-'+(select dbo.PI_FUN_FactElec_Get_Secuencial(ISNULL(ODLN.FolioNum,0)))
+				FROM OINV O INNER JOIN
+					 INV1 ON O.DocEntry = INV1.DocEntry  INNER JOIN
+					 ODLN ON ODLN.DocEntry = INV1.BaseEntry
+				WHERE INV1.BaseType = 15
+				AND O.DocEntry = OINV.DocEntry),'')
+		ELSE '' END AS GuiaRemision
+		--,'001-001-000000001' AS GuiaRemision
+		,OINV.CardName AS RazonSocialComprador
+		,OINV.LicTradNum AS IdentificacionComprador
+		--,(OINV.DocTotal)  AS TotalSinImpuesto
+		--	,(OINV.DocTotal  - OINV.VatSum)  AS TotalSinImpuesto
+		,(select ISNULL(SUM(INV1.LineTotal),0) from inv1 where DocEntry = @DocKey)  AS TotalSinImpuesto
+		--,case when ISNULL((select SUM(INV1.Quantity * (INV1.PriceBefDi * (INV1.DiscPrcnt/100)))
+		--				   from INV1 INNER JOIN
+		--				   OINV O ON INV1.DocEntry = O.DocEntry where O.DocEntry = OINV.DocEntry),0) &lt;&gt;0 then 
+		--			ISNULL((select SUM(INV1.Quantity * (INV1.PriceBefDi * (INV1.DiscPrcnt/100)))
+		--			from INV1 INNER JOIN
+		--			OINV O ON INV1.DocEntry = O.DocEntry where O.DocEntry = OINV.DocEntry),0)
+		--	  when ISNULL((select SUM(INV1.Quantity * (INV1.PriceBefDi * (O.DiscPrcnt/100)))
+		--		           from INV1 INNER JOIN
+		--	               OINV O ON INV1.DocEntry = O.DocEntry where O.DocEntry = OINV.DocEntry),0) &lt;&gt;0 then 
+		--			ISNULL((select SUM(INV1.Quantity * (INV1.PriceBefDi * (O.DiscPrcnt/100)))
+		--			from INV1 INNER JOIN
+		--			OINV O ON INV1.DocEntry = O.DocEntry where O.DocEntry = OINV.DocEntry),0)
+		--	  else 0 end  AS TotalDescuento	
+		,(select ISNULL(SUM((INV1.Quantity * (INV1.PriceBefDi * (INV1.DiscPrcnt/100)))),0) from inv1 where DocEntry = @DocKey)+OINV.DiscSum AS TotalDescuento
+		,OINV.DiscSum AS DescuentoAdicional
+		,0.00 AS Propina
+		,OINV.DocTotal AS ImporteTotal
+		--,(select MainCurncy from OADM) AS Moneda
+		,'DOLAR' AS Moneda
+		,OUSR.USER_CODE AS UsuarioCreador
+		,'' AS EmailResponsable
+		,'EstadoDocumento' AS EstadoDocumento
+		,'DescripcionError' AS DescripcionError
+		,'' AS CodigoError
+		,'DirectorioDocumento' AS DirectorioDocumento
+		,'NombreDocuemnto' AS NombreDocuemnto
+		,0 AS GeneradoXls
+		,'FC'+ CONVERT(VARCHAR(20),OINV.DocEntry) AS SecuencialERP
+		--,CONVERT(VARCHAR(50), OINV.TransId) AS CodigoTransaccionERP
+		,OINV.ObjType AS CodigoTransaccionERP
+		,1 AS Estado
+		,GETDATE() AS FechaCarga
+		,'IdLote' AS IdLote 
+		,(SELECT USER_CODE FROM OUSR WHERE OUSR.USERID = OINV.UserSign2) AS Campo1
+		,'FC' AS Campo2
+		,OINV.DocNum AS Campo3
+		--,ISNULL((select SUM(LineTotal) from INV1 where VatPrcnt &gt; 0 and DocEntry = OINV.DocEntry) - ROUND(((select SUM(LineTotal) from INV1 where VatPrcnt = 12 and DocEntry = OINV.DocEntry) * (isnull(OINV.DiscPrcnt, 0) / 100)),2),0) AS Base12
+		--,ISNULL((select SUM(LineTotal) from INV1 where VatPrcnt &gt; 0 and DocEntry = OINV.DocEntry) - ROUND(((select SUM(LineTotal) from INV1 where VatPrcnt = 14 and DocEntry = OINV.DocEntry) * (isnull(OINV.DiscPrcnt, 0) / 100)),2),0) AS Base13
+		--,ISNULL((select SUM(LineTotal) from INV1 where VatPrcnt = 0 and DocEntry = OINV.DocEntry) - ROUND(((select SUM(LineTotal) from INV1 where VatPrcnt = 0 and DocEntry = OINV.DocEntry) * (isnull(OINV.DiscPrcnt, 0) / 100)),2),0) AS Base0
+
+		,ISNULL((select SUM(LineTotal) from INV1 where VatPrcnt = 12 and DocEntry = OINV.DocEntry),0) AS Base12
+		--,ISNULL((select SUM(LineTotal) from INV1 where VatPrcnt &gt; 0 and DocEntry = OINV.DocEntry) - ROUND(((select SUM(LineTotal) from INV1 where VatPrcnt = 14 and DocEntry = OINV.DocEntry) * (isnull(OINV.DiscPrcnt, 0) / 100)),2),0) AS Base13
+		,ISNULL((select SUM(LineTotal) from INV1 where VatPrcnt = 14 and DocEntry = OINV.DocEntry),0) AS Base13
+		--,ISNULL((select SUM(LineTotal) from INV1 where VatPrcnt = 0 and DocEntry = OINV.DocEntry) - ROUND(((select SUM(LineTotal) from INV1 where VatPrcnt = 0 and DocEntry = OINV.DocEntry) * (isnull(OINV.DiscPrcnt, 0) / 100)),2),0) AS Base0
+		,ISNULL((select SUM(LineTotal) from INV1 where VatPrcnt = 0 and DocEntry = OINV.DocEntry),0) AS Base0
+
+--select * from oinv where docnum = 9718
+		,ROUND(OINV.VatSum, 2) AS ImpuestoTotal
+	FROM OINV left JOIN
+		 OCRD ON OCRD.CardCode = OINV.CardCode INNER JOIN
+		 OUSR ON OUSR.USERID = OINV.UserSign
+		WHERE  ISNULL(OINV.DocSubType, '') &lt;&gt; 'DN'
+			AND OINV.DocEntry = @DocKey 
+/*DETALLE*/	
+/*PRIMERO PREGUNTO SI NC DE SERVICIO O DE ARTICULO, PARA REALIZAR EL SELECT*/
+IF (SELECT OINV.DocType FROM OINV WHERE OINV.DocEntry = @DocKey)='S'
+	BEGIN	
+		/*DETALLE*/	
+		SELECT   INV1.LineNum AS IdDetalleFactura
+				,ISNULL(INV1.ItemCode,'SERVICIO') AS CodigoPrincipal
+				,ISNULL(INV1.ItemCode,'SERVICIO') AS CodigoAuxiliar
+				,ISNULL(INV1.Dscription,'SERVICIO') AS Descripcion
+				,1 AS Cantidad
+				--,INV1.INMPrice AS PrecioUnitario 
+				,INV1.PriceBefDi  AS PrecioUnitario 	
+				, CASE when ISNULL(OINV.DiscPrcnt,0) &lt;&gt; 0 then ISNULL((INV1.Quantity * (INV1.PriceBefDi * (OINV.DiscPrcnt/100))),0)
+				else ISNULL((INV1.Quantity * (INV1.PriceBefDi * (INV1.DiscPrcnt/100))),0) end AS Descuento				
+				
+				--ISNULL((INV1.Quantity * (INV1.PriceBefDi * (OINV.DiscPrcnt/100))),0)AS Descuento				
+				,CASE when isnull(OINV.DiscPrcnt,0) &lt;&gt;0 then ROUND(((INV1.PriceBefDi*INV1.Quantity) - (ISNULL((INV1.Quantity * (INV1.PriceBefDi * (OINV.DiscPrcnt/100))),0))),2)
+				else ROUND(INV1.PriceBefDi,2) 
+				end AS PrecioTotalSinImpuesto
+				,ROUND(INV1.LineTotal,2) as BaseImponible
+				,INV1.DocEntry AS IdFactura
+				--,INV1.TaxCode AS TaxCodeAp		
+				,CASE WHEN INV1.VatPrcnt = 0  THEN 'IVA_EXE' WHEN INV1.VatPrcnt = 12 THEN 
+				  'IVA' WHEN INV1.VatPrcnt = 14 THEN 'IVA13'END AS TaxCodeAp			  
+				,CASE WHEN INV1.VatPrcnt = 0 THEN 0 ELSE
+				 CASE WHEN INV1.VatPrcnt &gt; 0 THEN ROUND(((INV1.Price * 0.12)* (CASE WHEN ISNULL(INV1.Quantity,0) = 0 THEN 1 ELSE INV1.Quantity END) ),2) END END AS TotalIva	
+				  -- DATOS ADICIONALES
+				 , 'UM' AS ConceptoAdicional1
+				 ,'-' AS NombreAdicional1
+				 , 'Desc' AS ConceptoAdicional2
+				 ,case when ISNULL(INV1.DiscPrcnt,0)&lt;&gt;0 then ISNULL(INV1.DiscPrcnt,0) 
+				 else ISNULL(oinv.DiscPrcnt,0) end AS NombreAdicional2 
+				 , '-' AS ConceptoAdicional3
+				 ,'-'AS NombreAdicional3
+			FROM INV1 INNER JOIN
+				 OINV ON INV1.DocEntry = OINV.DocEntry 
+				WHERE INV1.DocEntry = @DocKey 
+				AND ISNULL(OINV.DocSubType, '') &lt;&gt; 'DN'
+					--select top 50 * from inv1
+	END				
+ELSE
+	BEGIN
+	/*DETALLE*/	
+		SELECT   INV1.LineNum AS IdDetalleFactura
+				,INV1.ItemCode AS CodigoPrincipal
+				,INV1.ItemCode AS CodigoAuxiliar
+				,CASE WHEN ISNULL(INV1.Dscription,'') = '' THEN INV1.FreeTxt else ISNULL(INV1.Dscription,'') end AS Descripcion
+				,INV1.Quantity AS Cantidad
+				,INV1.PriceBefDi  AS PrecioUnitario 	
+				--, CASE when ISNULL(OINV.DiscPrcnt,0) &lt;&gt; 0 then ISNULL((INV1.Quantity * (INV1.PriceBefDi * (OINV.DiscPrcnt/100))),0)
+				--else ISNULL((INV1.Quantity * (INV1.PriceBefDi * (INV1.DiscPrcnt/100))),0) end AS Descuento	
+				----, CASE when ISNULL(INV1.DiscPrcnt,0) &lt;&gt; 0 then ISNULL((INV1.Quantity * (INV1.PriceBefDi * (INV1.DiscPrcnt/100))),0)
+				----else ISNULL((INV1.Quantity * (INV1.PriceBefDi * (INV1.DiscPrcnt/100))),0) end AS Descuento	
+				,(INV1.Quantity * (INV1.PriceBefDi * (INV1.DiscPrcnt/100))) AS Descuento
+				--,CASE when isnull(OINV.DiscPrcnt,0) &lt;&gt;0 then ROUND(((INV1.PriceBefDi*INV1.Quantity) - (ISNULL((INV1.Quantity * (INV1.PriceBefDi * (OINV.DiscPrcnt/100))),0))),2)
+				--else ROUND(INV1.Price*INV1.Quantity,2) end AS PrecioTotalSinImpuesto
+				,ROUND(INV1.LineTotal,2)AS PrecioTotalSinImpuesto
+				--,((INV1.PriceBefDi*INV1.Quantity) - ((INV1.PriceBefDi - INV1.Price)*INV1.Quantity)) as BaseImponible
+				,ROUND(INV1.LineTotal,2) as BaseImponible
+				,INV1.DocEntry AS IdFactura
+				--,INV1.TaxCode AS TaxCodeAp		
+			,CASE WHEN INV1.VatPrcnt = 0  THEN 'IVA_EXE' WHEN INV1.VatPrcnt = 12 THEN 
+				  'IVA' WHEN INV1.VatPrcnt = 14 THEN 'IVA13'END AS TaxCodeAp	
+				  		  
+				--,CASE WHEN INV1.VatPrcnt = 0 THEN 0 ELSE
+				-- CASE WHEN INV1.VatPrcnt &gt; 0 THEN ROUND(((INV1.Price * 0.14)*INV1.Quantity),2) END END AS TotalIva
+				 	 ,INV1.VatSum AS TotalIva
+				 -- DATOS ADICIONALES
+				 , 'EAN13' AS ConceptoAdicional1
+				 ,ISNULL((SELECT TOP 1 ISNULL(T.BcdCode,0) AS EAN13 FROM OBCD T WHERE T.ItemCode =INV1.ItemCode AND T.BcdName ='EAN13'),0) AS NombreAdicional1
+				 , 'EAN14' AS ConceptoAdicional2
+				 ,ISNULL((SELECT TOP 1 ISNULL(T.BcdCode,0)  AS EAN14 FROM OBCD T WHERE T.ItemCode =INV1.ItemCode AND T.BcdName ='EAN14'),0) AS NombreAdicional2
+				 , ISNULL(inv1.UomCode,'SN') AS ConceptoAdicional3
+				 ,(SELECT TOP 1 T.NumInSale AS EAN14 FROM OITM T WHERE T.ItemCode =INV1.ItemCode) AS NombreAdicional3
+			FROM INV1 INNER JOIN
+				 OINV ON INV1.DocEntry = OINV.DocEntry INNER JOIN
+				 OITM ON INV1.ItemCode = OITM.ItemCode 
+				WHERE INV1.DocEntry = @DocKey 
+				AND ISNULL(OINV.DocSubType, '') &lt;&gt; 'DN'
+				AND INV1.TreeType	 &lt;&gt; 'I'
+	END
+			
+/*DATOS ADICIONALES*/			
+--SELECT TOP 1 'Orden de Compra' AS Concepto,ISNULL(OINV.U_ORDEN_COMPRA,'')AS Descripcion
+--	FROM OINV
+--	WHERE OINV.DocEntry = @DocKey
+--	AND ISNULL(OINV.U_ORDEN_COMPRA,'') &lt;&gt; ''
+--	AND ISNULL(OINV.DocSubType, '') &lt;&gt; 'DN'
+--	UNION
+	
+SELECT TOP 1 'Usuario' AS Concepto,ISNULL(OUSR.U_NAME,'')AS Descripcion
+	FROM OINV INNER JOIN
+		 OUSR ON OINV.UserSign = OUSR.USERID
+	WHERE OINV.DocEntry = @DocKey
+	AND ISNULL(OINV.DocSubType, '') &lt;&gt; 'DN'
+	AND ISNULL(OUSR.U_NAME,'') &lt;&gt; ''
+	UNION	
+SELECT TOP 1 'Comprobante' AS Concepto,CONVERT(VARCHAR(20),OINV.FolioNum) AS Descripcion
+	FROM OINV
+	WHERE OINV.DocEntry = @DocKey	
+	AND ISNULL(OINV.DocSubType, '') &lt;&gt; 'DN'
+	AND ISNULL(OINV.FolioNum,'') &lt;&gt; ''
+	UNION
+SELECT TOP 1 'CodCliente' AS Concepto,CONVERT(VARCHAR(100),OINV.CardCode) AS Descripcion
+	FROM OINV INNER JOIN
+		 OCRD ON OINV.CardCode = OCRD.CardCode
+	WHERE OINV.DocEntry = @DocKey	
+	AND ISNULL(OINV.DocSubType, '') &lt;&gt; 'DN'
+	UNION
+SELECT TOP 1 'Vendedor' AS Concepto,CONVERT(VARCHAR(100),OSLP.SlpName) AS Descripcion
+	FROM OINV INNER JOIN
+		 OSLP ON OINV.SlpCode = OSLP.SlpCode
+	WHERE OINV.DocEntry = @DocKey	
+	AND ISNULL(OINV.DocSubType, '') &lt;&gt; 'DN'
+	UNION
+SELECT TOP 1 'email' AS Concepto,CONVERT(VARCHAR(100),OCRD.E_Mail) AS Descripcion
+	FROM OINV INNER JOIN
+		 OCRD ON OINV.CardCode = OCRD.CardCode
+	WHERE OINV.DocEntry = @DocKey	
+	AND ISNULL(OINV.DocSubType, '') &lt;&gt; 'DN'
+	AND ISNULL(OCRD.E_Mail,'') &lt;&gt; ''
+	UNION	
+
+SELECT TOP 1 'dircliente' AS Concepto,REPLACE(REPLACE(OINV.Address2, CHAR(13), ''), CHAR(10), '') AS Descripcion
+	FROM OINV 
+	WHERE OINV.DocEntry = @DocKey
+	AND ISNULL(OINV.Address2,'') &lt;&gt; ''
+	UNION
+SELECT TOP 1 'telcliente' AS Concepto,CONVERT(VARCHAR(10),OCRD.Phone1) AS Descripcion
+	FROM OINV INNER JOIN
+		 OCRD ON OINV.CardCode = OCRD.CardCode
+	WHERE OINV.DocEntry = @DocKey	
+	AND ISNULL(OINV.DocSubType, '') &lt;&gt; 'DN'
+	AND ISNULL(OCRD.Phone1,'') &lt;&gt; '' 
+	
+	/*FORMAS DE PAGO*/			
+	SELECT    
+	      ISNULL(C.U_Exx_Forma_Pago,'') as FormaPago
+		  ,ISNULL(C.U_Exx_Total,0) as Total
+		, CASE WHEN A.U_EXX_FACT_NEG = 'SI' THEN ISNULL(C.U_Exx_Plazo,0)ELSE '' END as Plazo			
+		, CASE WHEN A.U_EXX_FACT_NEG = 'SI' THEN ISNULL(C.U_Exx_Unidad_Tiempo,'')ELSE '' END as UnidadTiempo
+	FROM OINV A WITH (NOLOCK) INNER JOIN
+		"@EXX_FPAGO_VENTAS" B WITH (NOLOCK) ON A.U_EXX_FPAGO_VENTAS=B.DocEntry INNER JOIN
+		 "@EXX_FPAGO_VENT_DET" C  WITH (NOLOCK) ON B.Code=C.Code
+	WHERE a.DocEntry=@DocKey
+	AND ISNULL(A.DocSubType, '') &lt;&gt; 'DN'
+
+END
+</value>
+  </data>
+  <data name="txt4.Text" xml:space="preserve">
+    <value>CREATE PROCEDURE [dbo].[GS_SAP_FE_ObtenerNotaDeCredito]
+	@DocKey INT
+AS
+BEGIN
+--declare @DocKey int
+--set @DocKey = 2081
+-- select * from orin where docnum = 11000124
+/* CABECERA */
+SELECT 0 AS IdNC
+		,'AutorizacionSRI' AS AutorizacionSRI
+		,GETDATE() AS FechaAutorizacion
+		,1 AS Ambiente
+		,1 AS TipoEmision
+		,(select TaxIdNum2 from OADM) AS RazonSocial
+		,(select TaxIdNum2 from OADM) AS NombreComercial
+		,(select TaxIdNum from OADM) AS Ruc
+		,ISNULL(U_CLAVE_ACCESO,'') AS ClaveAcceso
+		,'04' AS CodigoDocumento
+		,ORIN.U_SER_EST AS Establecimiento
+		,ORIN.U_SER_PE AS PuntoEmision		
+		--,'001' AS Establecimiento
+		--,'001' AS PuntoEmision
+		,(select dbo.PI_FUN_FactElec_Get_Secuencial(isnull(ORIN.Folionum,0))) AS SecuencialDocumento
+		,(select Street from ADM1) AS DireccionMatriz
+		,ORIN.DocDate AS FechaEmision
+		,(select Street from ADM1) AS DireccionEstablecimiento
+		,'176' AS ContribuyenteEspecial
+		,'SI' AS ObligadoContabilidad
+		,ISNULL('01','0') AS codDocModificado				
+		,(ISNULL(U_SER_EST_FR,0) +'-'+ ISNULL(U_SER_PEFR,0) +'-'+ (select dbo.PI_FUN_FactElec_Get_Secuencial(ISNULL(U_NUM_FAC_REL,0))))  AS numDocModificado
+		,ISNULL(ORIN.U_fecha_emi_doc_rel,'01/01/1999') AS FechaEmisionDocModificado
+		,CASE WHEN OCRD.U_TIPO_ID = 'C' THEN '05' ELSE 
+		 CASE WHEN OCRD.U_TIPO_ID = 'P' THEN '06' ELSE 
+		 CASE WHEN OCRD.U_TIPO_ID = 'R' THEN '04' ELSE 
+		 CASE WHEN OCRD.U_TIPO_ID = 'F' THEN '07' END END END END AS TipoIdentificadorComprador
+		,'' AS GuiaRemision
+		--,'001-001-000000001' AS GuiaRemision
+		,ORIN.CardName AS RazonSocialComprador
+		,ORIN.LicTradNum AS IdentificacionComprador
+		,(DocTotal  - ORIN.VatSum)  AS TotalSinImpuesto
+		,case when ISNULL(((select SUM(RIN1.Quantity * (RIN1.PriceBefDi * (RIN1.DiscPrcnt/100)))
+					from RIN1 INNER JOIN
+					ORIN O ON RIN1.DocEntry = O.DocEntry where O.DocEntry = RIN1.DocEntry)),0)&lt;&gt;0 then 
+					(select SUM(RIN1.Quantity * (RIN1.PriceBefDi * (RIN1.DiscPrcnt/100)))
+					from RIN1 INNER JOIN
+					ORIN O ON RIN1.DocEntry = O.DocEntry where RIN1.DocEntry=@DocKey)
+			  when ISNULL((select SUM(RIN1.Quantity * (RIN1.Price * (O.DiscPrcnt/100)))
+					from RIN1 INNER JOIN
+					ORIN O ON RIN1.DocEntry = O.DocEntry where  RIN1.DocEntry=@DocKey),0) &lt;&gt;0 then 
+					(select SUM(RIN1.Quantity * (RIN1.Price * (O.DiscPrcnt/100)))
+					from RIN1 INNER JOIN
+					ORIN O ON RIN1.DocEntry = O.DocEntry where  RIN1.DocEntry=@DocKey)
+			  else 0 end  AS TotalDescuento	
+		--,ORIN.DiscSum AS TotalDescuento
+		,0.00 AS Propina
+		,ORIN.DocTotal AS ImporteTotal
+		--,(select MainCurncy from OADM) AS Moneda
+		,'DOLAR' AS Moneda
+		,OUSR.USER_CODE AS UsuarioCreador
+		,'' AS EmailResponsable
+		,'EstadoDocumento' AS EstadoDocumento
+		,'DescripcionError' AS DescripcionError
+		,'' AS CodigoError
+		,'DirectorioDocumento' AS DirectorioDocumento
+		,'NombreDocuemnto' AS NombreDocuemnto
+		,0 AS GeneradoXls
+		,ORIN.DocEntry AS SecuencialERP
+		--,CONVERT(VARCHAR(50), ORIN.TransId) AS CodigoTransaccionERP
+		,ORIN.ObjType AS CodigoTransaccionERP
+		,1 AS Estado
+		,GETDATE() AS FechaCarga
+		,'IdLote' AS IdLote 
+		,(SELECT USER_CODE FROM OUSR WHERE OUSR.USERID = ORIN.UserSign2) AS Campo1
+		,'NC' AS Campo2
+		,ORIN.DocNum AS Campo3
+		,ISNULL((select SUM(LineTotal) from RIN1 where VatPrcnt &gt; 0 and DocEntry = ORIN.DocEntry) - ROUND(((select SUM(LineTotal) from RIN1 where VatPrcnt = 12 and DocEntry = ORIN.DocEntry) * (isnull(ORIN.DiscPrcnt, 0) / 100)),2),0) AS Base12
+		,ISNULL((select SUM(LineTotal) from RIN1 where VatPrcnt &gt; 0 and DocEntry = ORIN.DocEntry) - ROUND(((select SUM(LineTotal) from RIN1 where VatPrcnt = 14 and DocEntry = ORIN.DocEntry) * (isnull(ORIN.DiscPrcnt, 0) / 100)),2),0) AS Base13
+		,ISNULL((select SUM(LineTotal) from RIN1 where VatPrcnt = 0 and DocEntry = ORIN.DocEntry) - ROUND(((select SUM(LineTotal) from RIN1 where VatPrcnt = 0 and DocEntry = ORIN.DocEntry) * (isnull(ORIN.DiscPrcnt, 0) / 100)),2),0) AS Base0
+		,ROUND(ORIN.VatSum, 2) AS ImpuestoTotal
+		,'DEVOLUCION' AS Motivo
+		,ORIN.DocType
+	FROM ORIN INNER JOIN
+		 OCRD ON OCRD.CardCode = ORIN.CardCode INNER JOIN
+		 OUSR ON OUSR.USERID = ORIN.UserSign
+		WHERE ORIN.DocEntry = @DocKey 
+	
+/*DETALLE*/	
+/*PRIMERO PREGUNTO SI NC DE SERVICIO O DE ARTICULO, PARA REALIZAR EL SELECT*/
+IF (SELECT ORIN.DocType FROM ORIN WHERE ORIN.DocEntry = @DocKey)='S'
+	BEGIN
+		SELECT   RIN1.LineNum AS IdDetalleFactura
+				,ISNULL(RIN1.ItemCode,'SERVICIO') AS CodigoPrincipal
+				,ISNULL(RIN1.ItemCode,'SERVICIO') AS CodigoAuxiliar
+				,case when isnull(RIN1.Dscription,'') = ''  then rin1.FreeTxt else RIN1.Dscription end AS Descripcion
+				,1 AS Cantidad
+				,RIN1.PriceBefDi  AS PrecioUnitario
+				, CASE when ISNULL(ORIN.DiscPrcnt,0) &lt;&gt; 0 then ISNULL((RIN1.Quantity * (RIN1.PriceBefDi * (ORIN.DiscPrcnt/100))),0)
+				else ISNULL((RIN1.Quantity * (RIN1.PriceBefDi * (RIN1.DiscPrcnt/100))),0) end AS Descuento								
+				,CASE when isnull(ORIN.DiscPrcnt,0) &lt;&gt;0 then ROUND(((rin1.PriceBefDi*RIN1.Quantity) - (ISNULL((RIN1.Quantity * (RIN1.PriceBefDi * (ORIN.DiscPrcnt/100))),0))),2)
+				else  ROUND(RIN1.Price,2) 
+				end AS PrecioTotalSinImpuesto
+				,RIN1.DocEntry AS IdFactura
+				,CASE WHEN RIN1.VatPrcnt = 0  THEN 'IVA_EXE' WHEN RIN1.VatPrcnt = 12 THEN 
+				  'IVA' WHEN RIN1.VatPrcnt = 14 THEN 'IVA13'END AS TaxCodeAp
+				,CASE WHEN RIN1.VatPrcnt = 0 THEN 0 ELSE
+				 CASE WHEN RIN1.VatPrcnt &gt; 0 THEN ROUND(((RIN1.INMPrice * (isnull(RIN1.VatPrcnt,0)/100))*RIN1.Quantity),2) END END AS TotalIva	 
+				 , 'UM' AS ConceptoAdicional1
+				 ,'-'AS NombreAdicional1
+				 , 'Desc' AS ConceptoAdicional2
+				 ,case when ISNULL(RIN1.DiscPrcnt,0)&lt;&gt;0 then ISNULL(RIN1.DiscPrcnt,0) 
+				 else ISNULL(ORIN.DiscPrcnt,0) end AS NombreAdicional2 
+				 , '-' AS ConceptoAdicional3
+				 ,'-' AS NombreAdicional3
+				,(SELECT ORIN.DocType FROM ORIN WHERE ORIN.DocEntry = @DocKey) AS DocType
+		FROM RIN1 INNER JOIN
+			 ORIN ON RIN1.DocEntry = ORIN.DocEntry 
+		WHERE RIN1.DocEntry = @DocKey 
+	END
+ELSE
+	BEGIN
+		SELECT   RIN1.LineNum AS IdDetalleFactura
+				,RIN1.ItemCode AS CodigoPrincipal
+				,RIN1.ItemCode AS CodigoAuxiliar
+				,case when isnull(RIN1.Dscription,'') = ''  then rin1.FreeTxt else RIN1.Dscription end AS Descripcion
+				,RIN1.Quantity AS Cantidad
+				--,RIN1.INMPrice AS PrecioUnitario 
+				,RIN1.PriceBefDi  AS PrecioUnitario
+				, CASE when ISNULL(ORIN.DiscPrcnt,0) &lt;&gt; 0 then ISNULL((RIN1.Quantity * (RIN1.PriceBefDi * (ORIN.DiscPrcnt/100))),0)
+				else ISNULL((RIN1.Quantity * (RIN1.PriceBefDi * (RIN1.DiscPrcnt/100))),0) end AS Descuento				
+				--,(RIN1.Quantity * (RIN1.Price * (ORIN.DiscPrcnt/100)))AS Descuento				
+				,CASE when isnull(ORIN.DiscPrcnt,0) &lt;&gt;0 then ROUND(((rin1.PriceBefDi*RIN1.Quantity) - (ISNULL((RIN1.Quantity * (RIN1.PriceBefDi * (ORIN.DiscPrcnt/100))),0))),2)
+				else ROUND(RIN1.Price*RIN1.Quantity,2) end AS PrecioTotalSinImpuesto
+				--,RIN1.LineTotal * (1 - (isnull(ORIN.DiscPrcnt, 0) / 100))AS PrecioTotalSinImpuesto
+				,RIN1.DocEntry AS IdFactura
+				,CASE WHEN RIN1.VatPrcnt = 0  THEN 'IVA_EXE' WHEN RIN1.VatPrcnt = 12 THEN 
+				  'IVA' WHEN RIN1.VatPrcnt = 14 THEN 'IVA13'END AS TaxCodeAp
+				,CASE WHEN RIN1.VatPrcnt = 0 THEN 0 ELSE
+				 CASE WHEN RIN1.VatPrcnt &gt; 0 THEN ROUND(((RIN1.INMPrice * (isnull(RIN1.VatPrcnt,0)/100))*RIN1.Quantity),2) END END AS TotalIva	 
+				 -- DATOS ADICIONALES
+				 , 'UM' AS ConceptoAdicional1
+				 ,OITM.SalUnitMsr AS NombreAdicional1
+				 , 'Desc' AS ConceptoAdicional2
+				 ,case when ISNULL(RIN1.DiscPrcnt,0)&lt;&gt;0 then ISNULL(RIN1.DiscPrcnt,0) 
+				 else ISNULL(ORIN.DiscPrcnt,0) end AS NombreAdicional2 
+				 , '-' AS ConceptoAdicional3
+				 ,'-' AS NombreAdicional3
+				 ,(SELECT ORIN.DocType FROM ORIN WHERE ORIN.DocEntry = @DocKey) AS DocType
+		FROM RIN1 INNER JOIN
+			 ORIN ON RIN1.DocEntry = ORIN.DocEntry INNER JOIN
+			 OITM ON RIN1.ItemCode = OITM.ItemCode 
+		WHERE RIN1.DocEntry = @DocKey 
+					--select top 50 * from RIN1
+	END	
+/*DATOS ADICIONALES*/	
+		
+SELECT TOP 1 'DireccionCliente' AS Concepto,ISNULL(CRD1.Street,'') AS Descripcion
+	FROM ORIN INNER JOIN
+		 CRD1 ON ORIN.CardCode = CRD1.CardCode
+	WHERE ORIN.DocEntry = @DocKey	
+	AND CRD1.Address = 'PRINCIPAL'
+	AND ISNULL(ORIN.Address,'') &lt;&gt; ''
+	UNION
+SELECT TOP 1 'Telefono' AS Concepto,ISNULL(OCRD.Phone1,'')AS Descripcion
+	FROM ORIN INNER JOIN
+		 OCRD ON ORIN.CardCode = OCRD.CardCode
+	WHERE ORIN.DocEntry = @DocKey
+	AND ISNULL(OCRD.Phone1,'') &lt;&gt; ''
+	UNION
+SELECT TOP 1 'CodigoSAP' AS Concepto,CONVERT(VARCHAR(20),ORIN.DocNum) AS Descripcion
+	FROM ORIN
+	WHERE ORIN.DocEntry = @DocKey	
+	UNION
+SELECT TOP 1 'Condicion' AS Concepto,ISNULL(SUBSTRING(OCTG.PymntGroup,5,LEN(OCTG.PymntGroup)),'')AS Descripcion
+	FROM ORIN INNER JOIN
+		 OCTG ON ORIN.GroupNum = OCTG.GroupNum
+	WHERE ORIN.DocEntry = @DocKey
+	UNION
+SELECT TOP 1 'Email' AS Concepto,ISNULL(OCPR.E_Maill,'')AS Descripcion
+	FROM ORIN INNER JOIN
+		 OCPR ON ORIN.CardCode = OCPR.CardCode
+	WHERE ORIN.DocEntry = @DocKey
+	AND OCPR.Name = 'COMPROBANTES ELECTRONICOS'
+	AND ISNULL(OCPR.E_Maill,'') &lt;&gt; ''
+-- [PI_SAP_NotaCreditoVentas] 924
+
+/*FORMAS DE PAGO*/			
+	SELECT    ISNULL(C.U_Exx_Forma_Pago,'') as FormaPago
+		, ISNULL(C.U_Exx_Plazo,0) as Plazo
+		, ISNULL(C.U_Exx_Total,0) as Total			
+		, ISNULL(C.U_Exx_Unidad_Tiempo,'') as UnidadTiempo
+	FROM ORIN A WITH (NOLOCK) INNER JOIN
+		"@EXX_FPAGO_VENTAS" B WITH (NOLOCK) ON A.U_EXX_FPAGO_VENTAS=B.DocEntry INNER JOIN
+		 "@EXX_FPAGO_VENT_DET" C  WITH (NOLOCK) ON B.Code=C.Code
+	WHERE a.DocEntry=@DocKey
+
+
+
+END
+
+
+
+</value>
+  </data>
+  <data name="txt5.Text" xml:space="preserve">
+    <value>CREATE PROCEDURE [dbo].[GS_SAP_FE_ObtenerNotaDeDebito]
+	@DocKey INT
+AS
+BEGIN
+
+--declare @DocKey int
+--set @DocKey = 29263
+-- select * from oinv where docnum = 11000006
+SELECT 0 AS IdNotaDebito
+		,'AutorizacionSRI' AS AutorizacionSRI
+		,GETDATE() AS FechaAutorizacion
+		,1 AS Ambiente
+		,1 AS TipoEmision
+		,(select TaxIdNum2 from OADM) AS RazonSocial
+		,(select TaxIdNum2 from OADM) AS NombreComercial
+		,(select TaxIdNum from OADM) AS Ruc
+		,ISNULL(U_CLAVE_ACCESO,'') AS ClaveAcceso
+		,'05' AS CodigoDocumento
+		,ISNULL(OINV.U_SER_EST,0) AS Establecimiento
+		,ISNULL(OINV.U_SER_PE,0) AS PuntoEmision		
+		--,'001' AS Establecimiento
+		--,'001' AS PuntoEmision
+		,(select dbo.PI_FUN_FactElec_Get_Secuencial(ISNULL(OINV.FolioNum,0))) AS SecuencialDocumento
+		,(select Street from ADM1) AS DireccionMatriz
+		,OINV.DocDate AS FechaEmision
+        --,GetDate() AS FechaEmision
+		,(select Street from ADM1) AS DireccionEstablecimiento
+		,'176' AS ContribuyenteEspecial
+		,'SI' AS ObligadoContabilidad
+		,ISNULL('','0') AS codDocModificado				
+		,(ISNULL(U_SER_EST_FR,0) +'-'+ ISNULL(U_SER_PEFR,0) +'-'+ (select dbo.PI_FUN_FactElec_Get_Secuencial(ISNULL(U_NUM_FAC_REL,0))))  AS numDocModificado
+		,ISNULL(oinv.U_fecha_emi_doc_rel,'01/01/1999') AS FechaEmisionDocModificado
+		,CASE WHEN OCRD.U_TIPO_ID = 'C' THEN '05' ELSE 
+		 CASE WHEN OCRD.U_TIPO_ID = 'P' THEN '06' ELSE 
+		 CASE WHEN OCRD.U_TIPO_ID = 'R' THEN '04' ELSE 
+		 CASE WHEN OCRD.U_TIPO_ID = 'F' THEN '07' END END END END AS TipoIdentificadorComprador
+		 /* 'N' FACTURA DE CLIENTES; 'Y' ES FACTURA DE RESERVA */
+		 ,'' AS GuiaRemision
+		--,'001-001-000000001' AS GuiaRemision
+		,OINV.CardName AS RazonSocialComprador
+		,OINV.LicTradNum AS IdentificacionComprador
+		,(DocTotal  - OINV.VatSum)  AS TotalSinImpuesto
+		,(select SUM(1* (INV1.Price * (ISNULL(O.DiscPrcnt,0)/100)))
+			from INV1 INNER JOIN
+			     OINV O ON INV1.DocEntry = O.DocEntry where O.DocEntry = OINV.DocEntry) AS TotalDescuento	
+		--,OINV.DiscSum AS TotalDescuento
+		,0.00 AS Propina
+		,OINV.DocTotal AS ImporteTotal
+		--,(select MainCurncy from OADM) AS Moneda
+		,'DOLAR' AS Moneda
+		,OUSR.USER_CODE AS UsuarioCreador
+		,'' AS EmailResponsable
+		,'EstadoDocumento' AS EstadoDocumento
+		,'DescripcionError' AS DescripcionError
+		,'' AS CodigoError
+		,'DirectorioDocumento' AS DirectorioDocumento
+		,'NombreDocuemnto' AS NombreDocuemnto
+		,0 AS GeneradoXls
+		,OINV.DocEntry AS SecuencialERP
+		--,CONVERT(VARCHAR(50), OINV.TransId) AS CodigoTransaccionERP
+		,OINV.ObjType AS CodigoTransaccionERP
+		,1 AS Estado
+		,GETDATE() AS FechaCarga
+		,'IdLote' AS IdLote 
+		,(SELECT USER_CODE FROM OUSR WHERE OUSR.USERID = OINV.UserSign2) AS Campo1
+		,'ND' AS Campo2
+		,OINV.DocNum AS Campo3
+		,ISNULL((select SUM(LineTotal) from INV1 where VatPrcnt &gt; 0 and DocEntry = OINV.DocEntry) - ROUND(((select SUM(LineTotal) from INV1 where VatPrcnt = 12 and DocEntry = OINV.DocEntry) * (isnull(OINV.DiscPrcnt, 0) / 100)),2),0) AS Base12
+		,ISNULL((select SUM(LineTotal) from INV1 where VatPrcnt &gt; 0 and DocEntry = OINV.DocEntry) - ROUND(((select SUM(LineTotal) from INV1 where VatPrcnt = 14 and DocEntry = OINV.DocEntry) * (isnull(OINV.DiscPrcnt, 0) / 100)),2),0) AS Base13
+		,ISNULL((select SUM(LineTotal) from INV1 where VatPrcnt = 0 and DocEntry = OINV.DocEntry) - ROUND(((select SUM(LineTotal) from INV1 where VatPrcnt = 0 and DocEntry = OINV.DocEntry) * (isnull(OINV.DiscPrcnt, 0) / 100)),2),0) AS Base0
+		,ROUND(OINV.VatSum, 2) AS ImpuestoTotal
+		--,(SELECT TOP 1 INV1.Dscription FROM INV1 WHERE INV1.DocEntry = OINV.DocEntry) AS Razon
+	
+	FROM OINV INNER JOIN
+		 OCRD ON OCRD.CardCode = OINV.CardCode INNER JOIN
+		 OUSR ON OUSR.USERID = OINV.UserSign
+		WHERE ISNULL(OINV.DocSubType, '') = 'DN'
+			AND OINV.DocEntry = @DocKey 
+	
+/*DETALLE*/	
+/*PRIMERO PREGUNTO SI NC DE SERVICIO O DE ARTICULO, PARA REALIZAR EL SELECT*/
+IF (SELECT OINV.DocType FROM OINV WHERE OINV.DocEntry = @DocKey)='S'
+	BEGIN
+		SELECT   INV1.LineNum AS IdDetalleFactura
+				,INV1.Dscription AS CodigoPrincipal
+				,'' AS CodigoAuxiliar
+				,INV1.Dscription AS Descripcion
+				,1 AS Cantidad
+				--,RIN1.INMPrice AS PrecioUnitario 
+				,INV1.Price  AS PrecioUnitario 		
+				,(1 * (INV1.Price * (isnull(OINV.DiscPrcnt,0)/100)))AS Descuento				
+				,INV1.LineTotal * (1 - (isnull(OINV.DiscPrcnt, 0) / 100))AS PrecioTotalSinImpuesto
+				,INV1.DocEntry AS IdFactura
+		,CASE WHEN INV1.VatPrcnt = 0  THEN 'IVA_EXE' WHEN INV1.VatPrcnt = 12 THEN 
+				  'IVA' WHEN INV1.VatPrcnt = 14 THEN 'IVA13'END AS TaxCodeAp			  
+		,CASE WHEN INV1.VatPrcnt = 0 THEN 0 ELSE
+		 CASE WHEN INV1.VatPrcnt &gt; 0 THEN ROUND(((INV1.INMPrice * 0.12)*INV1.Quantity),2) END END AS TotalIva	 
+				,(SELECT OINV.DocType FROM OINV WHERE OINV.DocEntry = @DocKey) AS DocType
+		FROM INV1 INNER JOIN
+			 OINV ON INV1.DocEntry = OINV.DocEntry 
+		WHERE INV1.DocEntry = @DocKey 
+		AND ISNULL(OINV.DocSubType, '') = 'DN'
+	END
+ELSE
+	BEGIN
+		SELECT   INV1.LineNum AS IdDetalleFactura
+				,INV1.ItemCode AS CodigoPrincipal
+				,ISNULL(OITM.FrgnName,'') AS CodigoAuxiliar
+				,INV1.Dscription AS Descripcion
+				,INV1.Quantity AS Cantidad
+				--,INV1.INMPrice AS PrecioUnitario 
+				,INV1.Price  AS PrecioUnitario 		
+				,(INV1.Quantity * (INV1.Price * (OINV.DiscPrcnt/100)))AS Descuento				
+				,INV1.LineTotal * (1 - (isnull(OINV.DiscPrcnt, 0) / 100))AS PrecioTotalSinImpuesto
+				,INV1.DocEntry AS IdFactura
+		,CASE WHEN INV1.VatPrcnt = 0  THEN 'IVA_EXE' WHEN INV1.VatPrcnt = 12 THEN 
+				  'IVA' WHEN INV1.VatPrcnt = 14 THEN 'IVA13'END AS TaxCodeAp			  
+		,CASE WHEN INV1.VatPrcnt = 0 THEN 0 ELSE
+		 CASE WHEN INV1.VatPrcnt &gt; 0 THEN ROUND(((INV1.INMPrice * 0.12)*INV1.Quantity),2) END END AS TotalIva	 
+				 -- DATOS ADICIONALES
+				 , 'UM' AS ConceptoAdicional1
+				 ,OITM.SalUnitMsr AS NombreAdicional1
+				 , 'Desc' AS ConceptoAdicional2
+				 ,OINV.DiscPrcnt AS NombreAdicional2
+		FROM INV1 INNER JOIN
+			 OINV ON INV1.DocEntry = OINV.DocEntry INNER JOIN
+			 OITM ON INV1.ItemCode = OITM.ItemCode 
+			WHERE INV1.DocEntry = @DocKey 
+			AND ISNULL(OINV.DocSubType, '') = 'DN'
+				--select top 50 * from inv1
+	END
+				
+			
+/*DATOS ADICIONALES*/	
+SELECT TOP 1 'DireccionCliente' AS Concepto,ISNULL(CRD1.Street,'') AS Descripcion
+	FROM OINV INNER JOIN
+		 CRD1 ON OINV.CardCode = CRD1.CardCode
+	WHERE OINV.DocEntry = @DocKey	
+	AND CRD1.Address = 'PRINCIPAL'
+	AND ISNULL(OINV.DocSubType, '') = 'DN'
+	AND ISNULL(OINV.Address,'') &lt;&gt; ''
+	UNION
+SELECT TOP 1 'Telefono' AS Concepto,ISNULL(OCRD.Phone1,'')AS Descripcion
+	FROM OINV INNER JOIN
+		 OCRD ON OINV.CardCode = OCRD.CardCode
+	WHERE OINV.DocEntry = @DocKey
+	AND ISNULL(OINV.DocSubType, '') = 'DN'
+	AND ISNULL(OCRD.Phone1,'') &lt;&gt; ''
+	UNION		
+SELECT TOP 1 'CodigoSAP' AS Concepto,CONVERT(VARCHAR(20),OINV.DocNum) AS Descripcion
+	FROM OINV
+	WHERE OINV.DocEntry = @DocKey	
+	AND ISNULL(OINV.DocSubType, '') = 'DN'
+	UNION
+SELECT TOP 1 'Condicion' AS Concepto,OCTG.PymntGroup AS Descripcion
+	FROM OINV INNER JOIN
+		 OCTG ON OINV.GroupNum = OCTG.GroupNum
+	WHERE OINV.DocEntry = @DocKey
+	AND ISNULL(OINV.DocSubType, '') = 'DN'
+	UNION
+--SELECT TOP 1 'Cajero' AS Concepto,ISNULL(OUSR.U_NAME,'')AS Descripcion
+--	FROM ORIN INNER JOIN
+--		 OUSR ON ORIN.UserSign = OUSR.USERID
+--	WHERE ORIN.DocEntry = @DocKey
+--	UNION 
+SELECT TOP 1 'Email' AS Concepto,ISNULL(OCPR.E_Maill,'')AS Descripcion
+	FROM OINV INNER JOIN
+		 OCPR ON OINV.CardCode = OCPR.CardCode
+	WHERE OINV.DocEntry = @DocKey
+	AND OCPR.Name = 'COMPROBANTES ELECTRONICOS'
+	AND ISNULL(OINV.DocSubType, '') = 'DN'
+	AND ISNULL(OCPR.E_Maill,'') &lt;&gt; ''
+
+	/*FORMAS DE PAGO*/			
+	SELECT    ISNULL(C.U_Exx_Forma_Pago,'') as FormaPago
+		, ISNULL(C.U_Exx_Plazo,0) as Plazo
+		, ISNULL(C.U_Exx_Total,0) as Total			
+		, ISNULL(C.U_Exx_Unidad_Tiempo,'') as UnidadTiempo
+	FROM OINV A WITH (NOLOCK) INNER JOIN
+		"@EXX_FPAGO_VENTAS" B WITH (NOLOCK) ON A.U_EXX_FPAGO_VENTAS=B.DocEntry INNER JOIN
+		 "@EXX_FPAGO_VENT_DET" C  WITH (NOLOCK) ON B.Code=C.Code
+	WHERE a.DocEntry=@DocKey
+	AND ISNULL(A.DocSubType, '') = 'DN'
+END
+
+</value>
+  </data>
+  <data name="txt6.Text" xml:space="preserve">
+    <value>CREATE PROCEDURE [dbo].[GS_SAP_FE_ObtenerGuiaDeRemisionTransferencia]
+	@DocKey INT
+AS
+BEGIN
+
+--declare @DocKey int
+ --set @DocKey = 4913
+-- select * from OWTR where docnum = 4000001
+SELECT 
+		 1 AS Ambiente
+		,1 AS TipoEmision
+		,(select TaxIdNum2 from OADM) AS RazonSocial
+		,(select TaxIdNum2 from OADM) AS NombreComercial
+		,(select TaxIdNum from OADM) AS Ruc
+		,isnull(U_CLAVE_ACCESO,'') AS ClaveAcceso
+		,'06' AS CodigoDocumento
+		,ISNULL(OWTR.U_SER_EST,0) AS Establecimiento
+		,ISNULL(OWTR.U_SER_PE,0) AS PuntoEmision		
+		,(select dbo.PI_FUN_FactElec_Get_Secuencial(ISNULL(OWTR.folionum,0))) AS SecuencialDocumento
+		,(select Street from ADM1) AS DireccionMatriz
+		,OWTR.DocDate AS FechaEmision
+		,(select Street from ADM1) AS DireccionEstablecimiento
+		,ISNULL(OWTR.U_PUNTO_PART,'') AS DireccionPartida
+		,ISNULL((SELECT Name FROM [@EXX_TRANSPORTISTAS] TR WHERE OWTR.U_TRANSPORTISTA = TR.Code),'') AS RazonSocialTransportista
+		,ISNULL((SELECT U_TIPO_IDENTIFICACIO FROM [@EXX_TRANSPORTISTAS] TR WHERE OWTR.U_TRANSPORTISTA = TR.Code),'') AS TipoIdentificacionTransportista
+		,ISNULL((SELECT U_ID_TRANSP FROM [@EXX_TRANSPORTISTAS] TR WHERE OWTR.U_TRANSPORTISTA = TR.Code),'') AS RucTranportista		
+		,'SI' AS ObligadoContabilidad		
+		,'833' AS ContribuyenteEspecial
+		,isnull(OWTR.U_FEC_INI_TRAS,'') AS FechaInicioTransporte
+		,isnull(OWTR.U_FEC_FIN_TRAS,'') AS FechaFinTransporte
+		,ISNULL((SELECT U_PLACA FROM [@EXXIS_TRANSPORTE] TN WHERE OWTR.U_TRANSPORTE = TN.CODE),'') AS Placa
+
+		,OUSR.USER_CODE AS UsuarioCreador
+		,'' AS EmailResponsable
+		,OWTR.DocEntry AS SecuencialERP
+		--,CONVERT(VARCHAR(50), OWTR.TransId) AS CodigoTransaccionERP
+		,OWTR.ObjType AS CodigoTransaccionERP
+		,1 AS Estado
+		,(SELECT USER_CODE FROM OUSR WHERE OUSR.USERID = OWTR.UserSign2) AS Campo1
+		,'GR' AS Campo2
+		,OWTR.DocNum AS Campo3
+	FROM OWTR INNER JOIN
+		 OUSR ON OUSR.USERID = OWTR.UserSign
+		WHERE OWTR.U_DOC_DECLARABLE = 'S'
+			AND OWTR.DocEntry = @DocKey 
+	
+/* DESTINATARIO */
+SELECT 
+		 OCRD.LicTradNum AS IdentificacionDestinatario
+		,OCRD.CardName AS RazonSocialDestinatario
+		--,ISNULL('','') AS DirDestinatario
+		,ISNULL((SELECT owhs.Street FROM OWHS WHERE OWHS.WhsCode = OWTR.ToWhsCode),'') AS DirDestinatario
+		,CASE WHEN OWTR.U_MOT_TRASLADO = 'V' 
+					THEN 'VENTA'
+			  WHEN OWTR.U_MOT_TRASLADO = 'T' 
+					THEN 'TRANSFERENCIA'
+			  WHEN OWTR.U_MOT_TRASLADO = 'C' 
+					THEN 'CONSIGNACION'
+			  WHEN ISNULL(OWTR.U_MOT_TRASLADO,'') = '' 
+					THEN ''
+		 END AS MotivoTraslado	
+		,ISNULL('','') AS CodDocSustento
+		,(ISNULL(OWTR.U_SER_EST_FR,'001') +'-'+ ISNULL(OWTR.U_SER_PEFR,'001') +'-'+ (select dbo.PI_FUN_FactElec_Get_Secuencial(ISNULL(OWTR.U_NUM_FAC_REL,0))))  AS NumDocSustento
+		,ISNULL(OWTR.U_NUM_AUT_FR,'') AS NumAutDocSustento	 
+		,ISNULL((SELECT TOP 1 O.DocDate FROM OINV O WHERE O.FolioNum = OWTR.U_NUM_FAC_REL AND O.U_SER_EST = OWTR.U_SER_EST_FR AND O.U_SER_PE = OWTR.U_SER_PEFR),'01/01/1999') AS FechaEmisionDocSustento
+		
+	FROM OWTR INNER JOIN
+		 OCRD ON OCRD.CardCode = OWTR.CardCode INNER JOIN
+		 OUSR ON OUSR.USERID = OWTR.UserSign
+		WHERE OWTR.U_DOC_DECLARABLE = 'S'
+			AND OWTR.DocEntry = @DocKey 
+			
+/*DETALLE*/	
+SELECT   WTR1.LineNum AS IdDetalleFactura
+		,WTR1.ItemCode AS CodigoPrincipal
+		,WTR1.ItemCode AS CodigoAuxiliar
+		,WTR1.Dscription AS Descripcion
+		,WTR1.Quantity AS Cantidad
+			
+		 -- DATOS ADICIONALES
+		 , 'UM' AS ConceptoAdicional1
+		 ,OITM.SalUnitMsr AS NombreAdicional1
+		 
+	FROM WTR1 INNER JOIN
+		 OWTR ON WTR1.DocEntry = OWTR.DocEntry INNER JOIN
+	     OITM ON WTR1.ItemCode = OITM.ItemCode 
+		WHERE WTR1.DocEntry = @DocKey 
+			
+/*DATOS ADICIONALES*/			
+SELECT TOP 1 'CodigoSAP' AS Concepto,CONVERT(VARCHAR(20),OWTR.DocNum) AS Descripcion
+	FROM OWTR 
+	WHERE OWTR.DocEntry = @DocKey	
+	UNION
+--SELECT TOP 1 'PersonaRecibe' AS Concepto,ISNULL(OWTR.U_ENVIO_PERS_TELF,'')AS Descripcion
+--	FROM OWTR  
+--	WHERE OWTR.DocEntry = @DocKey
+--	AND ISNULL(OWTR.U_ENVIO_PERS_TELF,'') &lt;&gt; ''
+--	UNION
+SELECT TOP 1 'Email' AS Concepto,ISNULL(OCPR.E_Maill,'')AS Descripcion
+	FROM OWTR INNER JOIN
+		 OCPR ON OWTR.CardCode = OCPR.CardCode 
+	WHERE OWTR.DocEntry = @DocKey
+	AND OCPR.Name = 'COMPROBANTES ELECTRONICOS'
+	AND ISNULL(OCPR.E_Maill,'') &lt;&gt; ''
+
+END
+
+
+
+
+
+</value>
+  </data>
+  <data name="txt8.Text" xml:space="preserve">
+    <value>CREATE PROCEDURE [dbo].[GS_SAP_FE_ObtenerRetencion]
+	@DocKey INT
+AS
+BEGIN
+
+/* CABECERA */
+SELECT	TOP 1
+		 1 AS Ambiente
+		,1 AS TipoEmision
+		,(select TaxIdNum2 from OADM) AS RazonSocial
+		,(select TaxIdNum2 from OADM) AS NombreComercial
+		,(select TaxIdNum from OADM) AS Ruc
+		,ISNULL(U_CLAVE_ACCESO,'') AS ClaveAcceso
+		,'07' AS CodigoDocumento
+		,SUBSTRING(OPCH.U_SERIE_RET,1,3) AS Establecimiento
+		,SUBSTRING(OPCH.U_SERIE_RET,4,3) AS PuntoEmision		
+		,(select dbo.PI_FUN_FactElec_Get_Secuencial(ISNULL(OPCH.U_COMP_RET,0))) AS SecuencialDocumento
+		,(select Street from ADM1) AS DireccionMatriz
+		,OPCH.DocDate AS FechaEmision
+		,(select Street from ADM1) AS DireccionEstablecimiento
+	              ,(SELECT isnull(U_N_RESOLUCION,0) FROM "@EXX_INF_ADMIN") AS ContribuyenteEspecial
+		,'SI' AS ObligadoContabilidad
+		,CASE WHEN OCRD.U_TIPO_ID = 'C' THEN '05' ELSE 
+		 CASE WHEN OCRD.U_TIPO_ID = 'P' THEN '06' ELSE 
+		 CASE WHEN OCRD.U_TIPO_ID = 'R' THEN '04' ELSE 
+		 CASE WHEN OCRD.U_TIPO_ID = 'F' THEN '07' END END END END AS TipoIdentificacionSujetoRetenido
+		,OCRD.CardName AS RazonSocialSujetoRetenido
+		,OCRD.LicTradNum AS IdentificacionSujetoRetenido
+		--,CONVERT(VARCHAR(2),MONTH(OPCH.U_Exx_FechaRet))+'/'+CONVERT(VARCHAR(4),YEAR(OPCH.U_Exx_FechaRet)) AS PeriodoFiscal
+                                  ,CONVERT(VARCHAR(2),RIGHT('0' + RTRIM(MONTH(OPCH.U_Exx_FechaRet)), 2))+'/'+CONVERT(VARCHAR(4),YEAR(OPCH.U_Exx_FechaRet)) AS PeriodoFiscal		
+		
+		--,OPCH.DocTotal AS TotalRetencion
+		,SUM(PCH5.TaxbleAmnt) AS TotalBaseImponible
+		,SUM(PCH5.WTAmnt) AS TotalRetencion
+		--,(SELECT SUM(PCH5.WTAmnt) FROM PCH5 P WHERE P.AbsEntry = OPCH.DocEntry) AS TotalRetencion
+		
+		,OUSR.USER_CODE AS UsuarioCreador
+		,'' AS EmailResponsable
+		--,CONVERT(VARCHAR(50), OPCH.TransId) AS CodigoTransaccionERP
+		,OPCH.ObjType AS CodigoTransaccionERP
+		,OPCH.DocEntry AS SecuencialERP
+		,1 AS Estado
+		,GETDATE() AS FechaCarga
+		,(SELECT USER_CODE FROM OUSR WHERE OUSR.USERID = OPCH.UserSign2) AS Campo1
+		,'RE' AS Campo2
+		,OPCH.DocNum AS Campo3
+		
+		
+	FROM OPCH  INNER JOIN
+		 PCH5 ON PCH5.AbsEntry = OPCH.DocEntry INNER JOIN
+		 OCRD ON OCRD.CardCode = OPCH.CardCode INNER JOIN
+		 OUSR ON OPCH.UserSign = OUSR.UserId
+WHERE OPCH.DocEntry = @DocKey
+AND PCH5.Rate &gt; 0
+GROUP BY OPCH.U_SERIE_RET,U_COMP_RET,OPCH.DocDate,OCRD.U_TIPO_ID,OCRD.CardName,OCRD.LicTradNum
+		,OPCH.U_Exx_FechaRet,OUSR.USER_CODE,OPCH.ObjType,OPCH.DocEntry,OPCH.UserSign2,OPCH.DocNum,opch.U_CLAVE_ACCESO
+	
+/*DETALLE IMPUESTOS*/	
+	SELECT   case
+				when PCH5.BaseType = 'N'
+					then '1' -- RENTA
+				when PCH5.BaseType = 'V'
+					then '2' -- IVA
+				when PCH5.BaseType NOT IN ('N','V')
+					then '6' -- ISD
+			 end AS Codigo
+			, case
+				when (select OffclCode from OWHT where WTCode = PCH5.WTCode) = '721'
+					then '1'
+				when (select OffclCode from OWHT where WTCode = PCH5.WTCode) = '723'
+					then '2'
+				when (select OffclCode from OWHT where WTCode = PCH5.WTCode) = '725'
+					then '3'
+				else
+					(select OffclCode from OWHT where WTCode = PCH5.WTCode)
+				END AS CodigoRetencion		
+			,(PCH5.TaxbleAmnt) AS BaseImponible
+			,PCH5.Rate AS PorcentajeRetener		
+			,PCH5.WTAmnt AS ValorRetenido
+			,'01' AS CodDocRetener
+			,ISNULL(OPCH.U_SER_EST,'00')+  ISNULL(OPCH.U_SER_PE,'00')+(select dbo.PI_FUN_FactElec_Get_Secuencial(ISNULL(OPCH.FolioNum,0))) AS NumDocRetener
+			,CONVERT(DATE,OPCH.DocDate) AS FechaEmisionDocRetener
+	FROM OPCH  INNER JOIN
+		 PCH5 ON PCH5.AbsEntry = OPCH.DocEntry
+	WHERE OPCH.DocEntry = @DocKey
+	AND PCH5.Rate &gt; 0 
+			
+/*DATOS ADICIONALES*/			
+SELECT TOP 1 'CodigoSAP' AS Concepto,CONVERT(VARCHAR(20),OPCH.DocNum) AS Descripcion
+	FROM OPCH  INNER JOIN
+		 PCH5 ON PCH5.AbsEntry = OPCH.DocEntry
+	WHERE OPCH.DocEntry = @DocKey
+	AND PCH5.Rate &gt; 0	
+	UNION
+SELECT TOP 1 'Condicion' AS Concepto,OCTG.PymntGroup AS Descripcion
+	FROM OPCH INNER JOIN
+		 OCTG ON OPCH.GroupNum = OCTG.GroupNum  INNER JOIN
+		 PCH5 ON PCH5.AbsEntry = OPCH.DocEntry
+	WHERE OPCH.DocEntry = @DocKey
+	AND PCH5.Rate &gt; 0
+	UNION
+SELECT TOP 1 'Email' AS Concepto
+	,ISNULL(OCPR.E_Maill,'')AS Descripcion
+	FROM OPCH INNER JOIN
+		 OCPR ON OPCH.CardCode = OCPR.CardCode  INNER JOIN
+		 PCH5 ON PCH5.AbsEntry = OPCH.DocEntry
+	WHERE OPCH.DocEntry = @DocKey
+	AND OCPR.Name = 'COMPROBANTES ELECTRONICOS'
+	AND ISNULL(OCPR.E_Maill,'') &lt;&gt; ''
+	AND PCH5.Rate &gt; 0
+
+
+END</value>
+  </data>
+  <data name="txt3.Text" xml:space="preserve">
+    <value>CREATE PROCEDURE [dbo].[GS_SAP_FE_ObtenerFacturadeVentaAnticipo] 
+	@DocKey INT
+AS
+BEGIN
+
+SELECT ODPI.DocNum,0 AS IdFactura
+		,'AutorizacionSRI' AS AutorizacionSRI
+		,GETDATE() AS FechaAutorizacion
+		,1 AS Ambiente
+		,1 AS TipoEmision
+		,(select TaxIdNum2 from OADM) AS RazonSocial
+		,(select TaxIdNum2 from OADM) AS NombreComercial
+		,(select TaxIdNum from OADM) AS Ruc
+		,ISNULL(U_CLAVE_ACCESO,'') AS ClaveAcceso
+		,'01' AS CodigoDocumento
+		,ODPI.U_SER_EST AS Establecimiento
+		,ODPI.U_SER_PE AS PuntoEmision		
+		--,'001' AS Establecimiento
+		--,'001' AS PuntoEmision
+		,(select dbo.PI_FUN_FactElec_Get_Secuencial(ODPI.folionum)) AS SecuencialDocumento
+		,(select Street from ADM1) AS DireccionMatriz
+		,ODPI.DocDate AS FechaEmision
+		,(select Street from ADM1) AS DireccionEstablecimiento
+		,'176' AS ContribuyenteEspecial
+		,'SI' AS ObligadoContabilidad
+		,CASE WHEN OCRD.U_TIPO_ID = 'C' THEN '05' ELSE 
+		 CASE WHEN OCRD.U_TIPO_ID = 'P' THEN '06' ELSE 
+		 CASE WHEN OCRD.U_TIPO_ID = 'R' THEN '04' ELSE 
+		 CASE WHEN OCRD.U_TIPO_ID = 'F' THEN '07' END END END END AS TipoIdentificadorComprador
+		 /* 'N' FACTURA DE CLIENTES; 'Y' ES FACTURA DE RESERVA */
+		 ,CASE WHEN ODPI.isIns = 'N' THEN 
+				ISNULL((SELECT TOP 1 ODLN.U_SER_EST+'-'+ODLN.U_SER_PE+'-'+(select dbo.PI_FUN_FactElec_Get_Secuencial(ISNULL(ODLN.Folionum,0)))
+				FROM ODPI O INNER JOIN
+					 DPI1 ON O.DocEntry = DPI1.DocEntry  INNER JOIN
+					 ODLN ON ODLN.DocEntry = DPI1.BaseEntry
+				WHERE DPI1.BaseType = 15
+				AND O.DocEntry = ODPI.DocEntry),'')
+		ELSE '' END AS GuiaRemision
+		--,'001-001-000000001' AS GuiaRemision
+		,ODPI.CardName AS RazonSocialComprador
+		,ODPI.LicTradNum AS IdentificacionComprador
+		,(DocTotal  - ODPI.VatSum)  AS TotalSinImpuesto
+		,(select SUM(DPI1.Quantity * (DPI1.Price * (O.DiscPrcnt/100)))
+			from DPI1 INNER JOIN
+			     ODPI O ON DPI1.DocEntry = O.DocEntry where O.DocEntry = ODPI.DocEntry) AS TotalDescuento	
+		--,ODPI.DiscSum AS TotalDescuento
+		,0.00 AS Propina
+		,ODPI.DocTotal AS ImporteTotal
+		--,(select MainCurncy from OADM) AS Moneda
+		,'DOLAR' AS Moneda
+		,OUSR.USER_CODE AS UsuarioCreador
+		,'' AS EmailResponsable
+		,'EstadoDocumento' AS EstadoDocumento
+		,'DescripcionError' AS DescripcionError
+		,'' AS CodigoError
+		,'DirectorioDocumento' AS DirectorioDocumento
+		,'NombreDocuemnto' AS NombreDocuemnto
+		,0 AS GeneradoXls
+		,ODPI.DocEntry AS SecuencialERP
+		--,CONVERT(VARCHAR(50), ODPI.TransId) AS CodigoTransaccionERP
+		,ODPI.ObjType AS CodigoTransaccionERP
+		,1 AS Estado
+		,GETDATE() AS FechaCarga
+		,'IdLote' AS IdLote 
+		,(SELECT USER_CODE FROM OUSR WHERE OUSR.USERID = ODPI.UserSign2) AS Campo1
+		,'FA' AS Campo2
+		,ODPI.DocNum AS Campo3
+		,ISNULL((select SUM(LineTotal) from DPI1 where VatPrcnt &gt; 0 and DocEntry = ODPI.DocEntry) - ROUND(((select SUM(LineTotal) from DPI1 where VatPrcnt = 12 and DocEntry = ODPI.DocEntry) * (isnull(ODPI.DiscPrcnt, 0) / 100)),2),0) AS Base12
+		,ISNULL((select SUM(LineTotal) from DPI1 where VatPrcnt &gt; 0 and DocEntry = ODPI.DocEntry) - ROUND(((select SUM(LineTotal) from DPI1 where VatPrcnt = 14 and DocEntry = ODPI.DocEntry) * (isnull(ODPI.DiscPrcnt, 0) / 100)),2),0) AS Base13
+		,ISNULL((select SUM(LineTotal) from DPI1 where VatPrcnt = 0 and DocEntry = ODPI.DocEntry) - ROUND(((select SUM(LineTotal) from DPI1 where VatPrcnt = 0 and DocEntry = ODPI.DocEntry) * (isnull(ODPI.DiscPrcnt, 0) / 100)),2),0) AS Base0
+--select * from ODPI where docnum = 9718
+		,ROUND(ODPI.VatSum, 2) AS ImpuestoTotal
+	FROM ODPI INNER JOIN
+		 OCRD ON OCRD.CardCode = ODPI.CardCode INNER JOIN
+		 OUSR ON OUSR.USERID = ODPI.UserSign
+		WHERE ODPI.U_DOC_DECLARABLE = 'S'
+			AND ISNULL(ODPI.DocSubType, '') &lt;&gt; 'DN'
+			AND ODPI.DocEntry = @DocKey 
+	
+/*DETALLE*/	
+SELECT   DPI1.LineNum AS IdDetalleFactura
+		,DPI1.ItemCode AS CodigoPrincipal
+		,DPI1.ItemCode AS CodigoAuxiliar
+		,CASE WHEN ISNULL(DPI1.Dscription,'') = '' THEN DPI1.FreeTxt else ISNULL(DPI1.Dscription,'') end AS Descripcion
+		,DPI1.Quantity AS Cantidad
+		--,DPI1.INMPrice AS PrecioUnitario 
+		,DPI1.Price  AS PrecioUnitario 		
+		,(DPI1.Quantity * (DPI1.Price * (ODPI.DiscPrcnt/100)))AS Descuento				
+		,ROUND(DPI1.LineTotal * (1 - (isnull(ODPI.DiscPrcnt, 0) / 100)),2)AS PrecioTotalSinImpuesto
+		,DPI1.DocEntry AS IdFactura
+		--,DPI1.TaxCode AS TaxCodeAp		
+		,CASE WHEN DPI1.VatPrcnt = 0  THEN 'IVA_EXE' WHEN DPI1.VatPrcnt = 12 THEN 
+				  'IVA' WHEN DPI1.VatPrcnt = 14 THEN 'IVA13'END AS TaxCodeAp		  
+		,CASE WHEN DPI1.VatPrcnt = 0 THEN 0 ELSE
+		 CASE WHEN DPI1.VatPrcnt &gt; 0 THEN ROUND(((DPI1.INMPrice * 0.12)*DPI1.Quantity),2) END END AS TotalIva	 
+		 -- DATOS ADICIONALES
+		 , 'UM' AS ConceptoAdicional1
+		 ,ISNULL(OITM.SalUnitMsr,'-') AS NombreAdicional1
+		 , 'Desc' AS ConceptoAdicional2
+		 ,ISNULL(ODPI.DiscPrcnt,0) AS NombreAdicional2
+		 , '-' AS ConceptoAdicional3
+		 ,'-' AS NombreAdicional3
+	FROM DPI1 INNER JOIN
+		 ODPI ON DPI1.DocEntry = ODPI.DocEntry INNER JOIN
+	     OITM ON DPI1.ItemCode = OITM.ItemCode 
+		WHERE DPI1.DocEntry = @DocKey 
+		AND ISNULL(ODPI.DocSubType, '') &lt;&gt; 'DN'
+			--select top 50 * from DPI1
+			
+/*DATOS ADICIONALES*/			
+--SELECT TOP 1 'Orden de Compra' AS Concepto,ISNULL(ODPI.U_ORDEN_COMPRA,'')AS Descripcion
+--	FROM ODPI
+--	WHERE ODPI.DocEntry = @DocKey
+--	AND ISNULL(ODPI.U_ORDEN_COMPRA,'') &lt;&gt; ''
+--	AND ISNULL(ODPI.DocSubType, '') &lt;&gt; 'DN'
+--	UNION
+SELECT TOP 1 'DireccionCliente' AS Concepto,ISNULL(CRD1.Street,'') AS Descripcion
+	FROM ODPI INNER JOIN
+		 CRD1 ON ODPI.CardCode = CRD1.CardCode
+	WHERE ODPI.DocEntry = @DocKey	
+	AND CRD1.Address = 'PRINCIPAL'
+	AND ISNULL(ODPI.DocSubType, '') &lt;&gt; 'DN'
+	AND ISNULL(ODPI.Address,'') &lt;&gt; ''
+	UNION
+--SELECT TOP 1 'Telefono' AS Concepto,ISNULL(OCRD.Phone1,'')AS Descripcion
+--	FROM ODPI INNER JOIN
+--		 OCRD ON ODPI.CardCode = OCRD.CardCode
+--	WHERE ODPI.DocEntry = @DocKey
+--	AND ISNULL(ODPI.DocSubType, '') &lt;&gt; 'DN'
+--	AND ISNULL(OCRD.Phone1,'') &lt;&gt; ''
+--	UNION
+SELECT TOP 1 'CodigoSAP' AS Concepto,CONVERT(VARCHAR(20),ODPI.DocNum) AS Descripcion
+	FROM ODPI
+	WHERE ODPI.DocEntry = @DocKey	
+	AND ISNULL(ODPI.DocSubType, '') &lt;&gt; 'DN'
+	UNION
+--SELECT TOP 1
+--	CASE 
+--		WHEN DET.BaseType = 23 -- OFERTA
+--			THEN 'Oferta'
+--		WHEN DET.BaseType = 17 -- ORDEN
+--			THEN 'Orden de Venta'
+--		WHEN DET.BaseType = 15 -- ENTREGA
+--			THEN 'Orden de Venta'
+--	END AS Concepto
+--	,CASE 
+--		WHEN DET.BaseType = 23 -- OFERTA
+--			THEN (select CONVERT(VARCHAR(10),OV.DocNum) from OQUT OV where OV.DocEntry = DET.BaseEntry)
+--		WHEN DET.BaseType = 17 -- ORDEN
+--			THEN (select CONVERT(VARCHAR(10),OP.DocNum) from ORDR OP where OP.DocEntry = DET.BaseEntry)
+--		WHEN DET.BaseType = 15 -- ENTREGA
+--			THEN ( SELECT TOP 1 CONVERT(VARCHAR(10),ODLN.DocNum)
+--				   FROM ODLN INNER JOIN
+--						DLN1 ON ODLN.DocEntry = DLN1.DocEntry INNER JOIN
+--						ORDR ON DLN1.BaseEntry = ORDR.DocEntry AND DLN1.BaseType = 17 
+--				   WHERE ODLN.DocEntry = DET.BaseEntry )
+--	END AS Descripcion
+--	FROM ODPI AS CAB /* Cab - Factura */ INNER JOIN
+--		 DPI1 AS DET /* Det - Factura */ ON CAB.DocEntry = DET.DocEntry
+--	WHERE CAB.DocEntry = @DocKey
+--	AND ISNULL(CAB.DocSubType, '') &lt;&gt; 'DN'
+--	UNION
+SELECT TOP 1 'Condicion' AS Concepto,OCTG.PymntGroup AS Descripcion
+	FROM ODPI INNER JOIN
+		 OCTG ON ODPI.GroupNum = OCTG.GroupNum
+	WHERE ODPI.DocEntry = @DocKey
+	AND ISNULL(ODPI.DocSubType, '') &lt;&gt; 'DN'
+	UNION
+--SELECT TOP 1 'Vendedor' AS Concepto
+--			,CASE 
+--				WHEN DET.BaseType = 23 -- OFERTA
+--					THEN (select U_NAME from OQUT OV, OUSR U where OV.UserSign = U.USERID and OV.DocEntry = DET.BaseEntry)
+--				WHEN DET.BaseType = 17 -- ORDEN
+--					THEN (select U_NAME from ORDR OP, OUSR U where OP.UserSign = U.USERID and OP.DocEntry = DET.BaseEntry)
+--				WHEN DET.BaseType = 15 -- ENTREGA
+--					THEN ( SELECT TOP 1 OUSR.U_NAME
+--						   FROM ODLN INNER JOIN
+--								DLN1 ON ODLN.DocEntry = DLN1.DocEntry INNER JOIN
+--								ORDR ON DLN1.BaseEntry = ORDR.DocEntry AND DLN1.BaseType = 17 INNER JOIN
+--								OUSR ON ORDR.UserSign = OUSR.USERID
+--						   WHERE ODLN.DocEntry = DET.BaseEntry
+--							)
+--			END AS Descripcion
+--	FROM ODPI AS CAB /* Cab - Factura */ INNER JOIN
+--		 DPI1 AS DET /* Det - Factura */ ON CAB.DocEntry = DET.DocEntry
+--	WHERE CAB.DocEntry = @DocKey
+--	AND ISNULL(CAB.DocSubType, '') &lt;&gt; 'DN'
+--	UNION	
+SELECT TOP 1 'Cajero' AS Concepto,ISNULL(OUSR.U_NAME,'')AS Descripcion
+	FROM ODPI INNER JOIN
+		 OUSR ON ODPI.UserSign = OUSR.USERID
+	WHERE ODPI.DocEntry = @DocKey
+	AND ISNULL(ODPI.DocSubType, '') &lt;&gt; 'DN'
+	UNION				
+SELECT TOP 1 'Email' AS Concepto,ISNULL(OCPR.E_Maill,'')AS Descripcion
+	FROM ODPI INNER JOIN
+		 OCPR ON ODPI.CardCode = OCPR.CardCode
+	WHERE ODPI.DocEntry = @DocKey
+	AND OCPR.Name = 'COMPROBANTES ELECTRONICOS'
+	AND ISNULL(ODPI.DocSubType, '') &lt;&gt; 'DN'
+	AND ISNULL(OCPR.E_Maill,'') &lt;&gt; ''
+
+	/*FORMAS DE PAGO*/			
+	SELECT    ISNULL(C.U_Exx_Forma_Pago,'') as FormaPago
+		, ISNULL(C.U_Exx_Plazo,0) as Plazo
+		, ISNULL(C.U_Exx_Total,0) as Total			
+		, ISNULL(C.U_Exx_Unidad_Tiempo,'') as UnidadTiempo
+	FROM ODPI A WITH (NOLOCK) INNER JOIN
+		"@EXX_FPAGO_VENTAS" B WITH (NOLOCK) ON A.U_EXX_FPAGO_VENTAS=B.DocEntry INNER JOIN
+		 "@EXX_FPAGO_VENT_DET" C  WITH (NOLOCK) ON B.Code=C.Code
+	WHERE a.DocEntry=@DocKey
+
+END
+
+</value>
+  </data>
+  <data name="txt7.Text" xml:space="preserve">
+    <value>CREATE PROCEDURE [dbo].[GS_SAP_FE_ObtenerGuiaDeRemisionEntrega]
+	@DocKey INT
+AS
+BEGIN
+
+SELECT 
+		 1 AS Ambiente
+		,1 AS TipoEmision
+		,(select TaxIdNum2 from OADM) AS RazonSocial
+		,(select TaxIdNum2 from OADM) AS NombreComercial
+		,(select TaxIdNum from OADM) AS Ruc
+		,ISNULL(U_CLAVE_ACCESO,'') AS ClaveAcceso
+		,'06' AS CodigoDocumento
+		,ISNULL(ODLN.U_SER_EST,0) AS Establecimiento
+		,ISNULL(ODLN.U_SER_PE,0) AS PuntoEmision		
+		,(select dbo.PI_FUN_FactElec_Get_Secuencial(ISNULL(ODLN.folionum,0))) AS SecuencialDocumento
+		,(select Street from ADM1) AS DireccionMatriz
+		,ODLN.DocDate AS FechaEmision
+		,(select Street from ADM1) AS DireccionEstablecimiento
+		,ISNULL(ODLN.U_PUNTO_PART,'') AS DireccionPartida
+		,ISNULL((SELECT Name FROM [@EXX_TRANSPORTISTAS] TR WHERE ODLN.U_TRANSPORTISTA = TR.Code),'') AS RazonSocialTransportista
+		,ISNULL((SELECT U_TIPO_IDENTIFICACIO FROM [@EXX_TRANSPORTISTAS] TR WHERE ODLN.U_TRANSPORTISTA = TR.Code),'') AS TipoIdentificacionTransportista
+		,ISNULL((SELECT U_ID_TRANSP FROM [@EXX_TRANSPORTISTAS] TR WHERE ODLN.U_TRANSPORTISTA = TR.Code),'') AS RucTranportista		
+		,'SI' AS ObligadoContabilidad		
+		,'833' AS ContribuyenteEspecial
+		,isnull(ODLN.U_FEC_INI_TRAS,'') AS FechaInicioTransporte
+		,isnull(ODLN.U_FEC_FIN_TRAS,'') AS FechaFinTransporte
+		,ISNULL((SELECT U_PLACA FROM [@EXXIS_TRANSPORTE] TN WHERE ODLN.U_TRANSPORTE = TN.CODE),'') AS Placa
+
+		,OUSR.USER_CODE AS UsuarioCreador
+		,'' AS EmailResponsable
+		,ODLN.DocEntry AS SecuencialERP
+		--,CONVERT(VARCHAR(50), ODLN.TransId) AS CodigoTransaccionERP
+		,ODLN.ObjType AS CodigoTransaccionERP
+		,1 AS Estado
+		,(SELECT USER_CODE FROM OUSR WHERE OUSR.USERID = ODLN.UserSign2) AS Campo1
+		,'GR' AS Campo2
+		,ODLN.DocNum AS Campo3
+	FROM ODLN INNER JOIN
+		 OUSR ON OUSR.USERID = ODLN.UserSign
+		WHERE ODLN.U_DOC_DECLARABLE = 'S'
+			AND ODLN.DocEntry = @DocKey 
+	
+/* DESTINATARIO */
+SELECT 
+		 OCRD.LicTradNum AS IdentificacionDestinatario
+		,OCRD.CardName AS RazonSocialDestinatario
+		,ISNULL('','') AS DirDestinatario
+		,CASE WHEN ODLN.U_MOT_TRASLADO = 'V' 
+					THEN 'VENTA'
+			  WHEN ODLN.U_MOT_TRASLADO = 'T' 
+					THEN 'TRANSFERENCIA'
+			  WHEN ODLN.U_MOT_TRASLADO = 'C' 
+					THEN 'CONSIGNACION'
+			  WHEN ISNULL(ODLN.U_MOT_TRASLADO,'') = '' 
+					THEN ''
+		 END AS MotivoTraslado	
+		,ISNULL('','') AS CodDocSustento
+		,(ISNULL(ODLN.U_SER_EST_FR,'001') +'-'+ ISNULL(ODLN.U_SER_PEFR,'001') +'-'+ (select dbo.PI_FUN_FactElec_Get_Secuencial(ISNULL(ODLN.U_NUM_FAC_REL,0))))  AS NumDocSustento
+		,ISNULL(ODLN.U_NUM_AUT_FR,'') AS NumAutDocSustento	 
+		,ISNULL((SELECT TOP 1 O.DocDate FROM OINV O WHERE O.FolioNum = ODLN.U_NUM_FAC_REL AND O.U_SER_EST = ODLN.U_SER_EST_FR AND O.U_SER_PE = ODLN.U_SER_PEFR),'01/01/1999') AS FechaEmisionDocSustento
+		
+	FROM ODLN INNER JOIN
+		 OCRD ON OCRD.CardCode = ODLN.CardCode INNER JOIN
+		 OUSR ON OUSR.USERID = ODLN.UserSign
+		WHERE ODLN.U_DOC_DECLARABLE = 'S'
+			AND ODLN.DocEntry = @DocKey 
+			
+/*DETALLE*/	
+SELECT   DLN1.LineNum AS IdDetalleFactura
+		,DLN1.ItemCode AS CodigoPrincipal
+		,DLN1.ItemCode AS CodigoAuxiliar
+		,DLN1.Dscription AS Descripcion
+		,DLN1.Quantity AS Cantidad
+			
+		 -- DATOS ADICIONALES
+		 , 'UM' AS ConceptoAdicional1
+		 ,OITM.SalUnitMsr AS NombreAdicional1
+		 
+	FROM DLN1 INNER JOIN
+		 ODLN ON DLN1.DocEntry = ODLN.DocEntry INNER JOIN
+	     OITM ON DLN1.ItemCode = OITM.ItemCode 
+		WHERE DLN1.DocEntry = @DocKey 
+			
+/*DATOS ADICIONALES*/			
+SELECT TOP 1 'CodigoSAP' AS Concepto,CONVERT(VARCHAR(20),ODLN.DocNum) AS Descripcion
+	FROM ODLN 
+	WHERE ODLN.DocEntry = @DocKey	
+	UNION
+--SELECT TOP 1 'PersonaRecibe' AS Concepto,ISNULL(ODLN.U_ENVIO_PERS_TELF,'')AS Descripcion
+--	FROM ODLN  
+--	WHERE ODLN.DocEntry = @DocKey
+--	AND ISNULL(ODLN.U_ENVIO_PERS_TELF,'') &lt;&gt; ''
+--	UNION
+SELECT TOP 1 'Email' AS Concepto,ISNULL(OCPR.E_Maill,'')AS Descripcion
+	FROM ODLN INNER JOIN
+		 OCPR ON ODLN.CardCode = OCPR.CardCode 
+	WHERE ODLN.DocEntry = @DocKey
+	AND OCPR.Name = 'COMPROBANTES ELECTRONICOS'
+	AND ISNULL(OCPR.E_Maill,'') &lt;&gt; ''
+
+END
+
+</value>
+  </data>
+  <data name="txt9.Text" xml:space="preserve">
+    <value>/****** Object:  StoredProcedure [dbo].[GS_SAP_FE_ObtenerDocumentos]    Script Date: 25/08/2016 17:29:20 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[GS_SAP_FE_ObtenerDocumentos]
+-- EXEC GS_SAP_FE_ObtenerDocumentos '','',{d'2016-08-25'},{d'2016-08-25'}
+-- EXEC GS_SAP_FE_ObtenerDocumentos '0','2','',''
+(
+	@tipoDoc nvarchar(3),
+	@Estado nvarchar(50),
+	@FechaIni datetime,
+	@FechaFin datetime
+		
+)
+AS 
+BEGIN
+	SET @tipoDoc = NULLIF(@tipoDoc,'')
+	SET @Estado = NULLIF(@Estado,'')
+	SET @FechaIni = NULLIF(@FechaIni, '1900-01-01 0:00:00')
+	SET @FechaFin = NULLIF(@FechaFin, '1900-01-01 0:00:00')
+	DECLARE @C as int
+	SET @C = 0
+	IF @tipoDoc = 0
+	BEGIN
+	SET @tipoDoc = ''
+	END
+	--**********************************************
+	CREATE TABLE #ESTADOS
+	(
+		Estado varchar(60),		
+		ID int
+	)
+	INSERT INTO #ESTADOS
+	SELECT DISTINCT B.Descr,B.FldValue
+	FROM CUFD A WITH(NOLOCK) INNER JOIN
+		 UFD1 B WITH(NOLOCK) ON A.FieldID = B.FieldID         
+	WHERE A.AliasID = 'ESTADO_AUTORIZACIO'
+	--**********************************************
+
+	CREATE TABLE #Docs
+	(
+		NomDocSap varchar(50),
+		N char(1),
+		DocEntry int,
+		DocNum int,
+		Folio varchar(20),
+		CardCode varchar(15),
+		CardName varchar(100),
+		DocTotal numeric(19,6),
+		DocDate datetime,
+		EstadoDoc varchar(50),		
+		ObjType varchar(20),
+		DocSubType varchar(2),		
+		ClaveAcceso varchar(50),
+		SRI varchar(2),
+		EstadoNum int,
+		NumeroAutorizacion varchar(50),
+	)
+	
+
+INSERT INTO #Docs
+SELECT 'FACTURA','1',A.DocEntry,A.DocNum,
+--A.FolioNum
+A.U_Ser_Est + '-' + A.U_Ser_PE + '-' + (select dbo.PI_FUN_FactElec_Get_Secuencial(A.FolioNum)) AS FolioNum,
+A.CardCode,A.CardName,A.DocTotal,A.DocDate,(SELECT Estado FROM #ESTADOS WHERE ID = A.U_ESTADO_AUTORIZACIO)AS U_ESTADO_AUTORIZACIO,A.ObjType,A.DocSubType,A.U_CLAVE_ACCESO,'01' AS SRI,A.U_ESTADO_AUTORIZACIO AS EstadoNum,A.U_NUM_AUTO_FAC
+FROM OINV A WITH(NOLOCK) INNER JOIN
+     NNM1 B WITH(NOLOCK) ON A.Series = B.Series INNER JOIN
+     "@EXX_DOCUM_LEG_INTER" C WITH(NOLOCK) ON B.SeriesName = C.U_NOMBRE AND C.U_FE_TipoEmision = 'FE'
+WHERE A.U_ESTADO_AUTORIZACIO =  ISNULL(@Estado, A.U_ESTADO_AUTORIZACIO)
+AND (A.DocDate BETWEEN ISNULL(@FechaIni, A.DocDate) AND ISNULL(@FechaFiN, A.DocDate)) AND A.DocSubType = '--'
+UNION
+SELECT 'NOTA DE CREDITO','1',A.DocEntry,A.DocNum,
+A.U_Ser_Est + '-' + A.U_Ser_PE + '-' + (select dbo.PI_FUN_FactElec_Get_Secuencial(A.FolioNum)) AS FolioNum,
+A.CardCode,A.CardName,A.DocTotal,A.DocDate,(SELECT Estado FROM #ESTADOS WHERE ID = A.U_ESTADO_AUTORIZACIO)AS U_ESTADO_AUTORIZACIO,A.ObjType,A.DocSubType,A.U_CLAVE_ACCESO,'04' AS SRI,A.U_ESTADO_AUTORIZACIO AS EstadoNum,A.U_NUM_AUTO_FAC
+FROM ORIN A WITH(NOLOCK) INNER JOIN
+     NNM1 B WITH(NOLOCK) ON A.Series = B.Series INNER JOIN
+     "@EXX_DOCUM_LEG_INTER" C WITH(NOLOCK) ON B.SeriesName = C.U_NOMBRE AND C.U_FE_TipoEmision = 'FE'
+WHERE A.U_ESTADO_AUTORIZACIO =  ISNULL(@Estado, A.U_ESTADO_AUTORIZACIO)
+AND (A.DocDate BETWEEN ISNULL(@FechaIni, A.DocDate) AND ISNULL(@FechaFiN, A.DocDate)) AND A.DocSubType = '--'
+UNION
+SELECT 'NOTA DE DEBITO','1',A.DocEntry,A.DocNum,
+A.U_Ser_Est + '-' + A.U_Ser_PE + '-' + (select dbo.PI_FUN_FactElec_Get_Secuencial(A.FolioNum)) AS FolioNum,
+A.CardCode,A.CardName,A.DocTotal,A.DocDate,(SELECT Estado FROM #ESTADOS WHERE ID = A.U_ESTADO_AUTORIZACIO)AS U_ESTADO_AUTORIZACIO,A.ObjType,A.DocSubType,A.U_CLAVE_ACCESO,'05' AS SRI,A.U_ESTADO_AUTORIZACIO AS EstadoNum,A.U_NUM_AUTO_FAC
+FROM OINV A WITH(NOLOCK) INNER JOIN
+     NNM1 B WITH(NOLOCK) ON A.Series = B.Series INNER JOIN
+     "@EXX_DOCUM_LEG_INTER" C WITH(NOLOCK) ON B.SeriesName = C.U_NOMBRE AND C.U_FE_TipoEmision = 'FE'
+WHERE A.U_ESTADO_AUTORIZACIO =  ISNULL(@Estado, A.U_ESTADO_AUTORIZACIO) AND A.DocSubType = 'DN'
+AND (A.DocDate BETWEEN ISNULL(@FechaIni, A.DocDate) AND ISNULL(@FechaFiN, A.DocDate)) AND A.DocSubType = 'DN'
+UNION
+SELECT 'RETENCION','1',A.DocEntry,A.DocNum,
+SUBSTRING(A.U_SERIE_RET,0,4) + '-' + SUBSTRING(A.U_SERIE_RET,4,6) + '-' + (select dbo.PI_FUN_FactElec_Get_Secuencial(A.U_COMP_RET)) AS FolioNum,
+A.CardCode,A.CardName,A.DocTotal,A.DocDate,(SELECT Estado FROM #ESTADOS WHERE ID = A.U_ESTADO_AUTORIZACIO)AS U_ESTADO_AUTORIZACIO,A.ObjType,A.DocSubType,A.U_CLAVE_ACCESO,'07' AS SRI,A.U_ESTADO_AUTORIZACIO AS EstadoNum,A.U_NUM_AUTO_FAC
+FROM OPCH A WITH(NOLOCK) INNER JOIN
+     NNM1 B WITH(NOLOCK) ON A.Series = B.Series INNER JOIN
+     "@EXX_DOCUM_LEG_INTER" C WITH(NOLOCK) ON B.SeriesName = C.U_NOMBRE AND C.U_FE_TipoEmision = 'FE'
+WHERE A.U_ESTADO_AUTORIZACIO =  ISNULL(@Estado, A.U_ESTADO_AUTORIZACIO)
+AND (A.DocDate BETWEEN ISNULL(@FechaIni, A.DocDate) AND ISNULL(@FechaFiN, A.DocDate)) AND A.DocSubType = '--'
+UNION
+SELECT 'GUIA DE REMISION - ENT','1',A.DocEntry,A.DocNum,
+A.U_Ser_Est + '-' + A.U_Ser_PE + '-' + (select dbo.PI_FUN_FactElec_Get_Secuencial(A.FolioNum)) AS FolioNum,
+A.CardCode,A.CardName,A.DocTotal,A.DocDate,(SELECT Estado FROM #ESTADOS WHERE ID = A.U_ESTADO_AUTORIZACIO)AS U_ESTADO_AUTORIZACIO,A.ObjType,A.DocSubType,A.U_CLAVE_ACCESO,'06' AS SRI,A.U_ESTADO_AUTORIZACIO AS EstadoNum,A.U_NUM_AUTO_FAC
+FROM ODLN A WITH(NOLOCK) INNER JOIN
+     NNM1 B WITH(NOLOCK) ON A.Series = B.Series INNER JOIN
+     "@EXX_DOCUM_LEG_INTER" C WITH(NOLOCK) ON B.SeriesName = C.U_NOMBRE AND C.U_FE_TipoEmision = 'FE'
+WHERE A.U_ESTADO_AUTORIZACIO =  ISNULL(@Estado, A.U_ESTADO_AUTORIZACIO)
+AND (A.DocDate BETWEEN ISNULL(@FechaIni, A.DocDate) AND ISNULL(@FechaFiN, A.DocDate)) AND A.DocSubType = '--'
+UNION
+SELECT 'GUIA DE REMISION - TRE','1',A.DocEntry,A.DocNum,
+A.U_Ser_Est + '-' + A.U_Ser_PE + '-' + (select dbo.PI_FUN_FactElec_Get_Secuencial(A.FolioNum)) AS FolioNum,
+A.CardCode,A.CardName,A.DocTotal,A.DocDate,(SELECT Estado FROM #ESTADOS WHERE ID = A.U_ESTADO_AUTORIZACIO)AS U_ESTADO_AUTORIZACIO,A.ObjType,A.DocSubType,A.U_CLAVE_ACCESO,'06' AS SRI,A.U_ESTADO_AUTORIZACIO AS EstadoNum,A.U_NUM_AUTO_FAC
+FROM OWTR A WITH(NOLOCK) INNER JOIN
+     NNM1 B WITH(NOLOCK) ON A.Series = B.Series INNER JOIN
+     "@EXX_DOCUM_LEG_INTER" C WITH(NOLOCK) ON B.SeriesName = C.U_NOMBRE AND C.U_FE_TipoEmision = 'FE'
+WHERE A.U_ESTADO_AUTORIZACIO =  ISNULL(@Estado, A.U_ESTADO_AUTORIZACIO)
+AND (A.DocDate BETWEEN ISNULL(@FechaIni, A.DocDate) AND ISNULL(@FechaFiN, A.DocDate)) AND A.DocSubType = '--'
+--ISNULL(NULLIF(@EstadoDoc, ''), A.U_EXX_FE_Estado)
+
+DECLARE @SQL nvarchar(max) = N'SELECT NomDocSap,ROW_NUMBER() OVER(PARTITION BY ObjType,DocSubType ORDER BY DocEntry ASC) AS #,DocEntry,DocNum,Folio,CardCode,CardName,DocTotal,DocDate,EstadoDoc,ISNULL(ClaveAcceso,'''') AS ClaveAcceso,ISNULL(NumeroAutorizacion,'''')AS NumeroAutorizacion,ObjType FROM #Docs '
+IF @tipoDoc &lt;&gt; ''
+BEGIN
+   SET @SQL += ' WHERE SRI = '+ @tipoDoc 
+   SET @C = 1
+END
+IF @Estado &lt;&gt; ''
+BEGIN	
+	IF @C = 1
+	BEGIN
+		SET @SQL += ' AND EstadoNum = '+ @Estado 
+	END
+	ELSE
+	BEGIN
+		SET @SQL += ' WHERE EstadoNum = '+ @Estado 
+	END   
+END
+-- + quotename(@dbName) + N'..myTbl'
+exec sp_executesql @SQL
+--print @SQL
+--SELECT * FROM #Docs
+--WHERE SRI = ISNULL(NULLIF(@tipoDoc, ''), SRI)
+
+END
+</value>
+  </data>
+  <data name="txt10.Text" xml:space="preserve">
+    <value>CREATE PROCEDURE [dbo].[GS_SAP_FE_ObtenerRetencionAnticipo]
+	@DocKey INT
+AS
+BEGIN
+
+/* CABECERA */
+SELECT	TOP 1
+		 1 AS Ambiente
+		,1 AS TipoEmision
+		,(select TaxIdNum2 from OADM) AS RazonSocial
+		,(select TaxIdNum2 from OADM) AS NombreComercial
+		,(select TaxIdNum from OADM) AS Ruc
+		,ISNULL(ODPO.U_CLAVE_ACCESO,'') AS ClaveAcceso
+		,'07' AS CodigoDocumento
+		,SUBSTRING(ODPO.U_SERIE_RET,1,3) AS Establecimiento
+		,SUBSTRING(ODPO.U_SERIE_RET,4,3) AS PuntoEmision		
+		,(select dbo.PI_FUN_FactElec_Get_Secuencial(ISNULL(ODPO.U_COMP_RET,0))) AS SecuencialDocumento
+		,(select Street from ADM1) AS DireccionMatriz
+		,ODPO.DocDate AS FechaEmision
+		,(select Street from ADM1) AS DireccionEstablecimiento
+		,'176' AS ContribuyenteEspecial
+		,'SI' AS ObligadoContabilidad
+		,CASE WHEN OCRD.U_TIPO_ID = 'C' THEN '05' ELSE 
+		 CASE WHEN OCRD.U_TIPO_ID = 'P' THEN '06' ELSE 
+		 CASE WHEN OCRD.U_TIPO_ID = 'R' THEN '04' ELSE 
+		 CASE WHEN OCRD.U_TIPO_ID = 'F' THEN '07' END END END END AS TipoIdentificacionSujetoRetenido
+		,OCRD.CardName AS RazonSocialSujetoRetenido
+		,OCRD.LicTradNum AS IdentificacionSujetoRetenido
+		--,CONVERT(VARCHAR(2),MONTH(ODPO.U_Exx_FechaRet))+'/'+CONVERT(VARCHAR(4),YEAR(ODPO.U_Exx_FechaRet)) AS PeriodoFiscal
+                                  ,CONVERT(VARCHAR(2),RIGHT('0' + RTRIM(MONTH(ODPO.U_Exx_FechaRet)), 2))+'/'+CONVERT(VARCHAR(4),YEAR(ODPO.U_Exx_FechaRet)) AS PeriodoFiscal		
+		
+		--,ODPO.DocTotal AS TotalRetencion
+		,SUM(DPO5.TaxbleAmnt) AS TotalBaseImponible
+		,SUM(DPO5.WTAmnt) AS TotalRetencion
+		--,(SELECT SUM(DPO5.WTAmnt) FROM DPO5 P WHERE P.AbsEntry = ODPO.DocEntry) AS TotalRetencion
+		
+		,OUSR.USER_CODE AS UsuarioCreador
+		,'' AS EmailResponsable
+		--,CONVERT(VARCHAR(50), ODPO.TransId) AS CodigoTransaccionERP
+		,ODPO.ObjType AS CodigoTransaccionERP
+		,ODPO.DocEntry AS SecuencialERP
+		,1 AS Estado
+		,GETDATE() AS FechaCarga
+		,(SELECT USER_CODE FROM OUSR WHERE OUSR.USERID = ODPO.UserSign2) AS Campo1
+		,'RE' AS Campo2
+		,ODPO.DocNum AS Campo3
+		
+		
+	FROM ODPO  INNER JOIN
+		 DPO5 ON DPO5.AbsEntry = ODPO.DocEntry INNER JOIN
+		 OCRD ON OCRD.CardCode = ODPO.CardCode INNER JOIN
+		 OUSR ON ODPO.UserSign = OUSR.UserId
+WHERE ODPO.DocEntry = @DocKey
+AND DPO5.Rate &gt; 0
+GROUP BY ODPO.U_SERIE_RET,U_COMP_RET,ODPO.DocDate,OCRD.U_TIPO_ID,OCRD.CardName,OCRD.LicTradNum
+		,ODPO.U_Exx_FechaRet,OUSR.USER_CODE,ODPO.ObjType,ODPO.DocEntry,ODPO.UserSign2,ODPO.DocNum,ODPO.U_CLAVE_ACCESO
+	
+/*DETALLE IMPUESTOS*/	
+	SELECT   case
+				when DPO5.BaseType = 'N'
+					then '1' -- RENTA
+				when DPO5.BaseType = 'V'
+					then '2' -- IVA
+				when DPO5.BaseType NOT IN ('N','V')
+					then '6' -- ISD
+			 end AS Codigo
+			, case
+				when (select OffclCode from OWHT where WTCode = DPO5.WTCode) = '721'
+					then '1'
+				when (select OffclCode from OWHT where WTCode = DPO5.WTCode) = '723'
+					then '2'
+				when (select OffclCode from OWHT where WTCode = DPO5.WTCode) = '725'
+					then '3'
+				else
+					(select OffclCode from OWHT where WTCode = DPO5.WTCode)
+				END AS CodigoRetencion		
+			,(DPO5.TaxbleAmnt) AS BaseImponible
+			,DPO5.Rate AS PorcentajeRetener		
+			,DPO5.WTAmnt AS ValorRetenido
+			,'01' AS CodDocRetener
+			,ISNULL(ODPO.U_SER_EST,'00')+  ISNULL(ODPO.U_SER_PE,'00')+(select dbo.PI_FUN_FactElec_Get_Secuencial(ISNULL(ODPO.FolioNum,0))) AS NumDocRetener
+			,CONVERT(DATE,ODPO.DocDate) AS FechaEmisionDocRetener
+	FROM ODPO  INNER JOIN
+		 DPO5 ON DPO5.AbsEntry = ODPO.DocEntry
+	WHERE ODPO.DocEntry = @DocKey
+	AND DPO5.Rate &gt; 0 
+			
+/*DATOS ADICIONALES*/			
+SELECT TOP 1 'CodigoSAP' AS Concepto,CONVERT(VARCHAR(20),ODPO.DocNum) AS Descripcion
+	FROM ODPO  INNER JOIN
+		 DPO5 ON DPO5.AbsEntry = ODPO.DocEntry
+	WHERE ODPO.DocEntry = @DocKey
+	AND DPO5.Rate &gt; 0	
+	UNION
+SELECT TOP 1 'Condicion' AS Concepto,OCTG.PymntGroup AS Descripcion
+	FROM ODPO INNER JOIN
+		 OCTG ON ODPO.GroupNum = OCTG.GroupNum  INNER JOIN
+		 DPO5 ON DPO5.AbsEntry = ODPO.DocEntry
+	WHERE ODPO.DocEntry = @DocKey
+	AND DPO5.Rate &gt; 0
+	UNION
+SELECT TOP 1 'Email' AS Concepto
+	,ISNULL(OCPR.E_Maill,'')AS Descripcion
+	FROM ODPO INNER JOIN
+		 OCPR ON ODPO.CardCode = OCPR.CardCode  INNER JOIN
+		 DPO5 ON DPO5.AbsEntry = ODPO.DocEntry
+	WHERE ODPO.DocEntry = @DocKey
+	AND OCPR.Name = 'COMPROBANTES ELECTRONICOS'
+	AND ISNULL(OCPR.E_Maill,'') &lt;&gt; ''
+	AND DPO5.Rate &gt; 0
+
+
+END
+
+
+
+
+</value>
+  </data>
+</root>

@@ -1,0 +1,25 @@
+CREATE PROCEDURE SS_SS_CONSULTAFACTURAS
+(IN FechaIni DATE, IN FechaFin DATE, IN TipoServicio varchar(10), IN Sucursal varchar(10))
+AS
+BEGIN
+FechaIni := NULLIF(FechaIni,'1900-01-01 0:00:00');
+FechaFin := NULLIF(FechaFin,'1900-01-01 0:00:00');
+TipoServicio := NULLIF(TipoServicio,'');
+Sucursal := NULLIF(Sucursal,'');
+SELECT 
+	'N' AS "Tipo", A."DocEntry", IFNULL(A."FolioNum",IFNULL(RIGHT(000000000 || REPLACE(A."NumAtCard",'-',''),9),0)) AS "DocNum", A."CardName", A."DocDate", 
+	(SELECT CAST(ROUND(SUM(T0."LineTotal"),2) AS DECIMAL(16,2)) FROM "PCH1" T0 WHERE A."DocEntry" = T0."DocEntry") AS "DocTotal", 
+	0.0  AS "Ajuste", (SELECT CAST(ROUND(SUM(T0."LineTotal"),2) AS DECIMAL(16,2)) FROM "PCH1" T0 WHERE A."DocEntry" = T0."DocEntry")  AS "TotalConAjuste", 0.0 AS "Consumo", TO_NVARCHAR(TO_DECIMAL(0.000000,18,6)) AS "Costo", A."Comments" AS "Comentario" 
+FROM "OPCH" A
+INNER JOIN "OCRD" B ON A."CardCode" = B."CardCode" LEFT JOIN "PCH1" C ON A."DocEntry" = C."DocEntry"
+WHERE A."DocDate" BETWEEN IFNULL(FechaIni, A."DocDate") and IFNULL(FechaFin, A."DocDate") AND B."U_TipoServicio" = TipoServicio
+AND IFNULL(A."U_SS_ServicioBasico", '') = '' AND IFNULL(C."OcrCode3",'') = Sucursal AND A."CANCELED" <> 'Y'
+GROUP BY  A."DocEntry", A."FolioNum", A."NumAtCard", A."CardName", A."DocDate", A."Comments", B."CardCode", B."U_TipoServicio" ; --order by "DocDate" ASC
+
+END
+/*
+call SS_SS_CONSULTAFACTURAS ('20250405','20250605', 'Agua', 'MN')
+
+SELECT * FROM "OPCH" A INNER JOIN "OCRD" B ON A."CardCode" = B."CardCode" WHERE B."U_TipoServicio" = 'Agua' AND A."DocDate" between '20250405' and '20250605';
+SELECT * FROM "OPCH" WHERE "DocEntry" = 5234
+*/

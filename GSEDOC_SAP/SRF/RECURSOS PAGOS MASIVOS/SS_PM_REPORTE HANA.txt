@@ -1,0 +1,24 @@
+CREATE PROCEDURE "SS_PM_REPORTE"(DocEnt int)
+AS
+BEGIN
+SELECT 
+	A."DocEntry", A."U_MedioPago", A."U_Tipo", A."U_Cuenta", A."U_TotalPagado", A."U_FacProcesadas", A."U_FechaArcRec",
+	B."U_DocEntry", B."U_NumDoc", 
+	(SELECT T1."DocDate" FROM "OPCH" T1 WHERE T1."DocEntry" = B."U_DocEntry") AS "FechaFactura", B."U_CodProv", B."U_Proveedor",B."U_Monto", 
+	B."U_Saldo", B."U_Pago",(B."U_Monto" - B."U_Saldo") AS "Diferencia", B."U_Sucursal", B."U_ComentarioFac",
+	(SELECT C."AcctName" FROM "OACT" C WHERE C."AcctCode" = A."U_Cuenta") AS "NombreCuenta",
+	(SELECT C."CompnyName" FROM "OADM" C) AS "NombreCompania", A."CreateDate"
+	--Nomina
+	,(CASE WHEN A."U_Tipo" = 'Nomina' THEN (SELECT C."Code" FROM "OHEM" C WHERE TO_VARCHAR(C."empID") = B."U_CodProv") ELSE '' END) AS "Cedula", 
+	B."U_CtaBcoPr", B."U_TipCtaPr"
+FROM "@SS_PM_CAB" A 
+INNER JOIN "@SS_PM_DET1" B ON A."DocEntry" = B."DocEntry"
+WHERE A."DocEntry" = DocEnt
+ORDER BY B."U_Proveedor" ASC;
+END
+/*
+CALL "SS_PM_REPORTE"(3)
+SELECT * FROM "OHEM"
+SELECT * FROM "@SS_PM_CAB"
+SELECT * FROM "@SS_PM_DET1"
+*/

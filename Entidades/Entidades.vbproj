@@ -1,0 +1,1196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>
+    </SchemaVersion>
+    <ProjectGuid>{C94B41C4-DF02-47AE-AA99-A369B913F39A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Entidades</RootNamespace>
+    <AssemblyName>Entidades</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Entidades.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Entidades.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>Entidades.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\Entidades.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>Entidades.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\Entidades.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>Entidades.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\Entidades.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>Entidades.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\Entidades.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.vb</CodeAnalysisModuleSuppressionsFile>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CadenaConexion.vb" />
+    <Compile Include="Configuracion.vb" />
+    <Compile Include="ConfiguracionDetalle.vb" />
+    <Compile Include="CORE_REST\ConsultaDocRespuesta.vb" />
+    <Compile Include="CORE_REST\ConsultaDocumento.vb" />
+    <Compile Include="CORE_REST\EnvioDocumento.vb" />
+    <Compile Include="CORE_REST\RespuestaEnvio.vb" />
+    <Compile Include="DetalleArticulo.vb" />
+    <Compile Include="DocumentosEcuanexus\FacturaEcuanexus\FacEcua.vb" />
+    <Compile Include="DocumentosEcuanexus\guia remision\guia.vb" />
+    <Compile Include="DocumentosEcuanexus\Liquidacion\liquidacionCompraEcua.vb" />
+    <Compile Include="DocumentosEcuanexus\NotaCredito\notaCreditoEcua.vb" />
+    <Compile Include="DocumentosEcuanexus\NotaDebito\notaDebitoEcua.vb" />
+    <Compile Include="DocumentosEcuanexus\Retencion\comprobanteRetencionEcua.vb" />
+    <Compile Include="DocumentoTipo.vb" />
+    <Compile Include="Entidades SOLSAP\ClsGen.vb" />
+    <Compile Include="Entidades SOLSAP\RequestFactura.vb" />
+    <Compile Include="Entidades SOLSAP\RequestNotaCredito.vb" />
+    <Compile Include="Entidades SOLSAP\RequestRetencion.vb" />
+    <Compile Include="FacturaVenta.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="PagoMasivo.vb" />
+    <Compile Include="Usuario.vb" />
+    <Compile Include="Web References\WSEDOCNUBE_CONSULTA_v4_3\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\WSEDOCNUBE_FACTURAS_v4_3\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\WSEDOCNUBE_GUIAS_REMISION_v4_3\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\WSEDOCNUBE_NOTAS_CREDITO_v4_3\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\WSEDOCNUBE_NOTAS_DEBITO_v4_3\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\WSEDOCNUBE_RETENCIONES_v4_3\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsEDoc_ConsultaEmision_LOCAL\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsEDoc_ConsultaEmision\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsEDoc_ConsultaRecepcionArchivo\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsEDoc_ConsultaRecepcionCambiaEstado\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsEDoc_ConsultaRecepcion\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsEDoc_Factura41\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsEDoc_Factura\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsEDoc_Factura_LOCAL\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsEDoc_GuiaRemision41\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsEDoc_GuiaRemision_LOCAL\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsEDoc_GuiaRemision\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsEDoc_LiquidacionCompra\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\WSEDOC_LIQUIDACIONES_COMPRA_LOCAL\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsEDoc_NotaDeDebito41\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsEDoc_NotaDeCredito41\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsEDoc_NotaDeCredito_LOCAL\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsEDoc_NotaDeCredito\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsEDoc_NotaDeDebito_LOCAL\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsEDoc_NotaDeDebito\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsEDoc_ReEnvioMail\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsEDoc_Retencion41\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsEDoc_Retencion_LOCAL\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsEDoc_Retencion\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\WSRAD_KEY_CONSULTA4_3\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\wsSS_LICENCIA_SAP\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\WSEDOCNUBE_CONSULTA_v4_3\InformacionComprobante.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WSEDOCNUBE_CONSULTA_v4_3\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\WSEDOCNUBE_CONSULTA_v4_3\RespuestaConProcesoEDOC.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WSEDOCNUBE_CONSULTA_v4_3\WSEDOCNUBE_CONSULTA.wsdl" />
+    <None Include="Web References\WSEDOCNUBE_CONSULTA_v4_3\WSEDOCNUBE_CONSULTA.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\WSEDOCNUBE_FACTURAS_v4_3\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\WSEDOCNUBE_FACTURAS_v4_3\RespuestaEDOC.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WSEDOCNUBE_FACTURAS_v4_3\WSEDOCNUBE_FACTURAS.wsdl" />
+    <None Include="Web References\WSEDOCNUBE_FACTURAS_v4_3\WSEDOCNUBE_FACTURAS.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\WSEDOCNUBE_GUIAS_REMISION_v4_3\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\WSEDOCNUBE_GUIAS_REMISION_v4_3\RespuestaEDOC.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WSEDOCNUBE_GUIAS_REMISION_v4_3\WSEDOCNUBE_GUIAS_REMISION.wsdl" />
+    <None Include="Web References\WSEDOCNUBE_GUIAS_REMISION_v4_3\WSEDOCNUBE_GUIAS_REMISION.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\WSEDOCNUBE_NOTAS_CREDITO_v4_3\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\WSEDOCNUBE_NOTAS_CREDITO_v4_3\RespuestaEDOC.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WSEDOCNUBE_NOTAS_CREDITO_v4_3\WSEDOCNUBE_NOTAS_CREDITO.wsdl" />
+    <None Include="Web References\WSEDOCNUBE_NOTAS_CREDITO_v4_3\WSEDOCNUBE_NOTAS_CREDITO.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\WSEDOCNUBE_NOTAS_DEBITO_v4_3\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\WSEDOCNUBE_NOTAS_DEBITO_v4_3\RespuestaEDOC.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WSEDOCNUBE_NOTAS_DEBITO_v4_3\WSEDOCNUBE_NOTAS_DEBITO.wsdl" />
+    <None Include="Web References\WSEDOCNUBE_NOTAS_DEBITO_v4_3\WSEDOCNUBE_NOTAS_DEBITO.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\WSEDOCNUBE_RETENCIONES_v4_3\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\WSEDOCNUBE_RETENCIONES_v4_3\RespuestaEDOC.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WSEDOCNUBE_RETENCIONES_v4_3\WSEDOCNUBE_RETENCIONES.wsdl" />
+    <None Include="Web References\WSEDOCNUBE_RETENCIONES_v4_3\WSEDOCNUBE_RETENCIONES.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_ConsultaEmision\InformacionComprobante.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_ConsultaEmision\RespuestaConProcesoEDOC.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_ConsultaEmision_LOCAL\InformacionComprobante.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_ConsultaEmision_LOCAL\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\wsEDoc_ConsultaEmision_LOCAL\RespuestaConProcesoEDOC.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_ConsultaEmision_LOCAL\WSEDOC_CONSULTA.wsdl" />
+    <None Include="Web References\wsEDoc_ConsultaEmision_LOCAL\WSEDOC_CONSULTA.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_ConsultaEmision\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\wsEDoc_ConsultaEmision\WSEDOCNUBE_CONSULTA.wsdl" />
+    <None Include="Web References\wsEDoc_ConsultaEmision\WSEDOCNUBE_CONSULTA.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_ConsultaRecepcionArchivo\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\wsEDoc_ConsultaRecepcionArchivo\WSRAD_KEY_ARCHIVO.wsdl" />
+    <None Include="Web References\wsEDoc_ConsultaRecepcionArchivo\WSRAD_KEY_ARCHIVO.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_ConsultaRecepcionCambiaEstado\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\wsEDoc_ConsultaRecepcionCambiaEstado\WSRAD_KEY_CAMBIARESTADO.wsdl" />
+    <None Include="Web References\wsEDoc_ConsultaRecepcionCambiaEstado\WSRAD_KEY_CAMBIARESTADO.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_ConsultaRecepcion\ENTFactura1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_ConsultaRecepcion\ENTGuiaRemision1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_ConsultaRecepcion\ENTLiquidacionCompra.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_ConsultaRecepcion\ENTNotaCredito1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_ConsultaRecepcion\ENTNotaDebito1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_ConsultaRecepcion\ENTRetencion1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_ConsultaRecepcion\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\wsEDoc_ConsultaRecepcion\WSRAD_KEY_CONSULTA.wsdl" />
+    <None Include="Web References\wsEDoc_ConsultaRecepcion\WSRAD_KEY_CONSULTA.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_Factura41\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\wsEDoc_Factura41\RespuestaEDOC.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_Factura41\WSEDOCNUBE_FACTURAS.wsdl" />
+    <None Include="Web References\wsEDoc_Factura41\WSEDOCNUBE_FACTURAS.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_Factura\RespuestaEDOC.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_Factura\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\wsEDoc_Factura\WSEDOCNUBE_FACTURAS.wsdl" />
+    <None Include="Web References\wsEDoc_Factura\WSEDOCNUBE_FACTURAS.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_Factura_LOCAL\ENTFactura.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_Factura_LOCAL\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\wsEDoc_Factura_LOCAL\RespuestaEDOC.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_Factura_LOCAL\WSEDOC_FACTURAS.wsdl" />
+    <None Include="Web References\wsEDoc_Factura_LOCAL\WSEDOC_FACTURAS.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_GuiaRemision41\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\wsEDoc_GuiaRemision41\RespuestaEDOC.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_GuiaRemision41\WSEDOCNUBE_GUIAS_REMISION.wsdl" />
+    <None Include="Web References\wsEDoc_GuiaRemision41\WSEDOCNUBE_GUIAS_REMISION.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_GuiaRemision\RespuestaEDOC.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_GuiaRemision_LOCAL\ENTGuiaRemision.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_GuiaRemision_LOCAL\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\wsEDoc_GuiaRemision_LOCAL\RespuestaEDOC.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_GuiaRemision_LOCAL\WSEDOC_GUIAS_REMISION.wsdl" />
+    <None Include="Web References\wsEDoc_GuiaRemision_LOCAL\WSEDOC_GUIAS_REMISION.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_GuiaRemision\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\wsEDoc_GuiaRemision\WSEDOCNUBE_GUIAS_REMISION.wsdl" />
+    <None Include="Web References\wsEDoc_GuiaRemision\WSEDOCNUBE_GUIAS_REMISION.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_LiquidacionCompra\ENTLiquidacionCompra.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_LiquidacionCompra\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\wsEDoc_LiquidacionCompra\RespuestaEDOC.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_LiquidacionCompra\WSEDOCNUBE_LIQUIDACIONES_COMPRA.wsdl" />
+    <None Include="Web References\wsEDoc_LiquidacionCompra\WSEDOCNUBE_LIQUIDACIONES_COMPRA.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\WSEDOC_LIQUIDACIONES_COMPRA_LOCAL\ENTLiquidacionCompra1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WSEDOC_LIQUIDACIONES_COMPRA_LOCAL\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\WSEDOC_LIQUIDACIONES_COMPRA_LOCAL\RespuestaEDOC1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WSEDOC_LIQUIDACIONES_COMPRA_LOCAL\WSEDOC_LIQUIDACIONES_COMPRA.wsdl" />
+    <None Include="Web References\WSEDOC_LIQUIDACIONES_COMPRA_LOCAL\WSEDOC_LIQUIDACIONES_COMPRA.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_NotaDeDebito41\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\wsEDoc_NotaDeDebito41\RespuestaEDOC1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_NotaDeDebito41\WSEDOCNUBE_NOTAS_DEBITO.wsdl" />
+    <None Include="Web References\wsEDoc_NotaDeDebito41\WSEDOCNUBE_NOTAS_DEBITO.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_NotaDeCredito41\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\wsEDoc_NotaDeCredito41\RespuestaEDOC.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_NotaDeCredito41\WSEDOCNUBE_NOTAS_CREDITO.wsdl" />
+    <None Include="Web References\wsEDoc_NotaDeCredito41\WSEDOCNUBE_NOTAS_CREDITO.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_NotaDeCredito\RespuestaEDOC.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_NotaDeCredito_LOCAL\ENTNotaCredito.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_NotaDeCredito_LOCAL\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\wsEDoc_NotaDeCredito_LOCAL\RespuestaEDOC.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_NotaDeCredito_LOCAL\WSEDOC_NOTAS_CREDITO.wsdl" />
+    <None Include="Web References\wsEDoc_NotaDeCredito_LOCAL\WSEDOC_NOTAS_CREDITO.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_NotaDeCredito\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\wsEDoc_NotaDeCredito\WSEDOCNUBE_NOTAS_CREDITO.wsdl" />
+    <None Include="Web References\wsEDoc_NotaDeCredito\WSEDOCNUBE_NOTAS_CREDITO.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_NotaDeDebito\RespuestaEDOC1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_NotaDeDebito_LOCAL\ENTNotaDebito.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_NotaDeDebito_LOCAL\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\wsEDoc_NotaDeDebito_LOCAL\RespuestaEDOC.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_NotaDeDebito_LOCAL\WSEDOC_NOTAS_DEBITO.wsdl" />
+    <None Include="Web References\wsEDoc_NotaDeDebito_LOCAL\WSEDOC_NOTAS_DEBITO.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_NotaDeDebito\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\wsEDoc_NotaDeDebito\WSEDOCNUBE_NOTAS_DEBITO.wsdl" />
+    <None Include="Web References\wsEDoc_NotaDeDebito\WSEDOCNUBE_NOTAS_DEBITO.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_ReEnvioMail\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\wsEDoc_ReEnvioMail\ResponseResendArchive.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_ReEnvioMail\WSEDOC_ENVIARMAIL.wsdl" />
+    <None Include="Web References\wsEDoc_ReEnvioMail\WSEDOC_ENVIARMAIL.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_ReEnvioMail\WSEDOC_ENVIARMAIL0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_Retencion41\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\wsEDoc_Retencion41\RespuestaEDOC.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_Retencion41\WSEDOCNUBE_RETENCIONES.wsdl" />
+    <None Include="Web References\wsEDoc_Retencion41\WSEDOCNUBE_RETENCIONES.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_Retencion\RespuestaEDOC.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_Retencion_LOCAL\ENTRetencion.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_Retencion_LOCAL\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\wsEDoc_Retencion_LOCAL\RespuestaEDOC.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsEDoc_Retencion_LOCAL\WSEDOC_RETENCIONES.wsdl" />
+    <None Include="Web References\wsEDoc_Retencion_LOCAL\WSEDOC_RETENCIONES.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsEDoc_Retencion\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\wsEDoc_Retencion\WSEDOCNUBE_RETENCIONES.wsdl" />
+    <None Include="Web References\wsEDoc_Retencion\WSEDOCNUBE_RETENCIONES.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\WSRAD_KEY_CONSULTA4_3\ENTFactura.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WSRAD_KEY_CONSULTA4_3\ENTGuiaRemision.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WSRAD_KEY_CONSULTA4_3\ENTLiquidacionCompra.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WSRAD_KEY_CONSULTA4_3\ENTNotaCredito.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WSRAD_KEY_CONSULTA4_3\ENTNotaDebito.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WSRAD_KEY_CONSULTA4_3\ENTRetencion.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\WSRAD_KEY_CONSULTA4_3\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+    <None Include="Web References\WSRAD_KEY_CONSULTA4_3\WSRAD_KEY_CONSULTA.wsdl" />
+    <None Include="Web References\WSRAD_KEY_CONSULTA4_3\WSRAD_KEY_CONSULTA.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsSS_LICENCIA_SAP\ClsConfigValores.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsSS_LICENCIA_SAP\CLsRespLic.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\wsSS_LICENCIA_SAP\Licencia.wsdl" />
+    <None Include="Web References\wsSS_LICENCIA_SAP\Licencia.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\wsSS_LICENCIA_SAP\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="https://labec.guru-soft.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_FACTURAS.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsEDoc_Factura41\</RelPath>
+      <UpdateFromURL>https://labec.guru-soft.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_FACTURAS.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsEDoc_Factura41_WSEDOC_FACTURAS</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://labec.guru-soft.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_GUIAS_REMISION.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsEDoc_GuiaRemision41\</RelPath>
+      <UpdateFromURL>https://labec.guru-soft.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_GUIAS_REMISION.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsEDoc_GuiaRemision41_WSEDOC_GUIAS_REMISION</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://labec.guru-soft.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_NOTAS_CREDITO.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsEDoc_NotaDeCredito41\</RelPath>
+      <UpdateFromURL>https://labec.guru-soft.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_NOTAS_CREDITO.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsEDoc_NotaDeCredito41_WSEDOC_NOTAS_CREDITO</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://labec.guru-soft.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_NOTAS_DEBITO.svc%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsEDoc_NotaDeDebito41\</RelPath>
+      <UpdateFromURL>https://labec.guru-soft.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_NOTAS_DEBITO.svc%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsEDoc_NotaDebito41_WSEDOCNUBE_NOTAS_DEBITO</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://labec.guru-soft.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_RETENCIONES.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsEDoc_Retencion41\</RelPath>
+      <UpdateFromURL>https://labec.guru-soft.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_RETENCIONES.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsEDoc_Retencion41_WSEDOC_RETENCIONES</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://labcr.guru-soft.com/eDocCR/Sitios_Solsap/WS_LICENCIA_SAP/Licencia.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsSS_LICENCIA_SAP\</RelPath>
+      <UpdateFromURL>https://labcr.guru-soft.com/eDocCR/Sitios_Solsap/WS_LICENCIA_SAP/Licencia.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsSS_LICENCIA_SAP_Licencia</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://labec.guru-soft.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_CONSULTA.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WSEDOCNUBE_CONSULTA_v4_3\</RelPath>
+      <UpdateFromURL>https://labec.guru-soft.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_CONSULTA.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_WSEDOCNUBE_CONSULTA_v4_3_WSEDOCNUBE_CONSULTA</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://gurusoft-lab.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_FACTURAS.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WSEDOCNUBE_FACTURAS_v4_3\</RelPath>
+      <UpdateFromURL>http://gurusoft-lab.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_FACTURAS.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_WSEDOCNUBE_FACTURAS_v4_3_WSEDOCNUBE_FACTURAS</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://gurusoft-lab.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_GUIAS_REMISION.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WSEDOCNUBE_GUIAS_REMISION_v4_3\</RelPath>
+      <UpdateFromURL>http://gurusoft-lab.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_GUIAS_REMISION.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_WSEDOCNUBE_GUIAS_REMISION_v4_3_WSEDOCNUBE_GUIAS_REMISION</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://labec.guru-soft.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_LIQUIDACIONES_COMPRA.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsEDoc_LiquidacionCompra\</RelPath>
+      <UpdateFromURL>https://labec.guru-soft.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_LIQUIDACIONES_COMPRA.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsEDoc_LiquidacionCompra_WSEDOCNUBE_LIQUIDACIONES_COMPRA</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://gurusoft-lab.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_NOTAS_CREDITO.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WSEDOCNUBE_NOTAS_CREDITO_v4_3\</RelPath>
+      <UpdateFromURL>http://gurusoft-lab.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_NOTAS_CREDITO.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_WSEDOCNUBE_NOTAS_CREDITO_v4_3_WSEDOCNUBE_NOTAS_CREDITO</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://gurusoft-lab.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_NOTAS_DEBITO.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WSEDOCNUBE_NOTAS_DEBITO_v4_3\</RelPath>
+      <UpdateFromURL>http://gurusoft-lab.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_NOTAS_DEBITO.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_WSEDOCNUBE_NOTAS_DEBITO_v4_3_WSEDOCNUBE_NOTAS_DEBITO</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://gurusoft-lab.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_RETENCIONES.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WSEDOCNUBE_RETENCIONES_v4_3\</RelPath>
+      <UpdateFromURL>http://gurusoft-lab.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_RETENCIONES.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_WSEDOCNUBE_RETENCIONES_v4_3_WSEDOCNUBE_RETENCIONES</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://labec.guru-soft.com/eDocEcuador/4.3/WSEDOC/WSEDOC_CONSULTA.svc%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsEDoc_ConsultaEmision_LOCAL\</RelPath>
+      <UpdateFromURL>https://labec.guru-soft.com/eDocEcuador/4.3/WSEDOC/WSEDOC_CONSULTA.svc%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsEDoc_ConsultaEmision_LOCAL_WSEDOC_CONSULTA</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://labec.guru-soft.com/eDocEcuador/4.3/WSEDOC/WSEDOC_FACTURAS.svc%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsEDoc_Factura_LOCAL\</RelPath>
+      <UpdateFromURL>https://labec.guru-soft.com/eDocEcuador/4.3/WSEDOC/WSEDOC_FACTURAS.svc%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsEDoc_Factura_LOCAL_WSEDOC_FACTURAS</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://labec.guru-soft.com/eDocEcuador/4.3/WSEDOC/WSEDOC_GUIAS_REMISION.svc%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsEDoc_GuiaRemision_LOCAL\</RelPath>
+      <UpdateFromURL>https://labec.guru-soft.com/eDocEcuador/4.3/WSEDOC/WSEDOC_GUIAS_REMISION.svc%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsEDoc_GuiaRemision_LOCAL_WSEDOC_GUIAS_REMISION</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://labec.guru-soft.com/eDocEcuador/4.3/WSEDOC/WSEDOC_LIQUIDACIONES_COMPRA.svc%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WSEDOC_LIQUIDACIONES_COMPRA_LOCAL\</RelPath>
+      <UpdateFromURL>https://labec.guru-soft.com/eDocEcuador/4.3/WSEDOC/WSEDOC_LIQUIDACIONES_COMPRA.svc%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_WSEDOC_LIQUIDACIONES_COMPRA_WSEDOC_LIQUIDACIONES_COMPRA</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://labec.guru-soft.com/eDocEcuador/4.3/WSEDOC/WSEDOC_NOTAS_CREDITO.svc%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsEDoc_NotaDeCredito_LOCAL\</RelPath>
+      <UpdateFromURL>https://labec.guru-soft.com/eDocEcuador/4.3/WSEDOC/WSEDOC_NOTAS_CREDITO.svc%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsEDoc_NotaDeCredito_LOCAL_WSEDOC_NOTAS_CREDITO</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://labec.guru-soft.com/eDocEcuador/4.3/WSEDOC/WSEDOC_NOTAS_DEBITO.svc%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsEDoc_NotaDeDebito_LOCAL\</RelPath>
+      <UpdateFromURL>https://labec.guru-soft.com/eDocEcuador/4.3/WSEDOC/WSEDOC_NOTAS_DEBITO.svc%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsEDoc_NotaDeDebito_LOCAL_WSEDOC_NOTAS_DEBITO</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://labec.guru-soft.com/eDocEcuador/4.3/WSEDOC/WSEDOC_RETENCIONES.svc%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsEDoc_Retencion_LOCAL\</RelPath>
+      <UpdateFromURL>https://labec.guru-soft.com/eDocEcuador/4.3/WSEDOC/WSEDOC_RETENCIONES.svc%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsEDoc_Retencion_LOCAL_WSEDOC_RETENCIONES</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://www.gurusoft-lab.com/WS_EDOC_NUBE/WSEDOCNUBE_FACTURAS.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsEDoc_Factura\</RelPath>
+      <UpdateFromURL>http://www.gurusoft-lab.com/WS_EDOC_NUBE/WSEDOCNUBE_FACTURAS.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsEDoc_Factura_WSEDOC_FACTURAS</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://gurusoft-lab.com/eDocEcuador/WSEDOC_RECEPCION/WSRAD_KEY_ARCHIVO.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsEDoc_ConsultaRecepcionArchivo\</RelPath>
+      <UpdateFromURL>http://gurusoft-lab.com/eDocEcuador/WSEDOC_RECEPCION/WSRAD_KEY_ARCHIVO.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsEDoc_ConsultaRecepcionArchivo_WSRAD_KEY_ARCHIVO</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://gurusoft-lab.com/eDocEcuador/WSEDOC_RECEPCION/WSRAD_KEY_CAMBIARESTADO.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsEDoc_ConsultaRecepcionCambiaEstado\</RelPath>
+      <UpdateFromURL>http://gurusoft-lab.com/eDocEcuador/WSEDOC_RECEPCION/WSRAD_KEY_CAMBIARESTADO.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsEDoc_ConsultaRecepcionCambiaEstado_WSRAD_KEY_CAMBIARESTADO</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://labec.guru-soft.com/eDocEcuador/WSEDOC_RECEPCION/WSRAD_KEY_CONSULTA.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsEDoc_ConsultaRecepcion\</RelPath>
+      <UpdateFromURL>https://labec.guru-soft.com/eDocEcuador/WSEDOC_RECEPCION/WSRAD_KEY_CONSULTA.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsEDoc_Consulta_WSEDOC_CONSULTA</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://www.gurusoft-lab.com/WS_EDOC_NUBE/WSEDOCNUBE_GUIAS_REMISION.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsEDoc_GuiaRemision\</RelPath>
+      <UpdateFromURL>http://www.gurusoft-lab.com/WS_EDOC_NUBE/WSEDOCNUBE_GUIAS_REMISION.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsEDoc_GuiaRemision_WSEDOC_GUIAS_REMISION</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://www.gurusoft-lab.com/WS_EDOC_NUBE/WSEDOCNUBE_NOTAS_CREDITO.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsEDoc_NotaDeCredito\</RelPath>
+      <UpdateFromURL>http://www.gurusoft-lab.com/WS_EDOC_NUBE/WSEDOCNUBE_NOTAS_CREDITO.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsEDoc_NotaDeCredito_WSEDOC_NOTAS_CREDITO</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://www.gurusoft-lab.com/WS_EDOC_NUBE/WSEDOCNUBE_NOTAS_DEBITO.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsEDoc_NotaDeDebito\</RelPath>
+      <UpdateFromURL>http://www.gurusoft-lab.com/WS_EDOC_NUBE/WSEDOCNUBE_NOTAS_DEBITO.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsEDoc_NotaDeDebito_WSEDOC_NOTAS_DEBITO</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://www.gurusoft-lab.com/WS_EDOC_NUBE/WSEDOCNUBE_RETENCIONES.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsEDoc_Retencion\</RelPath>
+      <UpdateFromURL>http://www.gurusoft-lab.com/WS_EDOC_NUBE/WSEDOCNUBE_RETENCIONES.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsEDoc_Retencion_WSEDOC_RETENCIONES</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://labec.guru-soft.com/eDocEcuador/WSEDOC_REENVIO/WSEDOC_ENVIARMAIL.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsEDoc_ReEnvioMail\</RelPath>
+      <UpdateFromURL>https://labec.guru-soft.com/eDocEcuador/WSEDOC_REENVIO/WSEDOC_ENVIARMAIL.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsEDoc_ReEnvioMail_WSEDOC_ENVIARMAIL</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://www.gurusoft-lab.com/WS_EDOC_NUBE/WSEDOCNUBE_CONSULTA.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\wsEDoc_ConsultaEmision\</RelPath>
+      <UpdateFromURL>http://www.gurusoft-lab.com/WS_EDOC_NUBE/WSEDOCNUBE_CONSULTA.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_wsEDoc_ConsultaEmision_WSEDOCNUBE_CONSULTA</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://gurusoft-lab.com/eDocEcuador/SSL/WSEDOC_RECEPCION/WSRAD_KEY_CONSULTA.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WSRAD_KEY_CONSULTA4_3\</RelPath>
+      <UpdateFromURL>https://gurusoft-lab.com/eDocEcuador/SSL/WSEDOC_RECEPCION/WSRAD_KEY_CONSULTA.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Entidades_WSRAD_KEY_CONSULTA4_3_WSRAD_KEY_CONSULTA</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\wsEDoc_ReEnvioMail\WSEDOC_ENVIARMAIL.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\wsEDoc_ConsultaRecepcion\WSRAD_KEY_CONSULTA.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\wsEDoc_ConsultaRecepcionCambiaEstado\WSRAD_KEY_CAMBIARESTADO.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\wsEDoc_ConsultaRecepcionArchivo\WSRAD_KEY_ARCHIVO.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\wsEDoc_ConsultaEmision\WSEDOCNUBE_CONSULTA.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\wsEDoc_Factura\WSEDOCNUBE_FACTURAS.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\wsEDoc_GuiaRemision\WSEDOCNUBE_GUIAS_REMISION.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\wsEDoc_NotaDeCredito\WSEDOCNUBE_NOTAS_CREDITO.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\wsEDoc_NotaDeDebito\WSEDOCNUBE_NOTAS_DEBITO.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\wsEDoc_Retencion\WSEDOCNUBE_RETENCIONES.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\wsEDoc_ConsultaEmision_LOCAL\WSEDOC_CONSULTA.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\wsEDoc_Factura41\WSEDOCNUBE_FACTURAS.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\wsEDoc_Retencion41\WSEDOCNUBE_RETENCIONES.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\wsEDoc_NotaDeCredito41\WSEDOCNUBE_NOTAS_CREDITO.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\wsEDoc_GuiaRemision41\WSEDOCNUBE_GUIAS_REMISION.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\wsEDoc_LiquidacionCompra\WSEDOCNUBE_LIQUIDACIONES_COMPRA.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WSEDOCNUBE_FACTURAS_v4_3\WSEDOCNUBE_FACTURAS.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WSEDOCNUBE_NOTAS_CREDITO_v4_3\WSEDOCNUBE_NOTAS_CREDITO.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WSEDOCNUBE_NOTAS_DEBITO_v4_3\WSEDOCNUBE_NOTAS_DEBITO.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WSEDOCNUBE_RETENCIONES_v4_3\WSEDOCNUBE_RETENCIONES.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WSEDOCNUBE_CONSULTA_v4_3\WSEDOCNUBE_CONSULTA.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WSEDOCNUBE_GUIAS_REMISION_v4_3\WSEDOCNUBE_GUIAS_REMISION.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WSRAD_KEY_CONSULTA4_3\WSRAD_KEY_CONSULTA.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\wsSS_LICENCIA_SAP\Licencia.disco" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

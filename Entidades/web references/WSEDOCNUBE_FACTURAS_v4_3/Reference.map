@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DiscoveryClientResultsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Results>
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.DiscoveryDocumentReference" url="http://gurusoft-lab.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_FACTURAS.svc?disco" filename="WSEDOCNUBE_FACTURAS.disco" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://gurusoft-lab.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_FACTURAS.svc?xsd=xsd0" filename="WSEDOCNUBE_FACTURAS.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://gurusoft-lab.com/eDocEcuador/4.3/Nube/WSEDOC/WSEDOCNUBE_FACTURAS.svc?wsdl" filename="WSEDOCNUBE_FACTURAS.wsdl" />
+  </Results>
+</DiscoveryClientResultsFile>

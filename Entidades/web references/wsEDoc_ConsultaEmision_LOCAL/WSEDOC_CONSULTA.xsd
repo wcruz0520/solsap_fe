@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="ConsultarProcesoSincronizadorAX">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="ruc" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="tipodoc" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="numdoc" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="secuencialERP" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConsultarProcesoSincronizadorAXResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="ConsultarProcesoSincronizadorAXResult" type="tns:RespuestaConProcesoEDOC" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="RespuestaConProcesoEDOC">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ClaveAcceso" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="EstadoEDOC" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="AutorizacionSRI" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="FechaAutorizacion" type="xs:dateTime" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ErrorEDOC" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CodigoError" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ConsultarProcesoXClaveAcceso">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="claveAcceso" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="mensaje" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConsultarProcesoXClaveAccesoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="1" name="ConsultarProcesoXClaveAccesoResult" nillable="true" type="xs:boolean" />
+        <xs:element minOccurs="0" maxOccurs="1" name="mensaje" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObtenerDocSinSincronizarXRucXEstado">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="ruc" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="EstadoEDOC" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="mensaje" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObtenerDocSinSincronizarXRucXEstadoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="ObtenerDocSinSincronizarXRucXEstadoResult" type="tns:ArrayOfInformacionComprobante" />
+        <xs:element minOccurs="0" maxOccurs="1" name="mensaje" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="ArrayOfInformacionComprobante">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="InformacionComprobante" nillable="true" type="tns:InformacionComprobante" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="InformacionComprobante">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="IdProceso" type="xs:long" />
+      <xs:element minOccurs="0" maxOccurs="1" name="NumDocumento" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="NumAutorizacion" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="FechaAutorizacion" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" maxOccurs="1" name="MensajeError" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="TipoDocumento" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="1" name="RazonSocial" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ClaveAcceso" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Subtotal12" type="xs:double" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Subtotal0" type="xs:double" />
+      <xs:element minOccurs="1" maxOccurs="1" name="FechaEmision" type="xs:dateTime" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Secuencial" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ActualizarEstadoSincronizacionCliente">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="1" name="idProceso" type="xs:long" />
+        <xs:element minOccurs="0" maxOccurs="1" name="mensaje" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ActualizarEstadoSincronizacionClienteResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="1" name="ActualizarEstadoSincronizacionClienteResult" type="xs:boolean" />
+        <xs:element minOccurs="0" maxOccurs="1" name="mensaje" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConsultarDocumento">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="claveAcceso" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="formato" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConsultarDocumentoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="ConsultarDocumentoResult" type="xs:base64Binary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConsultarDocumentoRuta">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="claveAcceso" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="formato" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ConsultarDocumentoRutaResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="ConsultarDocumentoRutaResult" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
