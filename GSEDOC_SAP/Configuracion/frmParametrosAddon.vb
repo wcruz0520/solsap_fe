@@ -1,4 +1,8 @@
 ﻿Imports SAPbobsCOM
+Imports System.Net
+Imports System.IO
+Imports System.Text
+Imports Newtonsoft.Json.Linq
 
 Public Class frmParametrosAddon
     Private oForm As SAPbouiCOM.Form
@@ -255,6 +259,13 @@ Public Class frmParametrosAddon
             chkIntEcu.ValOff = "N"
             chkIntEcu.DataBind.SetBound(True, "", "chkIntEcu")
 
+            Dim chkAPISS As SAPbouiCOM.CheckBox
+            chkAPISS = oForm.Items.Item("CHK_APISS").Specific
+            oForm.DataSources.UserDataSources.Add("CHK_APISS", SAPbouiCOM.BoDataType.dt_SHORT_TEXT, 1)
+            chkAPISS.ValOn = "Y"
+            chkAPISS.ValOff = "N"
+            chkAPISS.DataBind.SetBound(True, "", "CHK_APISS")
+
             Dim FolioReen As SAPbouiCOM.CheckBox
             FolioReen = oForm.Items.Item("FolioReen").Specific
             oForm.DataSources.UserDataSources.Add("FolioReen", SAPbouiCOM.BoDataType.dt_SHORT_TEXT, 1)
@@ -318,6 +329,36 @@ Public Class frmParametrosAddon
             chkCPRPL.ValOn = "Y"
             chkCPRPL.ValOff = "N"
             chkCPRPL.DataBind.SetBound(True, "", "chkCPRPL")
+
+            Dim txtUser As SAPbouiCOM.EditText
+            txtUser = oForm.Items.Item("Edt_User").Specific
+            oForm.DataSources.UserDataSources.Add("Edt_User", SAPbouiCOM.BoDataType.dt_SHORT_TEXT, 100)
+            txtUser.DataBind.SetBound(True, "", "Edt_User")
+
+            Dim txtPw As SAPbouiCOM.EditText
+            txtPw = oForm.Items.Item("Edt_Pw").Specific
+            oForm.DataSources.UserDataSources.Add("Edt_Pw", SAPbouiCOM.BoDataType.dt_SHORT_TEXT, 100)
+            txtPw.DataBind.SetBound(True, "", "Edt_Pw")
+
+            Dim txtAut As SAPbouiCOM.EditText
+            txtAut = oForm.Items.Item("EdP_Aut").Specific
+            oForm.DataSources.UserDataSources.Add("EdP_Aut", SAPbouiCOM.BoDataType.dt_SHORT_TEXT, 250)
+            txtAut.DataBind.SetBound(True, "", "EdP_Aut")
+
+            Dim txtFact As SAPbouiCOM.EditText
+            txtFact = oForm.Items.Item("EdP_Fact").Specific
+            oForm.DataSources.UserDataSources.Add("EdP_Fact", SAPbouiCOM.BoDataType.dt_SHORT_TEXT, 250)
+            txtFact.DataBind.SetBound(True, "", "EdP_Fact")
+
+            'Dim txt_SgFact As SAPbouiCOM.EditText
+            'txt_SgFact = oForm.Items.Item("EdP_SgFc").Specific
+            'oForm.DataSources.UserDataSources.Add("EdP_SgFc", SAPbouiCOM.BoDataType.dt_SHORT_TEXT, 250)
+            'txt_SgFact.DataBind.SetBound(True, "", "EdP_SgFc")
+
+            'Dim txt_RfTk As SAPbouiCOM.EditText
+            'txt_RfTk = oForm.Items.Item("EdP_RfTk").Specific
+            'oForm.DataSources.UserDataSources.Add("EdP_RfTk", SAPbouiCOM.BoDataType.dt_SHORT_TEXT, 250)
+            'txt_RfTk.DataBind.SetBound(True, "", "EdP_RfTk")
 
             CargaDatos()
 
@@ -616,6 +657,11 @@ Public Class frmParametrosAddon
                     oUserDataSource = oForm.DataSources.UserDataSources.Item("chkIntEcu")
                     oUserDataSource.ValueEx = odt.GetValue("U_Valor", i).ToString()
 
+                    'Integracion api solsap
+                ElseIf odt.GetValue("U_Nombre", i).ToString().Equals("APISS") Then
+                    oUserDataSource = oForm.DataSources.UserDataSources.Item("CHK_APISS")
+                    oUserDataSource.ValueEx = odt.GetValue("U_Valor", i).ToString()
+
                     'web service emision ecuanexus
                 ElseIf odt.GetValue("U_Nombre", i).ToString().Equals("WsEmisionEcu") Then
                     oForm.Items.Item("WsEcuEmi").Specific.value = odt.GetValue("U_Valor", i).ToString()
@@ -690,6 +736,25 @@ Public Class frmParametrosAddon
                 ElseIf odt.GetValue("U_Nombre", i).ToString().Equals("NomCampoPedInfoAdicional") Then
                     oForm.Items.Item("txtNCPIA").Specific.value = odt.GetValue("U_Valor", i).ToString()
 
+                    'Configuracion SS API
+                ElseIf odt.GetValue("U_Nombre", i).ToString().Equals("APISS_User") Then
+                    oUserDataSource = oForm.DataSources.UserDataSources.Item("Edt_User")
+                    oUserDataSource.ValueEx = odt.GetValue("U_Valor", i).ToString()
+                ElseIf odt.GetValue("U_Nombre", i).ToString().Equals("APISS_Pw") Then
+                    oUserDataSource = oForm.DataSources.UserDataSources.Item("Edt_Pw")
+                    oUserDataSource.ValueEx = odt.GetValue("U_Valor", i).ToString()
+                ElseIf odt.GetValue("U_Nombre", i).ToString().Equals("APISS_EpAut") Then
+                    oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_Aut")
+                    oUserDataSource.ValueEx = odt.GetValue("U_Valor", i).ToString()
+                    'ElseIf odt.GetValue("U_Nombre", i).ToString().Equals("APISS_RfTk") Then
+                    '    oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_RfTk")
+                    '    oUserDataSource.ValueEx = odt.GetValue("U_Valor", i).ToString()
+                ElseIf odt.GetValue("U_Nombre", i).ToString().Equals("APISS_EpFac") Then
+                    oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_Fact")
+                    oUserDataSource.ValueEx = odt.GetValue("U_Valor", i).ToString()
+                    'ElseIf odt.GetValue("U_Nombre", i).ToString().Equals("APISS_EpSgFac") Then
+                    '    oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_SgFc")
+                    '    oUserDataSource.ValueEx = odt.GetValue("U_Valor", i).ToString()
                 End If
 
                 ACTUALIZA = 1
@@ -710,13 +775,41 @@ Public Class frmParametrosAddon
 
     End Sub
 
-    Private Sub rsboApp_ItemEvent(ByVal FormUID As String, ByRef pVal As SAPbouiCOM.ItemEvent, ByRef BubbleEvent As Boolean) Handles rSboApp.ItemEvent
+    Private Sub rsboApp_ItemEvent(ByVal FormUID As String, ByRef pVal As SAPbouiCOM.ItemEvent, ByRef BubbleEvent As Boolean) Handles rsboApp.ItemEvent
 
         If pVal.FormTypeEx = "frmParametrosAddon" Then
             Select Case pVal.EventType
                 Case SAPbouiCOM.BoEventTypes.et_ITEM_PRESSED
                     If Not pVal.Before_Action Then
                         Select Case pVal.ItemUID
+                            Case "btn_valAut"
+                                Try
+                                    oForm = rsboApp.Forms.Item("frmParametrosAddon")
+
+                                    ' Obtener valores de usuario, clave y endpoint desde los UserDataSources
+                                    Dim user As String = oForm.DataSources.UserDataSources.Item("Edt_User").ValueEx.Trim()
+                                    Dim pw As String = oForm.DataSources.UserDataSources.Item("Edt_Pw").ValueEx.Trim()
+                                    Dim epAut As String = oForm.DataSources.UserDataSources.Item("EdP_Aut").ValueEx.Trim()
+
+                                    ' Validar campos requeridos
+                                    If String.IsNullOrEmpty(user) OrElse String.IsNullOrEmpty(pw) OrElse String.IsNullOrEmpty(epAut) Then
+                                        rsboApp.MessageBox("Por favor, complete los campos de autenticación antes de validar.")
+                                        Exit Sub
+                                    End If
+
+                                    rsboApp.StatusBar.SetText("Validando autenticación contra API SOLSAP...", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Warning)
+
+                                    Dim token As String = AutenticarSolsap(user, pw, epAut)
+                                    If token.Length > 0 Then
+                                        rsboApp.MessageBox("Autencicación Exitosa")
+                                    Else
+                                        rsboApp.MessageBox("Autencicación Fallida, revisar credenciales")
+                                    End If
+                                    'rsboApp.MessageBox("Token obtenido: " & token)
+
+                                Catch ex As Exception
+                                    rsboApp.MessageBox("Error al validar autenticación: " & ex.Message)
+                                End Try
                             Case "obtnGrabar"
 
                                 Try
@@ -724,6 +817,19 @@ Public Class frmParametrosAddon
                                     Dim olistaDetalleConfiguracion As List(Of Entidades.ConfiguracionDetalle)
 
                                     oForm = rsboApp.Forms.Item("frmParametrosAddon")
+                                    Dim chkAPISS As SAPbouiCOM.CheckBox = oForm.Items.Item("CHK_APISS").Specific
+                                    Dim chkIntEcu As SAPbouiCOM.CheckBox = oForm.Items.Item("chkIntEcu").Specific
+
+                                    If chkAPISS.Checked AndAlso chkIntEcu.Checked Then
+                                        Dim resp As Integer = rsboApp.MessageBox("Se desactivará a Integración Ecuanexus. ¿Desea continuar?", 1, "Sí", "No")
+                                        If resp = 2 Then ' "No"
+                                            BubbleEvent = False
+                                            Exit Sub
+                                        Else
+                                            chkIntEcu.Checked = False
+                                            oForm.DataSources.UserDataSources.Item("chkIntEcu").ValueEx = "N"
+                                        End If
+                                    End If
                                     Dim ws_FC As SAPbouiCOM.EditText
                                     ws_FC = oForm.Items.Item("ws_FC").Specific 'WS_EmisionFC
                                     Dim ws_ND As SAPbouiCOM.EditText
@@ -1041,6 +1147,38 @@ Public Class frmParametrosAddon
                                     'integracion ecuanexus
                                     oUserDataSource = oForm.DataSources.UserDataSources.Item("chkIntEcu")
                                     olistaDetalleConfiguracion.Add(New Entidades.ConfiguracionDetalle("IntegracionEcuanexus", oUserDataSource.ValueEx.ToString()))
+
+                                    'integracion api solsap
+                                    'almacena lo guardado en las variables globales
+                                    oUserDataSource = oForm.DataSources.UserDataSources.Item("CHK_APISS")
+                                    olistaDetalleConfiguracion.Add(New Entidades.ConfiguracionDetalle("APISS", oUserDataSource.ValueEx.ToString()))
+                                    Functions.VariablesGlobales._ActApiSS = oUserDataSource.ValueEx
+
+                                    oUserDataSource = oForm.DataSources.UserDataSources.Item("Edt_User")
+                                    olistaDetalleConfiguracion.Add(New Entidades.ConfiguracionDetalle("APISS_User", oUserDataSource.ValueEx.ToString()))
+                                    Functions.VariablesGlobales._ApiAutUser = oUserDataSource.ValueEx
+
+                                    oUserDataSource = oForm.DataSources.UserDataSources.Item("Edt_Pw")
+                                    olistaDetalleConfiguracion.Add(New Entidades.ConfiguracionDetalle("APISS_Pw", oUserDataSource.ValueEx.ToString()))
+                                    Functions.VariablesGlobales._ApiAutPw = oUserDataSource.ValueEx
+
+                                    oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_Aut")
+                                    olistaDetalleConfiguracion.Add(New Entidades.ConfiguracionDetalle("APISS_EpAut", oUserDataSource.ValueEx.ToString()))
+                                    Functions.VariablesGlobales._ApiAutSS = oUserDataSource.ValueEx
+
+                                    'oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_RfTk")
+                                    'olistaDetalleConfiguracion.Add(New Entidades.ConfiguracionDetalle("APISS_RfTk", oUserDataSource.ValueEx.ToString()))
+                                    'Functions.VariablesGlobales._ApiRefTk = oUserDataSource.ValueEx
+
+                                    oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_Fact")
+                                    olistaDetalleConfiguracion.Add(New Entidades.ConfiguracionDetalle("APISS_EpFac", oUserDataSource.ValueEx.ToString()))
+                                    Functions.VariablesGlobales._ApiFactEmiSS = oUserDataSource.ValueEx
+
+                                    'oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_SgFc")
+                                    'olistaDetalleConfiguracion.Add(New Entidades.ConfiguracionDetalle("APISS_EpSgFac", oUserDataSource.ValueEx.ToString()))
+                                    'Functions.VariablesGlobales._ApiSignFac = oUserDataSource.ValueEx
+
+
                                     'ws emision ecuanexus
                                     olistaDetalleConfiguracion.Add(New Entidades.ConfiguracionDetalle("WsEmisionEcu", WsEcuEmi.Value))
                                     'ws consulta ecuanexus
@@ -1209,6 +1347,40 @@ Public Class frmParametrosAddon
         End If
     End Sub
 
+    Public Function AutenticarSolsap(usuario As String, password As String, endpoint As String) As String
+        Try
+            Dim request As HttpWebRequest = CType(WebRequest.Create(endpoint), HttpWebRequest)
+            request.Method = "POST"
+            request.ContentType = "application/json"
+
+            Dim jsonBody As String = $"{{""usuario"":""{usuario}"",""password"":""{password}""}}"
+            Dim bytes As Byte() = Encoding.UTF8.GetBytes(jsonBody)
+
+            Using requestStream As Stream = request.GetRequestStream()
+                requestStream.Write(bytes, 0, bytes.Length)
+            End Using
+
+            Using response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
+                Using reader As New StreamReader(response.GetResponseStream())
+                    Dim responseText As String = reader.ReadToEnd()
+
+                    ' Ejemplo de respuesta esperada: { "token": "abc123..." }
+                    Dim jsonResponse As JObject = JObject.Parse(responseText)
+
+                    If jsonResponse.ContainsKey("token") Then
+                        Return jsonResponse("token").ToString()
+                    Else
+                        rsboApp.MessageBox("Respuesta sin token de autenticación.")
+                        Return ""
+                    End If
+                End Using
+            End Using
+
+        Catch ex As Exception
+            rsboApp.SetStatusBarMessage("Error autenticando contra API SOLSAP: " & ex.Message, SAPbouiCOM.BoMessageTime.bmt_Short, True)
+            Return ""
+        End Try
+    End Function
     Public Sub GuardaCONF(ByVal oConfiguracion As Entidades.Configuracion)
 
         Dim oGeneralService As SAPbobsCOM.GeneralService

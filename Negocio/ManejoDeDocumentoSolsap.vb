@@ -10,6 +10,7 @@ Imports System.Security.Cryptography.X509Certificates
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Functions
+Imports Newtonsoft.Json.Linq
 Imports SAPbobsCOM
 Imports Spire.Pdf
 Imports Spire.Pdf.AutomaticFields
@@ -1836,101 +1837,101 @@ Public Class ManejoDeDocumentoSolsap
 
                                 If r("TaxCodeAp") = "IVA_EXE" Then ' 0%
                                     Dim impdetalleIVA As Entidades.impuestosNCE = New Entidades.impuestosNCE
-                                    impdetalleIVA.Codigo = r("Codigo")
-                                    impdetalleIVA.CodigoPorcentaje = r("CodigoPorcentaje")
-                                    impdetalleIVA.Tarifa = r("Tarifa")
-                                    impdetalleIVA.BaseImponible = r("BaseImponible")
+                                    impdetalleIVA.codigo = r("Codigo")
+                                    impdetalleIVA.codigoPorcentaje = r("CodigoPorcentaje")
+                                    impdetalleIVA.tarifa = r("Tarifa")
+                                    impdetalleIVA.baseImponible = r("BaseImponible")
                                     impdetalleIVA.valor = r("TotalIva")
                                     listaImpuestos.Add(impdetalleIVA)
                                 End If
 
                                 If r("TaxCodeAp") = "IVA8" Then ' 0%
                                     Dim impdetalleIVA As Entidades.impuestosNCE = New Entidades.impuestosNCE
-                                    impdetalleIVA.Codigo = r("Codigo")
-                                    impdetalleIVA.CodigoPorcentaje = r("CodigoPorcentaje")
-                                    impdetalleIVA.Tarifa = r("Tarifa")
-                                    impdetalleIVA.BaseImponible = r("BaseImponible")
+                                    impdetalleIVA.codigo = r("Codigo")
+                                    impdetalleIVA.codigoPorcentaje = r("CodigoPorcentaje")
+                                    impdetalleIVA.tarifa = r("Tarifa")
+                                    impdetalleIVA.baseImponible = r("BaseImponible")
                                     impdetalleIVA.valor = r("TotalIva")
                                     listaImpuestos.Add(impdetalleIVA)
                                 End If
 
                                 If r("TaxCodeAp") = "IVA" Then ' 12%
                                     Dim impdetalleIVA As Entidades.impuestosNCE = New Entidades.impuestosNCE
-                                    impdetalleIVA.Codigo = r("Codigo")
-                                    impdetalleIVA.CodigoPorcentaje = r("CodigoPorcentaje")
-                                    impdetalleIVA.Tarifa = r("Tarifa")
-                                    impdetalleIVA.BaseImponible = r("BaseImponible")
+                                    impdetalleIVA.codigo = r("Codigo")
+                                    impdetalleIVA.codigoPorcentaje = r("CodigoPorcentaje")
+                                    impdetalleIVA.tarifa = r("Tarifa")
+                                    impdetalleIVA.baseImponible = r("BaseImponible")
                                     impdetalleIVA.valor = r("TotalIva")
                                     listaImpuestos.Add(impdetalleIVA)
                                 End If
 
                                 If r("TaxCodeAp") = "IVA13" Then ' 12%
                                     Dim impdetalleIVA As Entidades.impuestosNCE = New Entidades.impuestosNCE
-                                    impdetalleIVA.Codigo = r("Codigo")
-                                    impdetalleIVA.CodigoPorcentaje = r("CodigoPorcentaje")
-                                    impdetalleIVA.Tarifa = r("Tarifa")
-                                    impdetalleIVA.BaseImponible = r("BaseImponible")
+                                    impdetalleIVA.codigo = r("Codigo")
+                                    impdetalleIVA.codigoPorcentaje = r("CodigoPorcentaje")
+                                    impdetalleIVA.tarifa = r("Tarifa")
+                                    impdetalleIVA.baseImponible = r("BaseImponible")
                                     impdetalleIVA.valor = r("TotalIva")
                                     listaImpuestos.Add(impdetalleIVA)
                                 End If
 
                                 If r("TaxCodeAp") = "IVA_NOI" Then ' 12%
                                     Dim impdetalleIVA As Entidades.impuestosNCE = New Entidades.impuestosNCE
-                                    impdetalleIVA.Codigo = r("Codigo")
-                                    impdetalleIVA.CodigoPorcentaje = r("CodigoPorcentaje")
-                                    impdetalleIVA.Tarifa = r("Tarifa")
-                                    impdetalleIVA.BaseImponible = r("BaseImponible")
+                                    impdetalleIVA.codigo = r("Codigo")
+                                    impdetalleIVA.codigoPorcentaje = r("CodigoPorcentaje")
+                                    impdetalleIVA.tarifa = r("Tarifa")
+                                    impdetalleIVA.baseImponible = r("BaseImponible")
                                     impdetalleIVA.valor = r("TotalIva")
                                     listaImpuestos.Add(impdetalleIVA)
                                 End If
 
                                 If r("TaxCodeAp") = "IVA_EXEN" Then ' 12%
                                     Dim impdetalleIVA As Entidades.impuestosNCE = New Entidades.impuestosNCE
-                                    impdetalleIVA.Codigo = r("Codigo")
-                                    impdetalleIVA.CodigoPorcentaje = r("CodigoPorcentaje")
-                                    impdetalleIVA.Tarifa = r("Tarifa")
-                                    impdetalleIVA.BaseImponible = r("BaseImponible")
-                                    impdetalleIVA.Valor = r("TotalIva")
+                                    impdetalleIVA.codigo = r("Codigo")
+                                    impdetalleIVA.codigoPorcentaje = r("CodigoPorcentaje")
+                                    impdetalleIVA.tarifa = r("Tarifa")
+                                    impdetalleIVA.baseImponible = r("BaseImponible")
+                                    impdetalleIVA.valor = r("TotalIva")
 
                                     listaImpuestos.Add(impdetalleIVA)
                                 End If
 
                                 If r("TaxCodeIce") = "IVA_ICE" Then ' 12%
                                     Dim impdetalleIVA As Entidades.impuestosNCE = New Entidades.impuestosNCE
-                                    impdetalleIVA.Codigo = r("CodigoIce")
-                                    impdetalleIVA.CodigoPorcentaje = r("CodigoPorcentajeIce")
-                                    impdetalleIVA.Tarifa = r("TarifaIce")
-                                    impdetalleIVA.BaseImponible = r("BaseImponibleIce")
+                                    impdetalleIVA.codigo = r("CodigoIce")
+                                    impdetalleIVA.codigoPorcentaje = r("CodigoPorcentajeIce")
+                                    impdetalleIVA.tarifa = r("TarifaIce")
+                                    impdetalleIVA.baseImponible = r("BaseImponibleIce")
                                     impdetalleIVA.valor = r("TotalIvaIce")
                                     listaImpuestos.Add(impdetalleIVA)
                                 End If
 
                                 If r("TaxCodeAp") = "IVA5" Then ' 12%
                                     Dim impdetalleIVA As Entidades.impuestosNCE = New Entidades.impuestosNCE
-                                    impdetalleIVA.Codigo = r("Codigo")
-                                    impdetalleIVA.CodigoPorcentaje = r("CodigoPorcentaje")
-                                    impdetalleIVA.Tarifa = r("Tarifa")
-                                    impdetalleIVA.BaseImponible = r("BaseImponible")
+                                    impdetalleIVA.codigo = r("Codigo")
+                                    impdetalleIVA.codigoPorcentaje = r("CodigoPorcentaje")
+                                    impdetalleIVA.tarifa = r("Tarifa")
+                                    impdetalleIVA.baseImponible = r("BaseImponible")
                                     impdetalleIVA.valor = r("TotalIva")
                                     listaImpuestos.Add(impdetalleIVA)
                                 End If
 
                                 If r("TaxCodeAp") = "IVA15" Then ' 12%
                                     Dim impdetalleIVA As Entidades.impuestosNCE = New Entidades.impuestosNCE
-                                    impdetalleIVA.Codigo = r("Codigo")
-                                    impdetalleIVA.CodigoPorcentaje = r("CodigoPorcentaje")
-                                    impdetalleIVA.Tarifa = r("Tarifa")
-                                    impdetalleIVA.BaseImponible = r("BaseImponible")
+                                    impdetalleIVA.codigo = r("Codigo")
+                                    impdetalleIVA.codigoPorcentaje = r("CodigoPorcentaje")
+                                    impdetalleIVA.tarifa = r("Tarifa")
+                                    impdetalleIVA.baseImponible = r("BaseImponible")
                                     impdetalleIVA.valor = r("TotalIva")
                                     listaImpuestos.Add(impdetalleIVA)
                                 End If
 
                                 If r("TaxCodeAp") = "IVA14" Then ' 12%
                                     Dim impdetalleIVA As Entidades.impuestosNCE = New Entidades.impuestosNCE
-                                    impdetalleIVA.Codigo = r("Codigo")
-                                    impdetalleIVA.CodigoPorcentaje = r("CodigoPorcentaje")
-                                    impdetalleIVA.Tarifa = r("Tarifa")
-                                    impdetalleIVA.BaseImponible = r("BaseImponible")
+                                    impdetalleIVA.codigo = r("Codigo")
+                                    impdetalleIVA.codigoPorcentaje = r("CodigoPorcentaje")
+                                    impdetalleIVA.tarifa = r("Tarifa")
+                                    impdetalleIVA.baseImponible = r("BaseImponible")
                                     impdetalleIVA.valor = r("TotalIva")
                                     listaImpuestos.Add(impdetalleIVA)
                                 End If
@@ -13044,24 +13045,13 @@ Public Class ManejoDeDocumentoSolsap
 #End Region
 
     Public Sub SetProtocolosdeSeguridad()
-
-
-
         'PARA TLS 1.2
         ServicePointManager.Expect100Continue = True
         ServicePointManager.SecurityProtocol = CType(3072, SecurityProtocolType)
         ServicePointManager.DefaultConnectionLimit = 9999
 
-
-
         'PARA HTTPS
-
-
-
         ServicePointManager.ServerCertificateValidationCallback = New System.Net.Security.RemoteCertificateValidationCallback(AddressOf customCertValidation)
-
-
-
     End Sub
 #Region "Funciones Complementarias para funcion WS Sincronizacion"
 
@@ -13859,6 +13849,49 @@ Public Class ManejoDeDocumentoSolsap
 
         Return MYSP
 
+    End Function
+
+    'CONSUMO DE API SOLSAP
+
+    Public Function ObtenerTokenAutenticacion() As String
+        Try
+            Dim usuario As String = Functions.VariablesGlobales._ApiAutUser
+            Dim password As String = Functions.VariablesGlobales._ApiAutPw
+            Dim endpoint As String = Functions.VariablesGlobales._ApiAutSS
+
+            If String.IsNullOrEmpty(usuario) OrElse String.IsNullOrEmpty(password) OrElse String.IsNullOrEmpty(endpoint) Then
+                If _tipoManejo = "A" Then rsboApp.SetStatusBarMessage("Faltan datos de autenticación (usuario, clave o endpoint)", SAPbouiCOM.BoMessageTime.bmt_Short, True)
+                Return Nothing
+            End If
+
+            Dim jsonBody As String = $"{{""usuario"":""{usuario}"", ""password"":""{password}""}}"
+            Dim request As HttpWebRequest = CType(WebRequest.Create(endpoint), HttpWebRequest)
+            request.Method = "POST"
+            request.ContentType = "application/json"
+
+            Using streamWriter As New StreamWriter(request.GetRequestStream())
+                streamWriter.Write(jsonBody)
+            End Using
+
+            Dim response As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
+            Using reader As New StreamReader(response.GetResponseStream())
+                Dim result As String = reader.ReadToEnd()
+                Dim json As JObject = JObject.Parse(result)
+                Dim token As String = json("token")?.ToString()
+
+                If Not String.IsNullOrEmpty(token) Then
+                    If _tipoManejo = "A" Then rsboApp.SetStatusBarMessage("Autenticación exitosa", SAPbouiCOM.BoMessageTime.bmt_Short, False)
+                    Return token
+                Else
+                    If _tipoManejo = "A" Then rsboApp.SetStatusBarMessage("No se recibió token de autenticación", SAPbouiCOM.BoMessageTime.bmt_Short, True)
+                    Return Nothing
+                End If
+            End Using
+
+        Catch ex As Exception
+            If _tipoManejo = "A" Then rsboApp.SetStatusBarMessage("Error al autenticar: " & ex.Message, SAPbouiCOM.BoMessageTime.bmt_Short, True)
+            Return Nothing
+        End Try
     End Function
 
     Public Sub ActivarTLS()

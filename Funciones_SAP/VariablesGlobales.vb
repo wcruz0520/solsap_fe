@@ -433,9 +433,14 @@
     Public Shared FechaFinMesAnteriorPL As String = ""
 
     '16/06/2025 JP
-    Public Shared _ActApiSS As String = ""
-    Public Shared _ApiAutSS As String = ""
-    Public Shared _ApiFactEmiSS As String = ""
+    Public Shared _ActApiSS As String = "" 'estado checkbox api solsap parametrizado(Y, N)
+    Public Shared _ApiAutSS As String = "" 'endPoint de autenticacion
+    Public Shared _ApiRefTk As String = "" 'endPoint de refresh token
+    Public Shared _ApiAutUser As String = "" 'usuario autenticacion
+    Public Shared _ApiAutPw As String = "" 'clave para autenticacion
+    Public Shared _ApiFactEmiSS As String = "" 'endpoint enviar fact 
+    Public Shared _ApiSignFac As String = "" 'endpoint firma fact 
+
 
 End Class
 
