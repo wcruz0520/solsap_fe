@@ -10,6 +10,7 @@ Imports System.Security.Cryptography.X509Certificates
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Functions
+Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
 Imports SAPbobsCOM
 Imports Spire.Pdf
@@ -7881,16 +7882,34 @@ Public Class ManejoDeDocumentoSolsap
                     Utilitario.Util_Log.Escribir_Log($"Enviando documento al SRI, TipoDocumento: {TipoDocumento} DocEntry: {DocEntry} TipoWs: {TipoWS}", "ManejoDeDocumentos")
 
                     Dim respuesta_WS As String = ""
-                    'Se envia  a procesar el documento
-                    objetoRespuesta = EnviaDocumentoSRI(oObjeto, TipoDocumento, DocEntry, TipoWS, respuesta_WS)
+                    ''Se envia  a procesar el documento
+                    'objetoRespuesta = EnviaDocumentoSRI(oObjeto, TipoDocumento, DocEntry, TipoWS, respuesta_WS)
+                    If Functions.VariablesGlobales._ActApiSS = "Y" AndAlso (TipoDocumento = "FCE" Or TipoDocumento = "FRE" Or TipoDocumento = "FAE") Then
+                        objetoRespuesta = EnviarFacturaSolsap(DirectCast(oObjeto, Entidades.RequestFactura))
+                    Else
+                        'Se envia  a procesar el documento
+                        objetoRespuesta = EnviaDocumentoSRI(oObjeto, TipoDocumento, DocEntry, TipoWS, respuesta_WS)
+                    End If
 
 
                     If Not objetoRespuesta Is Nothing Then
                         ' oBackgroundWorker.ReportProgress(60)
                         Dim mensajesSRI As String = ""
                         'lbestadoSRI.Text = resp.Estado
-                        _EstadoAutorizacion = objetoRespuesta.Estado
-                        _ClaveAcceso = objetoRespuesta.ClaveAcceso
+                        '_EstadoAutorizacion = objetoRespuesta.Estado
+                        '_ClaveAcceso = objetoRespuesta.ClaveAcceso
+
+                        If Functions.VariablesGlobales._ActApiSS = "Y" AndAlso TypeOf objetoRespuesta Is Entidades.ResponseDocuments Then
+                            Dim respDoc As Entidades.ResponseDocuments = CType(objetoRespuesta, Entidades.ResponseDocuments)
+                            _EstadoAutorizacion = respDoc.type
+                            _Observacion = respDoc.msg
+                            _ClaveAcceso = ""
+                        Else
+                            ' oBackgroundWorker.ReportProgress(60)
+                            'lbestadoSRI.Text = resp.Estado
+                            _EstadoAutorizacion = objetoRespuesta.Estado
+                            _ClaveAcceso = objetoRespuesta.ClaveAcceso
+                        End If
 
                         oFuncionesAddon.GuardaLOG(TipoDocumento, DocEntry, "Respuesta del SRI: " + _EstadoAutorizacion.ToString(), Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
 
@@ -13890,6 +13909,37 @@ Public Class ManejoDeDocumentoSolsap
 
         Catch ex As Exception
             If _tipoManejo = "A" Then rsboApp.SetStatusBarMessage("Error al autenticar: " & ex.Message, SAPbouiCOM.BoMessageTime.bmt_Short, True)
+            Return Nothing
+        End Try
+    End Function
+
+    Public Function EnviarFacturaSolsap(factura As Entidades.RequestFactura) As Entidades.ResponseDocuments
+        Try
+            Dim token As String = ObtenerTokenAutenticacion()
+            If String.IsNullOrEmpty(token) Then Return Nothing
+
+            Dim endpoint As String = Functions.VariablesGlobales._ApiFactEmiSS
+            If String.IsNullOrEmpty(endpoint) Then Return Nothing
+
+            Dim jsonBody As String = JsonConvert.SerializeObject(factura)
+            Dim request As HttpWebRequest = CType(WebRequest.Create(endpoint), HttpWebRequest)
+            request.Method = "POST"
+            request.ContentType = "application/json"
+            request.Headers.Add("Authorization", $"Bearer {token}")
+
+            Using sw As New StreamWriter(request.GetRequestStream())
+                sw.Write(jsonBody)
+            End Using
+
+            Using resp As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
+                Using reader As New StreamReader(resp.GetResponseStream())
+                    Dim result As String = reader.ReadToEnd()
+                    Return JsonConvert.DeserializeObject(Of Entidades.ResponseDocuments)(result)
+                End Using
+            End Using
+
+        Catch ex As Exception
+            If _tipoManejo = "A" Then rsboApp.SetStatusBarMessage("Error enviando factura: " & ex.Message, SAPbouiCOM.BoMessageTime.bmt_Short, True)
             Return Nothing
         End Try
     End Function
