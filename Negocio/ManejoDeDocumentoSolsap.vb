@@ -197,6 +197,8 @@ Public Class ManejoDeDocumentoSolsap
             If Not ds Is Nothing And Not ds.Tables.Count = 0 Then
 
                 oFactura = New Entidades.RequestFactura
+                oFactura.infoTributaria = New Entidades.infoTributariaFE()
+                oFactura.infoFactura = New Entidades.infoFacturaFE()
 
                 For i As Integer = 0 To ds.Tables.Count - 1
                     If i = 0 Then

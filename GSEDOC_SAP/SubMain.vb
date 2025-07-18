@@ -29,6 +29,7 @@ Module SubMain
     Public oManejoDocumentos As Negocio.ManejoDeDocumentos
 
     Public oManejoDocumentosEcua As Negocio.ManejoDeDocumentosEcua
+    Public oManejoDocumentosEcuaSS As Negocio.ManejoDeDocumentoSolsap
 
     'JP 17/06/2025
     Public oManejoDocumentosSolsap As Negocio.ManejoDeDocumentoSolsap
@@ -466,16 +467,24 @@ Module SubMain
                                     Functions.VariablesGlobales._vgSerieUDF = RsFe.Fields.Item("U_Valor").Value.ToString
 
                                     '16/06/2025
-                                Case "ActivaIntSS"
+                                Case "APISS"
                                     Functions.VariablesGlobales._ActApiSS = RsFe.Fields.Item("U_Valor").Value.ToString
-                                Case "APIAUTSS"
+                                Case "APISS_EpAut"
                                     Functions.VariablesGlobales._ApiAutSS = RsFe.Fields.Item("U_Valor").Value.ToString
-                                Case "APIFACTSS"
+                                Case "APISS_EpFac"
                                     Functions.VariablesGlobales._ApiFactEmiSS = RsFe.Fields.Item("U_Valor").Value.ToString
+                                Case "APISS_User"
+                                    Functions.VariablesGlobales._ApiAutUser = RsFe.Fields.Item("U_Valor").Value.ToString
+                                Case "APISS_Pw"
+                                    Functions.VariablesGlobales._ApiAutPw = RsFe.Fields.Item("U_Valor").Value.ToString
                             End Select
 
                             RsFe.MoveNext()
                         End While
+
+                        Dim checkApiSS As String = Functions.VariablesGlobales._ActApiSS
+                        ' Registro del estado de la integración con api solsap
+                        Utilitario.Util_Log.Escribir_Log("Valor checkbox ApiSolsap: " & checkApiSS, "SubMain")
 
                         'Se Recupera La Seccion de Querys
                         'Add Artur

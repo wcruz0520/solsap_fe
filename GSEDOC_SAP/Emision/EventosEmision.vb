@@ -1794,6 +1794,8 @@ Public Class EventosEmision
                                                     Try
                                                         If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                             oManejoDocumentosEcua.ProcesaEnvioDocumento(docentry, oTipoTabla)
+                                                        ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                            oManejoDocumentosSolsap.ProcesaEnvioDocumento(docentry, oTipoTabla)
                                                         Else
                                                             oManejoDocumentos.ProcesaEnvioDocumento(docentry, oTipoTabla)
                                                         End If
@@ -2207,6 +2209,8 @@ Public Class EventosEmision
                                                     Try
                                                         If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                             oManejoDocumentosEcua.ProcesaEnvioDocumento(docentry, oTipoTabla)
+                                                        ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                            oManejoDocumentosSolsap.ProcesaEnvioDocumento(docentry, oTipoTabla)
                                                         Else
                                                             oManejoDocumentos.ProcesaEnvioDocumento(docentry, oTipoTabla)
                                                         End If
