@@ -7943,8 +7943,10 @@ Public Class ManejoDeDocumentoSolsap
                                 _Observacion = recorreErrorFactura_LOCAL(objetoRespuesta, DocEntry.ToString())
                             ElseIf TipoWS = "NUBE" Then
                                 _Observacion = recorreErrorFactura(objetoRespuesta, DocEntry.ToString())
-                            ElseIf TipoWS = "NUBE_4_1" Then
+                            ElseIf TipoWS = "NUBE_4_1" And Functions.VariablesGlobales._ActApiSS <> "Y" Then
                                 _Observacion = recorreErrorFactura_NUBE41(objetoRespuesta, DocEntry.ToString())
+                            ElseIf TipoWS = "NUBE_4_1" And Functions.VariablesGlobales._ActApiSS = "Y" Then
+
                             End If
 
                         ElseIf TipoDocumento = "NDE" Then
@@ -13939,7 +13941,14 @@ Public Class ManejoDeDocumentoSolsap
             Using resp As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
                 Using reader As New StreamReader(resp.GetResponseStream())
                     Dim result As String = reader.ReadToEnd()
-                    Return JsonConvert.DeserializeObject(Of Entidades.ResponseDocuments)(result)
+                    Dim json As JObject = JObject.Parse(result)
+                    Dim estado As String = json.SelectToken("data.result.estado")?.ToString()
+                    Dim mensaje As String = json.SelectToken("data.result.mensaje")?.ToString()
+
+                    Dim respuesta As New Entidades.ResponseDocuments()
+                    respuesta.type = estado
+                    respuesta.msg = mensaje
+                    Return respuesta
                 End Using
             End Using
 
