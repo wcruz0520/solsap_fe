@@ -13,6 +13,7 @@ Imports Functions
 Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
 Imports SAPbobsCOM
+Imports System.Globalization
 Imports Spire.Pdf
 Imports Spire.Pdf.AutomaticFields
 Imports Spire.Pdf.Graphics
@@ -236,8 +237,9 @@ Public Class ManejoDeDocumentoSolsap
                                 oFactura.infoTributaria.anioEmission = CDate(r("FechaEmision")).ToString("yyyy")
 
                                 Try
-                                    oFactura.infoFactura.fechaEmision = CDate(r("FechaEmision")).ToString("yyyy-MM-dd")
-                                    Utilitario.Util_Log.Escribir_Log("oFactura.FechaEmision : " + CDate(r("FechaEmision")).ToString("yyyy-MM-dd"), "ManejoDeDocumentos")
+                                    'El servicio de facturación exige la fecha en formato dd/MM/yyyy
+                                    oFactura.infoFactura.fechaEmision = CDate(r("FechaEmision")).ToString("dd/MM/yyyy")
+                                    Utilitario.Util_Log.Escribir_Log("oFactura.FechaEmision : " & CDate(r("FechaEmision")).ToString("dd/MM/yyyy"), "ManejoDeDocumentos")
                                 Catch ex As Exception
                                     Utilitario.Util_Log.Escribir_Log("oFactura.FechaEmision : " & ex.Message.ToString, "ManejoDeDocumentos")
                                 End Try
@@ -258,13 +260,13 @@ Public Class ManejoDeDocumentoSolsap
 
                                 oFactura.infoFactura.direccionComprador = r("DirComprador")
 
-                                oFactura.infoFactura.totalSinImpuestos = r("TotalSinImpuesto").ToString
+                                oFactura.infoFactura.totalSinImpuestos = FormatearNumero(r("TotalSinImpuesto"))
 
-                                oFactura.infoFactura.totalDescuento = r("TotalDescuento").ToString
+                                oFactura.infoFactura.totalDescuento = FormatearNumero(r("TotalDescuento"))
 
-                                oFactura.infoFactura.propina = r("Propina").ToString
+                                oFactura.infoFactura.propina = FormatearNumero(r("Propina"))
 
-                                oFactura.infoFactura.importeTotal = r("ImporteTotal").ToString
+                                oFactura.infoFactura.importeTotal = FormatearNumero(r("ImporteTotal"))
 
                                 oFactura.infoFactura.moneda = r("Moneda").ToString
 
@@ -272,8 +274,8 @@ Public Class ManejoDeDocumentoSolsap
                                     Dim impfaIVA As Entidades.totalConImpuestosFE = New Entidades.totalConImpuestosFE
                                     impfaIVA.codigo = r("Codigo8")
                                     impfaIVA.codigoPorcentaje = r("CodigoPorcentaje8")
-                                    impfaIVA.baseImponible = r("Base8")
-                                    impfaIVA.valor = r("ValorIva8")
+                                    impfaIVA.baseImponible = FormatearNumero(r("Base8"))
+                                    impfaIVA.valor = FormatearNumero(r("ValorIva8"))
                                     listaTotalesConImpuestos.Add(impfaIVA)
                                 End If
 
@@ -281,8 +283,8 @@ Public Class ManejoDeDocumentoSolsap
                                     Dim impfaIVA As Entidades.totalConImpuestosFE = New Entidades.totalConImpuestosFE
                                     impfaIVA.codigo = r("Codigo12")
                                     impfaIVA.codigoPorcentaje = r("CodigoPorcentaje12")
-                                    impfaIVA.baseImponible = r("Base12")
-                                    impfaIVA.valor = r("ValorIva12")
+                                    impfaIVA.baseImponible = FormatearNumero(r("Base12"))
+                                    impfaIVA.valor = FormatearNumero(r("ValorIva12"))
                                     listaTotalesConImpuestos.Add(impfaIVA)
                                 End If
 
@@ -290,8 +292,8 @@ Public Class ManejoDeDocumentoSolsap
                                     Dim impfaIVA As Entidades.totalConImpuestosFE = New Entidades.totalConImpuestosFE
                                     impfaIVA.codigo = r("Codigo13")
                                     impfaIVA.codigoPorcentaje = r("CodigoPorcentaje13")
-                                    impfaIVA.baseImponible = r("Base13")
-                                    impfaIVA.valor = r("ValorIva13")
+                                    impfaIVA.baseImponible = FormatearNumero(r("Base13"))
+                                    impfaIVA.valor = FormatearNumero(r("ValorIva13"))
                                     listaTotalesConImpuestos.Add(impfaIVA)
                                 End If
 
@@ -299,8 +301,8 @@ Public Class ManejoDeDocumentoSolsap
                                     Dim impfaIVA As Entidades.totalConImpuestosFE = New Entidades.totalConImpuestosFE
                                     impfaIVA.codigo = r("Codigo0")
                                     impfaIVA.codigoPorcentaje = r("CodigoPorcentaje0")
-                                    impfaIVA.baseImponible = r("Base0")
-                                    impfaIVA.valor = r("ValorIva0")
+                                    impfaIVA.baseImponible = FormatearNumero(r("Base0"))
+                                    impfaIVA.valor = FormatearNumero(r("ValorIva0"))
                                     listaTotalesConImpuestos.Add(impfaIVA)
                                 End If
 
@@ -308,8 +310,8 @@ Public Class ManejoDeDocumentoSolsap
                                     Dim impfaNOIVA As Entidades.totalConImpuestosFE = New Entidades.totalConImpuestosFE
                                     impfaNOIVA.codigo = r("CodigoNoi")
                                     impfaNOIVA.codigoPorcentaje = r("CodigoPorcentajeNoi")
-                                    impfaNOIVA.baseImponible = r("BaseNoi")
-                                    impfaNOIVA.valor = r("ValorIvaNoi")
+                                    impfaNOIVA.baseImponible = FormatearNumero(r("BaseNoi"))
+                                    impfaNOIVA.valor = FormatearNumero(r("ValorIvaNoi"))
                                     listaTotalesConImpuestos.Add(impfaNOIVA)
                                 End If
 
@@ -317,8 +319,8 @@ Public Class ManejoDeDocumentoSolsap
                                     Dim impfaNOIVA As Entidades.totalConImpuestosFE = New Entidades.totalConImpuestosFE
                                     impfaNOIVA.codigo = r("CodigoExen")
                                     impfaNOIVA.codigoPorcentaje = r("CodigoPorcentajeExen")
-                                    impfaNOIVA.baseImponible = r("BaseExen")
-                                    impfaNOIVA.valor = r("ValorIvaExen")
+                                    impfaNOIVA.baseImponible = FormatearNumero(r("BaseExen"))
+                                    impfaNOIVA.valor = FormatearNumero(r("ValorIvaExen"))
                                     listaTotalesConImpuestos.Add(impfaNOIVA)
                                 End If
 
@@ -326,8 +328,8 @@ Public Class ManejoDeDocumentoSolsap
                                     Dim impfaNOIVA As Entidades.totalConImpuestosFE = New Entidades.totalConImpuestosFE
                                     impfaNOIVA.codigo = r("CodigoIce")
                                     impfaNOIVA.codigoPorcentaje = r("CodigoPorcentajeIce")
-                                    impfaNOIVA.baseImponible = r("BaseIce")
-                                    impfaNOIVA.valor = r("ValorIvaIce")
+                                    impfaNOIVA.baseImponible = FormatearNumero(r("BaseIce"))
+                                    impfaNOIVA.valor = FormatearNumero(r("ValorIvaIce"))
                                     listaTotalesConImpuestos.Add(impfaNOIVA)
                                 End If
 
@@ -335,8 +337,8 @@ Public Class ManejoDeDocumentoSolsap
                                     Dim impfaNOIVA As Entidades.totalConImpuestosFE = New Entidades.totalConImpuestosFE
                                     impfaNOIVA.codigo = r("Codigo5")
                                     impfaNOIVA.codigoPorcentaje = r("CodigoPorcentaje5")
-                                    impfaNOIVA.baseImponible = r("Base5")
-                                    impfaNOIVA.valor = r("ValorIva5")
+                                    impfaNOIVA.baseImponible = FormatearNumero(r("Base5"))
+                                    impfaNOIVA.valor = FormatearNumero(r("ValorIva5"))
                                     listaTotalesConImpuestos.Add(impfaNOIVA)
                                 End If
 
@@ -344,8 +346,8 @@ Public Class ManejoDeDocumentoSolsap
                                     Dim impfaNOIVA As Entidades.totalConImpuestosFE = New Entidades.totalConImpuestosFE
                                     impfaNOIVA.codigo = r("Codigo15")
                                     impfaNOIVA.codigoPorcentaje = r("CodigoPorcentaje15")
-                                    impfaNOIVA.baseImponible = r("Base15")
-                                    impfaNOIVA.valor = r("ValorIva15")
+                                    impfaNOIVA.baseImponible = FormatearNumero(r("Base15"))
+                                    impfaNOIVA.valor = FormatearNumero(r("ValorIva15"))
                                     listaTotalesConImpuestos.Add(impfaNOIVA)
                                 End If
 
@@ -353,8 +355,8 @@ Public Class ManejoDeDocumentoSolsap
                                     Dim impfaNOIVA As Entidades.totalConImpuestosFE = New Entidades.totalConImpuestosFE
                                     impfaNOIVA.codigo = r("Codigo14")
                                     impfaNOIVA.codigoPorcentaje = r("CodigoPorcentaje14")
-                                    impfaNOIVA.baseImponible = r("Base14")
-                                    impfaNOIVA.valor = r("ValorIva14")
+                                    impfaNOIVA.baseImponible = FormatearNumero(r("Base14"))
+                                    impfaNOIVA.valor = FormatearNumero(r("ValorIva14"))
                                     listaTotalesConImpuestos.Add(impfaNOIVA)
                                 End If
 
@@ -382,11 +384,11 @@ Public Class ManejoDeDocumentoSolsap
 
                                 itemDetalleFactura.cantidad = CInt(r("Cantidad"))
 
-                                itemDetalleFactura.precioUnitario = r("PrecioUnitario").ToString
+                                itemDetalleFactura.precioUnitario = FormatearNumero(r("PrecioUnitario"))
 
-                                itemDetalleFactura.descuento = r("Descuento").ToString
+                                itemDetalleFactura.descuento = FormatearNumero(r("Descuento"))
 
-                                itemDetalleFactura.precioTotalSinImpuesto = r("PrecioTotalSinImpuesto").ToString
+                                itemDetalleFactura.precioTotalSinImpuesto = FormatearNumero(r("PrecioTotalSinImpuesto"))
 
                                 listaDatosAdicionalDetalle = New List(Of Entidades.detallesAdicionalesFE)
 
@@ -419,9 +421,9 @@ Public Class ManejoDeDocumentoSolsap
                                     Dim impuesto As Entidades.impuestosFE = New Entidades.impuestosFE
                                     impuesto.codigo = r("Codigo").ToString
                                     impuesto.codigoPorcentaje = r("CodigoPorcentaje").ToString
-                                    impuesto.baseImponible = r("BaseImponible").ToString
-                                    impuesto.valor = r("TotalIva").ToString
-                                    impuesto.tarifa = r("Tarifa").ToString
+                                    impuesto.baseImponible = FormatearNumero(r("BaseImponible"))
+                                    impuesto.valor = FormatearNumero(r("TotalIva"))
+                                    impuesto.tarifa = FormatearNumero(r("Tarifa"))
                                     listaImpuestos.Add(impuesto)
                                 End If
 
@@ -429,9 +431,9 @@ Public Class ManejoDeDocumentoSolsap
                                     Dim impuesto As Entidades.impuestosFE = New Entidades.impuestosFE
                                     impuesto.codigo = r("Codigo").ToString
                                     impuesto.codigoPorcentaje = r("CodigoPorcentaje").ToString
-                                    impuesto.baseImponible = r("BaseImponible").ToString
-                                    impuesto.valor = r("TotalIva").ToString
-                                    impuesto.tarifa = r("Tarifa").ToString
+                                    impuesto.baseImponible = FormatearNumero(r("BaseImponible"))
+                                    impuesto.valor = FormatearNumero(r("TotalIva"))
+                                    impuesto.tarifa = FormatearNumero(r("Tarifa"))
                                     listaImpuestos.Add(impuesto)
                                 End If
 
@@ -439,9 +441,9 @@ Public Class ManejoDeDocumentoSolsap
                                     Dim impuesto As Entidades.impuestosFE = New Entidades.impuestosFE
                                     impuesto.codigo = r("Codigo").ToString
                                     impuesto.codigoPorcentaje = r("CodigoPorcentaje").ToString
-                                    impuesto.baseImponible = r("BaseImponible").ToString
-                                    impuesto.valor = r("TotalIva").ToString
-                                    impuesto.tarifa = r("Tarifa").ToString
+                                    impuesto.baseImponible = FormatearNumero(r("BaseImponible"))
+                                    impuesto.valor = FormatearNumero(r("TotalIva"))
+                                    impuesto.tarifa = FormatearNumero(r("Tarifa"))
                                     listaImpuestos.Add(impuesto)
                                 End If
 
@@ -449,9 +451,9 @@ Public Class ManejoDeDocumentoSolsap
                                     Dim impuesto As Entidades.impuestosFE = New Entidades.impuestosFE
                                     impuesto.codigo = r("Codigo").ToString
                                     impuesto.codigoPorcentaje = r("CodigoPorcentaje").ToString
-                                    impuesto.baseImponible = r("BaseImponible").ToString
-                                    impuesto.valor = r("TotalIva").ToString
-                                    impuesto.tarifa = r("Tarifa").ToString
+                                    impuesto.baseImponible = FormatearNumero(r("BaseImponible"))
+                                    impuesto.valor = FormatearNumero(r("TotalIva"))
+                                    impuesto.tarifa = FormatearNumero(r("Tarifa"))
                                     listaImpuestos.Add(impuesto)
                                 End If
 
@@ -459,9 +461,9 @@ Public Class ManejoDeDocumentoSolsap
                                     Dim impuesto As Entidades.impuestosFE = New Entidades.impuestosFE
                                     impuesto.codigo = r("Codigo").ToString
                                     impuesto.codigoPorcentaje = r("CodigoPorcentaje").ToString
-                                    impuesto.baseImponible = r("BaseImponible").ToString
-                                    impuesto.valor = r("TotalIva").ToString
-                                    impuesto.tarifa = r("Tarifa").ToString
+                                    impuesto.baseImponible = FormatearNumero(r("BaseImponible"))
+                                    impuesto.valor = FormatearNumero(r("TotalIva"))
+                                    impuesto.tarifa = FormatearNumero(r("Tarifa"))
                                     listaImpuestos.Add(impuesto)
                                 End If
 
@@ -469,9 +471,9 @@ Public Class ManejoDeDocumentoSolsap
                                     Dim impuesto As Entidades.impuestosFE = New Entidades.impuestosFE
                                     impuesto.codigo = r("Codigo").ToString
                                     impuesto.codigoPorcentaje = r("CodigoPorcentaje").ToString
-                                    impuesto.baseImponible = r("BaseImponible").ToString
-                                    impuesto.valor = r("TotalIva").ToString
-                                    impuesto.tarifa = r("Tarifa").ToString
+                                    impuesto.baseImponible = FormatearNumero(r("BaseImponible"))
+                                    impuesto.valor = FormatearNumero(r("TotalIva"))
+                                    impuesto.tarifa = FormatearNumero(r("Tarifa"))
                                     listaImpuestos.Add(impuesto)
                                 End If
 
@@ -479,9 +481,9 @@ Public Class ManejoDeDocumentoSolsap
                                     Dim impuesto As Entidades.impuestosFE = New Entidades.impuestosFE
                                     impuesto.codigo = r("CodigoIce").ToString
                                     impuesto.codigoPorcentaje = r("CodigoPorcentajeIce").ToString
-                                    impuesto.baseImponible = r("BaseImponibleIce").ToString
-                                    impuesto.valor = r("TotalIvaIce").ToString
-                                    impuesto.tarifa = r("TarifaIce").ToString
+                                    impuesto.baseImponible = FormatearNumero(r("BaseImponibleIce"))
+                                    impuesto.valor = FormatearNumero(r("TotalIvaIce"))
+                                    impuesto.tarifa = FormatearNumero(r("TarifaIce"))
                                     listaImpuestos.Add(impuesto)
                                 End If
 
@@ -489,9 +491,9 @@ Public Class ManejoDeDocumentoSolsap
                                     Dim impuesto As Entidades.impuestosFE = New Entidades.impuestosFE
                                     impuesto.codigo = r("Codigo").ToString
                                     impuesto.codigoPorcentaje = r("CodigoPorcentaje").ToString
-                                    impuesto.baseImponible = r("BaseImponible").ToString
-                                    impuesto.valor = r("TotalIva").ToString
-                                    impuesto.tarifa = r("Tarifa").ToString
+                                    impuesto.baseImponible = FormatearNumero(r("BaseImponible"))
+                                    impuesto.valor = FormatearNumero(r("TotalIva"))
+                                    impuesto.tarifa = FormatearNumero(r("Tarifa"))
                                     listaImpuestos.Add(impuesto)
                                 End If
 
@@ -499,9 +501,9 @@ Public Class ManejoDeDocumentoSolsap
                                     Dim impuesto As Entidades.impuestosFE = New Entidades.impuestosFE
                                     impuesto.codigo = r("Codigo").ToString
                                     impuesto.codigoPorcentaje = r("CodigoPorcentaje").ToString
-                                    impuesto.baseImponible = r("BaseImponible").ToString
-                                    impuesto.valor = r("TotalIva").ToString
-                                    impuesto.tarifa = r("Tarifa").ToString
+                                    impuesto.baseImponible = FormatearNumero(r("BaseImponible"))
+                                    impuesto.valor = FormatearNumero(r("TotalIva"))
+                                    impuesto.tarifa = FormatearNumero(r("Tarifa"))
                                     listaImpuestos.Add(impuesto)
                                 End If
 
@@ -546,7 +548,7 @@ Public Class ManejoDeDocumentoSolsap
                             For Each r As DataRow In ds.Tables(3).Rows
                                 Dim Pago As Entidades.pagosFE = New Entidades.pagosFE
                                 Pago.formaPago = r("FormaPago").ToString
-                                Pago.total = r("Total").ToString
+                                Pago.total = FormatearNumero(r("Total"))
                                 Pago.plazo = r("Plazo").ToString
                                 Pago.unidadTiempo = r("UnidadTiempo").ToString
                                 listaPagos.Add(Pago)
@@ -13917,6 +13919,7 @@ Public Class ManejoDeDocumentoSolsap
 
     Public Function EnviarFacturaSolsap(factura As Entidades.RequestFactura) As Entidades.ResponseDocuments
         Try
+            ActivarTLS()
             Dim token As String = ObtenerTokenAutenticacion()
             If String.IsNullOrEmpty(token) Then Return Nothing
 
@@ -13940,6 +13943,17 @@ Public Class ManejoDeDocumentoSolsap
                 End Using
             End Using
 
+        Catch webEx As WebException
+            Dim mensajeError As String = webEx.Message
+            Dim respErr As HttpWebResponse = TryCast(webEx.Response, HttpWebResponse)
+            If respErr IsNot Nothing Then
+                Using reader As New StreamReader(respErr.GetResponseStream())
+                    mensajeError &= " - " & reader.ReadToEnd()
+                End Using
+            End If
+            If _tipoManejo = "A" Then rsboApp.SetStatusBarMessage("Error enviando factura: " & mensajeError, SAPbouiCOM.BoMessageTime.bmt_Short, True)
+            Return Nothing
+
         Catch ex As Exception
             If _tipoManejo = "A" Then rsboApp.SetStatusBarMessage("Error enviando factura: " & ex.Message, SAPbouiCOM.BoMessageTime.bmt_Short, True)
             Return Nothing
@@ -13949,4 +13963,15 @@ Public Class ManejoDeDocumentoSolsap
     Public Sub ActivarTLS()
         ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol Or SecurityProtocolType.Ssl3 Or SecurityProtocolType.Tls Or 768 Or 3072
     End Sub
+
+    Private Function FormatearNumero(valor As Object) As String
+        If valor Is Nothing Then Return Nothing
+
+        Dim numero As Decimal
+        If Decimal.TryParse(valor.ToString(), numero) Then
+            Return numero.ToString(CultureInfo.InvariantCulture)
+        End If
+
+        Return valor.ToString()
+    End Function
 End Class
