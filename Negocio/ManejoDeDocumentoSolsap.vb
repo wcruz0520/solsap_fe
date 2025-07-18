@@ -7946,7 +7946,7 @@ Public Class ManejoDeDocumentoSolsap
                             ElseIf TipoWS = "NUBE_4_1" And Functions.VariablesGlobales._ActApiSS <> "Y" Then
                                 _Observacion = recorreErrorFactura_NUBE41(objetoRespuesta, DocEntry.ToString())
                             ElseIf TipoWS = "NUBE_4_1" And Functions.VariablesGlobales._ActApiSS = "Y" Then
-
+                                _Observacion = recorreErrorFactura_Solsap(CType(objetoRespuesta, Entidades.ResponseDocuments), DocEntry.ToString())
                             End If
 
                         ElseIf TipoDocumento = "NDE" Then
@@ -12268,6 +12268,36 @@ Public Class ManejoDeDocumentoSolsap
         End If
 
     End Function
+
+    Public Function recorreErrorFactura_Solsap(ByVal respuesta As Entidades.ResponseDocuments, ByVal codigoDocumento As String) As String
+        Dim mensaje As String = ""
+        Dim estado As String = ""
+
+        If respuesta Is Nothing Then
+            Return mensaje
+        End If
+
+        estado = If(respuesta.type, "")
+
+        If estado = "AUTORIZADO" Or estado = "2" Then
+            mensaje = "Estado: AUTORIZADO"
+            If Not String.IsNullOrEmpty(respuesta.msg) Then
+                mensaje &= ", " & respuesta.msg
+            End If
+        Else
+            mensaje = "Estado: " & estado
+            If Not String.IsNullOrEmpty(respuesta.msg) Then
+                mensaje &= " - " & respuesta.msg
+            End If
+            If respuesta.log IsNot Nothing AndAlso respuesta.log.Count > 0 Then
+                mensaje &= " - Detalle: " & String.Join(" | ", respuesta.log)
+            End If
+        End If
+
+        mensaje &= " - NÚMERO DEL DOCUMENTO: " & codigoDocumento
+        Return mensaje
+    End Function
+
     Public Function recorreErrorFactura_NUBE41(ByVal respuesta As Entidades.wsEDoc_Factura41.RespuestaEDOC, ByVal codigoDocumento As String) As String
 
         Dim estado As String = ""
