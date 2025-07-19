@@ -570,6 +570,23 @@ Public Class ManejoDeDocumentoSolsap
                 Next
             End If
 
+            'Try
+            '    Dim sRutaCarpeta As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\LOG_SAED\"
+            '    Dim Secuencial = Right("000000000" & oFactura.infoTributaria.secuencial, 9)
+            '    Dim sRuta As String = sRutaCarpeta & oFactura.infoTributaria.estab & oFactura.infoTributaria.ptoEmi & Secuencial & ".xml"
+
+            '    If System.IO.Directory.Exists(sRutaCarpeta) Then
+            '        Utilitario.Util_Log.Escribir_Log("Serializando...", "ManejoDeDocumentos")
+            '        Dim x As XmlSerializer = New XmlSerializer(oFactura.GetType())
+            '        Dim writer As TextWriter = New StreamWriter(sRuta)
+            '        x.Serialize(writer, oFactura)
+            '        writer.Close()
+            '        Utilitario.Util_Log.Escribir_Log("Serializado..." + sRuta, "ManejoDeDocumentos")
+            '    End If
+            'Catch ex As Exception
+            '    Utilitario.Util_Log.Escribir_Log("Serializado. Error: " + ex.Message.ToString(), "ManejoDeDocumentos")
+            'End Try
+
             Return oFactura
             Utilitario.Util_Log.Escribir_Log("FACTURA CONSULTADA", "ManejoDeDocumentos")
 
@@ -13951,14 +13968,35 @@ Public Class ManejoDeDocumentoSolsap
 
     Public Function EnviarFacturaSolsap(factura As Entidades.RequestFactura) As Entidades.ResponseDocuments
         Try
+
             ActivarTLS()
             Dim token As String = ObtenerTokenAutenticacion()
             If String.IsNullOrEmpty(token) Then Return Nothing
 
             Dim endpoint As String = Functions.VariablesGlobales._ApiFactEmiSS
             If String.IsNullOrEmpty(endpoint) Then Return Nothing
+            Dim settings As New JsonSerializerSettings()
+            settings.NullValueHandling = NullValueHandling.Ignore
+            Dim jsonBody As String = JsonConvert.SerializeObject(factura, settings)
 
-            Dim jsonBody As String = JsonConvert.SerializeObject(factura)
+            'Dim jsonBody As String = JsonConvert.SerializeObject(factura)
+            Try
+                Dim sRutaCarpeta As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\LOG_SAED\"
+                Dim Secuencial = Right("000000000" & factura.infoTributaria.secuencial, 9)
+                Dim sRuta As String = sRutaCarpeta & factura.infoTributaria.estab & factura.infoTributaria.ptoEmi & Secuencial & ".xml"
+                'Dim sRuta As String = sRutaCarpeta & factura.infoTributaria.secuencial.ToString() + ".xml"
+                If System.IO.Directory.Exists(sRutaCarpeta) Then
+                    Utilitario.Util_Log.Escribir_Log("Serializando...", "ManejoDeDocumentos")
+                    Dim x As XmlSerializer = New XmlSerializer(factura.GetType())
+                    Using writer As TextWriter = New StreamWriter(sRuta)
+                        x.Serialize(writer, factura)
+                    End Using
+                    Utilitario.Util_Log.Escribir_Log("Serializado..." + sRuta, "ManejoDeDocumentos")
+                End If
+            Catch ex As Exception
+                Utilitario.Util_Log.Escribir_Log("Serializado. Error: " + ex.Message.ToString(), "ManejoDeDocumentos")
+            End Try
+
             Dim request As HttpWebRequest = CType(WebRequest.Create(endpoint), HttpWebRequest)
             request.Method = "POST"
             request.ContentType = "application/json"
