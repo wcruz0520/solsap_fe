@@ -8,6 +8,7 @@ Imports System.Net
 Imports System.Net.Security
 Imports System.Security.Cryptography.X509Certificates
 Imports System.Text
+Imports System.Xml
 Imports System.Xml.Serialization
 Imports Functions
 Imports Newtonsoft.Json
@@ -13976,7 +13977,11 @@ Public Class ManejoDeDocumentoSolsap
             Dim endpoint As String = Functions.VariablesGlobales._ApiFactEmiSS
             If String.IsNullOrEmpty(endpoint) Then Return Nothing
 
-            Dim jsonBody As String = JsonConvert.SerializeObject(factura)
+            'Dim jsonBody As String = JsonConvert.SerializeObject(factura)
+            Dim settings As New JsonSerializerSettings()
+            settings.NullValueHandling = NullValueHandling.Ignore
+            Dim jsonBody As String = JsonConvert.SerializeObject(factura, settings)
+
             Try
                 Dim sRutaCarpeta As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\LOG_SAED\"
                 Dim Secuencial = Right("000000000" & factura.infoTributaria.secuencial, 9)
@@ -13984,10 +13989,8 @@ Public Class ManejoDeDocumentoSolsap
                 'Dim sRuta As String = sRutaCarpeta & factura.infoTributaria.secuencial.ToString() + ".xml"
                 If System.IO.Directory.Exists(sRutaCarpeta) Then
                     Utilitario.Util_Log.Escribir_Log("Serializando...", "ManejoDeDocumentos")
-                    Dim x As XmlSerializer = New XmlSerializer(factura.GetType())
-                    Using writer As TextWriter = New StreamWriter(sRuta)
-                        x.Serialize(writer, factura)
-                    End Using
+                    Dim xml As XmlDocument = JsonConvert.DeserializeXmlNode(jsonBody, "factura")
+                    xml.Save(sRuta)
                     Utilitario.Util_Log.Escribir_Log("Serializado..." + sRuta, "ManejoDeDocumentos")
                 End If
             Catch ex As Exception
