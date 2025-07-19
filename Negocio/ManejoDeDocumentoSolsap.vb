@@ -13975,11 +13975,8 @@ Public Class ManejoDeDocumentoSolsap
 
             Dim endpoint As String = Functions.VariablesGlobales._ApiFactEmiSS
             If String.IsNullOrEmpty(endpoint) Then Return Nothing
-            Dim settings As New JsonSerializerSettings()
-            settings.NullValueHandling = NullValueHandling.Ignore
-            Dim jsonBody As String = JsonConvert.SerializeObject(factura, settings)
 
-            'Dim jsonBody As String = JsonConvert.SerializeObject(factura)
+            Dim jsonBody As String = JsonConvert.SerializeObject(factura)
             Try
                 Dim sRutaCarpeta As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\LOG_SAED\"
                 Dim Secuencial = Right("000000000" & factura.infoTributaria.secuencial, 9)
