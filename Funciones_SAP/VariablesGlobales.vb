@@ -440,6 +440,13 @@
     Public Shared _ApiAutPw As String = "" 'clave para autenticacion
     Public Shared _ApiFactEmiSS As String = "" 'endpoint enviar fact 
     Public Shared _ApiSignFac As String = "" 'endpoint firma fact 
+    Public Shared _ApiNCEmiSS As String = "" 'endpoint enviar NC
+    Public Shared _ApiRetEmiSS As String = "" 'endpoint enviar ret
+    Public Shared _ApiLiqEmiSS As String = "" 'endpoint enviar liquidacion
+    Public Shared _ApiGrEmiSS As String = "" 'endpoint enviar Guía remi
+    Public Shared _ApiEnvCSS As String = "" 'endpoint enviar Guía remi
+    Public Shared _ApiPDFSS As String = "" 'endpoint enviar Guía remi
+    Public Shared _ApiXMLSS As String = "" 'endpoint enviar Guía remi
 
 
 End Class

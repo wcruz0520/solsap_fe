@@ -350,6 +350,41 @@ Public Class frmParametrosAddon
             oForm.DataSources.UserDataSources.Add("EdP_Fact", SAPbouiCOM.BoDataType.dt_SHORT_TEXT, 250)
             txtFact.DataBind.SetBound(True, "", "EdP_Fact")
 
+            Dim txtNc As SAPbouiCOM.EditText
+            txtFact = oForm.Items.Item("EdP_Nc").Specific
+            oForm.DataSources.UserDataSources.Add("EdP_Nc", SAPbouiCOM.BoDataType.dt_SHORT_TEXT, 250)
+            txtFact.DataBind.SetBound(True, "", "EdP_Nc")
+
+            Dim txtRet As SAPbouiCOM.EditText
+            txtFact = oForm.Items.Item("EdP_Ret").Specific
+            oForm.DataSources.UserDataSources.Add("EdP_Ret", SAPbouiCOM.BoDataType.dt_SHORT_TEXT, 250)
+            txtFact.DataBind.SetBound(True, "", "EdP_Ret")
+
+            Dim txtLiq As SAPbouiCOM.EditText
+            txtFact = oForm.Items.Item("EdP_Liq").Specific
+            oForm.DataSources.UserDataSources.Add("EdP_Liq", SAPbouiCOM.BoDataType.dt_SHORT_TEXT, 250)
+            txtFact.DataBind.SetBound(True, "", "EdP_Liq")
+
+            Dim txtGr As SAPbouiCOM.EditText
+            txtFact = oForm.Items.Item("EdP_Gr").Specific
+            oForm.DataSources.UserDataSources.Add("EdP_Gr", SAPbouiCOM.BoDataType.dt_SHORT_TEXT, 250)
+            txtFact.DataBind.SetBound(True, "", "EdP_Gr")
+
+            Dim txtEnvC As SAPbouiCOM.EditText
+            txtFact = oForm.Items.Item("EdP_EnvC").Specific
+            oForm.DataSources.UserDataSources.Add("EdP_EnvC", SAPbouiCOM.BoDataType.dt_SHORT_TEXT, 250)
+            txtFact.DataBind.SetBound(True, "", "EdP_EnvC")
+
+            Dim txtPDF As SAPbouiCOM.EditText
+            txtFact = oForm.Items.Item("EdP_PDF").Specific
+            oForm.DataSources.UserDataSources.Add("EdP_PDF", SAPbouiCOM.BoDataType.dt_SHORT_TEXT, 250)
+            txtFact.DataBind.SetBound(True, "", "EdP_PDF")
+
+            Dim txtXML As SAPbouiCOM.EditText
+            txtFact = oForm.Items.Item("EdP_XML").Specific
+            oForm.DataSources.UserDataSources.Add("EdP_XML", SAPbouiCOM.BoDataType.dt_SHORT_TEXT, 250)
+            txtFact.DataBind.SetBound(True, "", "EdP_XML")
+
             'Dim txt_SgFact As SAPbouiCOM.EditText
             'txt_SgFact = oForm.Items.Item("EdP_SgFc").Specific
             'oForm.DataSources.UserDataSources.Add("EdP_SgFc", SAPbouiCOM.BoDataType.dt_SHORT_TEXT, 250)
@@ -755,6 +790,30 @@ Public Class frmParametrosAddon
                     'ElseIf odt.GetValue("U_Nombre", i).ToString().Equals("APISS_EpSgFac") Then
                     '    oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_SgFc")
                     '    oUserDataSource.ValueEx = odt.GetValue("U_Valor", i).ToString()
+
+                ElseIf odt.GetValue("U_Nombre", i).ToString().Equals("APISS_EpNC") Then
+                    oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_Nc")
+                    oUserDataSource.ValueEx = odt.GetValue("U_Valor", i).ToString()
+
+                ElseIf odt.GetValue("U_Nombre", i).ToString().Equals("APISS_EpRet") Then
+                    oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_Ret")
+                    oUserDataSource.ValueEx = odt.GetValue("U_Valor", i).ToString()
+
+                ElseIf odt.GetValue("U_Nombre", i).ToString().Equals("APISS_EpLiq") Then
+                    oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_Liq")
+                    oUserDataSource.ValueEx = odt.GetValue("U_Valor", i).ToString()
+
+                ElseIf odt.GetValue("U_Nombre", i).ToString().Equals("APISS_EpEnvC") Then
+                    oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_EnvC")
+                    oUserDataSource.ValueEx = odt.GetValue("U_Valor", i).ToString()
+
+                ElseIf odt.GetValue("U_Nombre", i).ToString().Equals("APISS_EpPDF") Then
+                    oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_PDF")
+                    oUserDataSource.ValueEx = odt.GetValue("U_Valor", i).ToString()
+
+                ElseIf odt.GetValue("U_Nombre", i).ToString().Equals("APISS_EpXML") Then
+                    oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_XML")
+                    oUserDataSource.ValueEx = odt.GetValue("U_Valor", i).ToString()
                 End If
 
                 ACTUALIZA = 1
@@ -1172,6 +1231,34 @@ Public Class frmParametrosAddon
 
                                     oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_Fact")
                                     olistaDetalleConfiguracion.Add(New Entidades.ConfiguracionDetalle("APISS_EpFac", oUserDataSource.ValueEx.ToString()))
+                                    Functions.VariablesGlobales._ApiFactEmiSS = oUserDataSource.ValueEx
+
+                                    oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_Nc")
+                                    olistaDetalleConfiguracion.Add(New Entidades.ConfiguracionDetalle("APISS_EpNc", oUserDataSource.ValueEx.ToString()))
+                                    Functions.VariablesGlobales._ApiFactEmiSS = oUserDataSource.ValueEx
+
+                                    oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_Ret")
+                                    olistaDetalleConfiguracion.Add(New Entidades.ConfiguracionDetalle("APISS_EpRet", oUserDataSource.ValueEx.ToString()))
+                                    Functions.VariablesGlobales._ApiFactEmiSS = oUserDataSource.ValueEx
+
+                                    oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_Liq")
+                                    olistaDetalleConfiguracion.Add(New Entidades.ConfiguracionDetalle("APISS_EpLiq", oUserDataSource.ValueEx.ToString()))
+                                    Functions.VariablesGlobales._ApiFactEmiSS = oUserDataSource.ValueEx
+
+                                    oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_Gr")
+                                    olistaDetalleConfiguracion.Add(New Entidades.ConfiguracionDetalle("APISS_EpGr", oUserDataSource.ValueEx.ToString()))
+                                    Functions.VariablesGlobales._ApiFactEmiSS = oUserDataSource.ValueEx
+
+                                    oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_EnvC")
+                                    olistaDetalleConfiguracion.Add(New Entidades.ConfiguracionDetalle("APISS_EpEnvC", oUserDataSource.ValueEx.ToString()))
+                                    Functions.VariablesGlobales._ApiFactEmiSS = oUserDataSource.ValueEx
+
+                                    oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_PDF")
+                                    olistaDetalleConfiguracion.Add(New Entidades.ConfiguracionDetalle("APISS_EpPDF", oUserDataSource.ValueEx.ToString()))
+                                    Functions.VariablesGlobales._ApiFactEmiSS = oUserDataSource.ValueEx
+
+                                    oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_XML")
+                                    olistaDetalleConfiguracion.Add(New Entidades.ConfiguracionDetalle("APISS_EpXML", oUserDataSource.ValueEx.ToString()))
                                     Functions.VariablesGlobales._ApiFactEmiSS = oUserDataSource.ValueEx
 
                                     'oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_SgFc")

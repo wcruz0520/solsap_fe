@@ -8411,7 +8411,7 @@ Public Class EventosEmision
 
     End Sub
 
-    Private Function GenerarEnlaceQR(clave As String) As String
+    Private Function GenerarEnlaceQR(clave As String, Optional tipoDoc As String = Nothing, Optional id_SN As String = Nothing) As String
 
 
 
@@ -8420,14 +8420,15 @@ Public Class EventosEmision
             Dim x() = Functions.VariablesGlobales._wsConsultaEmision.Split("/")
 
 
-            If Functions.VariablesGlobales._wsConsultaEmision.ToLower.Contains("edocnube.com") Then
+            If Functions.VariablesGlobales._wsConsultaEmision.ToLower.Contains("edocnube.com") And Functions.VariablesGlobales._ActApiSS <> "Y" Then
                 Return $"{x(0)}//{x(2)}/WSEDOC_FILES/files/{clave}.pdf"
             Else
-                Return $"{x(0)}//{x(2)}/eDocEcuador/WSEDOC_FILES/files/{clave}.pdf"
+                If Functions.VariablesGlobales._ActApiSS <> "Y" Then
+                    Return $"{x(0)}//{x(2)}/eDocEcuador/WSEDOC_FILES/files/{clave}.pdf"
+                ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                    Return $"{Functions.VariablesGlobales._ApiPDFSS}/{tipoDoc}/{id_SN}/{clave}"
+                End If
             End If
-
-
-
         End If
 
 
@@ -9849,7 +9850,7 @@ Public Class EventosEmision
 
 
 
-        Dim EnlaceQR = GenerarEnlaceQR(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_CLAVE_ACCESO", 0).Trim)
+        Dim EnlaceQR = GenerarEnlaceQR(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_CLAVE_ACCESO", 0).Trim, "facturas", mForm.DataSources.DBDataSources.Item(oTabla).GetValue("CardCode", 0).Trim)
 
         Dim EnlaceQRLIQ = GenerarEnlaceQR(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_LQ_CLAVE", 0).Trim)
 

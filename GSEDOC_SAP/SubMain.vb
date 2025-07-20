@@ -477,6 +477,20 @@ Module SubMain
                                     Functions.VariablesGlobales._ApiAutUser = RsFe.Fields.Item("U_Valor").Value.ToString
                                 Case "APISS_Pw"
                                     Functions.VariablesGlobales._ApiAutPw = RsFe.Fields.Item("U_Valor").Value.ToString
+                                Case "APISS_EpNc"
+                                    Functions.VariablesGlobales._ApiNCEmiSS = RsFe.Fields.Item("U_Valor").Value.ToString
+                                Case "APISS_EpRet"
+                                    Functions.VariablesGlobales._ApiRetEmiSS = RsFe.Fields.Item("U_Valor").Value.ToString
+                                Case "APISS_EpLiq"
+                                    Functions.VariablesGlobales._ApiLiqEmiSS = RsFe.Fields.Item("U_Valor").Value.ToString
+                                Case "APISS_EpGr"
+                                    Functions.VariablesGlobales._ApiGrEmiSS = RsFe.Fields.Item("U_Valor").Value.ToString
+                                Case "APISS_EpEnvC"
+                                    Functions.VariablesGlobales._ApiEnvCSS = RsFe.Fields.Item("U_Valor").Value.ToString
+                                Case "APISS_EpPDF"
+                                    Functions.VariablesGlobales._ApiPDFSS = RsFe.Fields.Item("U_Valor").Value.ToString
+                                Case "APISS_EpXML"
+                                    Functions.VariablesGlobales._ApiXMLSS = RsFe.Fields.Item("U_Valor").Value.ToString
                             End Select
 
                             RsFe.MoveNext()
