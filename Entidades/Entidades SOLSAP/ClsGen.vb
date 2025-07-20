@@ -29,4 +29,6 @@ Public Class ResponseDocuments
     Public Property log As List(Of String)
     Public Property msg As String
     Public Property type As String
+    Public Property claveAcceso As String
+    Public Property identificador As String
 End Class

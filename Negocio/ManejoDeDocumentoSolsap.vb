@@ -7925,7 +7925,7 @@ Public Class ManejoDeDocumentoSolsap
                             Dim respDoc As Entidades.ResponseDocuments = CType(objetoRespuesta, Entidades.ResponseDocuments)
                             _EstadoAutorizacion = respDoc.type
                             _Observacion = respDoc.msg
-                            _ClaveAcceso = ""
+                            _ClaveAcceso = respDoc.claveAcceso
                         Else
                             ' oBackgroundWorker.ReportProgress(60)
                             'lbestadoSRI.Text = resp.Estado
@@ -13977,6 +13977,13 @@ Public Class ManejoDeDocumentoSolsap
             Dim endpoint As String = Functions.VariablesGlobales._ApiFactEmiSS
             If String.IsNullOrEmpty(endpoint) Then Return Nothing
 
+            'comentar esta linea posterior a la correcion del endpoint de adicionales en el detalle
+            If factura.detalles IsNot Nothing Then
+                For Each det As Entidades.detalleFE In factura.detalles
+                    det.detallesAdicionales = Nothing
+                Next
+            End If
+
             'Dim jsonBody As String = JsonConvert.SerializeObject(factura)
             Dim settings As New JsonSerializerSettings()
             settings.NullValueHandling = NullValueHandling.Ignore
@@ -14012,10 +14019,14 @@ Public Class ManejoDeDocumentoSolsap
                     Dim json As JObject = JObject.Parse(result)
                     Dim estado As String = json.SelectToken("data.result.estado")?.ToString()
                     Dim mensaje As String = json.SelectToken("data.result.mensaje")?.ToString()
+                    Dim clave As String = json.SelectToken("data.result.claveAcceso")?.ToString()
+                    Dim identificador As String = json.SelectToken("data.result.identificador")?.ToString()
 
                     Dim respuesta As New Entidades.ResponseDocuments()
                     respuesta.type = estado
                     respuesta.msg = mensaje
+                    respuesta.claveAcceso = clave
+                    respuesta.identificador = identificador
                     Return respuesta
                 End Using
             End Using
