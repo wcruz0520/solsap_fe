@@ -2187,9 +2187,11 @@ Public Class EventosEmision
                                                                             'If oFuncionesAddon.ActualizaSecuenciaSS(sCode, numFolio, oDocumento.DocEntry, oTipoTabla, Functions.FuncionesAddon.Transacciones.Reenvío, Functions.FuncionesAddon.TipoLog.Emision) Then
                                                                             '    oFuncionesAddon.GuardaLOG(objType, docentry, "Secuencia Actualizada en Documentos Legales Internos..!!", Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
                                                                             If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
-                                                                                oManejoDocumentosEcua.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+                                                                                oManejoDocumentosEcua.ProcesaEnvioDocumento(docentry, oTipoTabla)
+                                                                            ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                                                oManejoDocumentosSolsap.ProcesaEnvioDocumento(docentry, oTipoTabla)
                                                                             Else
-                                                                                oManejoDocumentos.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+                                                                                oManejoDocumentos.ProcesaEnvioDocumento(docentry, oTipoTabla)
                                                                             End If
 
                                                                             'Else
@@ -9850,7 +9852,7 @@ Public Class EventosEmision
 
 
 
-        Dim EnlaceQR = GenerarEnlaceQR(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_CLAVE_ACCESO", 0).Trim, "facturas", mForm.DataSources.DBDataSources.Item("OADM").GetValue("TaxIdNum", 0).Trim)
+        Dim EnlaceQR = GenerarEnlaceQR(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_CLAVE_ACCESO", 0).Trim, "facturas", mForm.DataSources.DBDataSources.Item("OCRD").GetValue("LicTradNum", 0).Trim)
 
         Dim EnlaceQRLIQ = GenerarEnlaceQR(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_LQ_CLAVE", 0).Trim)
 

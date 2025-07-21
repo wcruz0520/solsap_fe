@@ -620,6 +620,7 @@ Public Class ManejoDeDocumentoSolsap
                             _EstadoAutorizacion = respDoc.codigo
                             _Observacion = respDoc.mensaje
                             _ClaveAcceso = respDoc.claveAcceso
+                            _NumAutorizacion = respDoc.claveAcceso
                         Else
 
                         End If
