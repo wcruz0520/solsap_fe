@@ -173,7 +173,10 @@ Public Class ManejoDeDocumentoSolsap
 
                                 oFactura.infoTributaria.ambiente = r("Ambiente")
 
-                                oFactura.infoTributaria.claveAcceso = r("ClaveAcceso")
+                                Dim claveAcceso As String = r("ClaveAcceso").ToString()
+                                If Not String.IsNullOrEmpty(claveAcceso) AndAlso claveAcceso.Length = 49 Then
+                                    oFactura.infoTributaria.claveAcceso = claveAcceso
+                                End If
 
                                 oFactura.infoTributaria.razonSocial = r("RazonSocial")
 
