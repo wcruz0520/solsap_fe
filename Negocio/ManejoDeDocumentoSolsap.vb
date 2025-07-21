@@ -617,8 +617,8 @@ Public Class ManejoDeDocumentoSolsap
 
                         If Functions.VariablesGlobales._ActApiSS = "Y" AndAlso TypeOf objetoRespuesta Is Entidades.ResponseDocuments Then
                             Dim respDoc As Entidades.ResponseDocuments = CType(objetoRespuesta, Entidades.ResponseDocuments)
-                            _EstadoAutorizacion = respDoc.type
-                            _Observacion = respDoc.msg
+                            _EstadoAutorizacion = respDoc.codigo
+                            _Observacion = respDoc.mensaje
                             _ClaveAcceso = respDoc.claveAcceso
                         Else
 
@@ -1078,17 +1078,17 @@ Public Class ManejoDeDocumentoSolsap
             Return mensaje
         End If
 
-        estado = If(respuesta.type, "")
+        estado = If(respuesta.codigo, "")
 
         If estado = "AUTORIZADO" Or estado = "2" Then
             mensaje = "Estado: AUTORIZADO"
-            If Not String.IsNullOrEmpty(respuesta.msg) Then
-                mensaje &= ", " & respuesta.msg
+            If Not String.IsNullOrEmpty(respuesta.mensaje) Then
+                mensaje &= ", " & respuesta.mensaje
             End If
         Else
             mensaje = "Estado: " & estado
-            If Not String.IsNullOrEmpty(respuesta.msg) Then
-                mensaje &= " - " & respuesta.msg
+            If Not String.IsNullOrEmpty(respuesta.mensaje) Then
+                mensaje &= " - " & respuesta.mensaje
             End If
             If respuesta.log IsNot Nothing AndAlso respuesta.log.Count > 0 Then
                 mensaje &= " - Detalle: " & String.Join(" | ", respuesta.log)
@@ -2098,11 +2098,11 @@ Public Class ManejoDeDocumentoSolsap
             If String.IsNullOrEmpty(endpoint) Then Return Nothing
 
             'comentar esta linea posterior a la correcion del endpoint de adicionales en el detalle
-            If factura.detalles IsNot Nothing Then
-                For Each det As Entidades.detalleFE In factura.detalles
-                    det.detallesAdicionales = Nothing
-                Next
-            End If
+            'If factura.detalles IsNot Nothing Then
+            '    For Each det As Entidades.detalleFE In factura.detalles
+            '        det.detallesAdicionales = Nothing
+            '    Next
+            'End If
 
             'Dim jsonBody As String = JsonConvert.SerializeObject(factura)
             Dim settings As New JsonSerializerSettings()
@@ -2137,14 +2137,14 @@ Public Class ManejoDeDocumentoSolsap
                 Using reader As New StreamReader(resp.GetResponseStream())
                     Dim result As String = reader.ReadToEnd()
                     Dim json As JObject = JObject.Parse(result)
-                    Dim estado As String = json.SelectToken("data.result.estado")?.ToString()
+                    Dim estado As String = json.SelectToken("data.result.codigo")?.ToString()
                     Dim mensaje As String = json.SelectToken("data.result.mensaje")?.ToString()
                     Dim clave As String = json.SelectToken("data.result.claveAcceso")?.ToString()
                     Dim identificador As String = json.SelectToken("data.result.identificador")?.ToString()
 
                     Dim respuesta As New Entidades.ResponseDocuments()
-                    respuesta.type = estado
-                    respuesta.msg = mensaje
+                    respuesta.codigo = estado
+                    respuesta.mensaje = mensaje
                     respuesta.claveAcceso = clave
                     respuesta.identificador = identificador
                     Return respuesta

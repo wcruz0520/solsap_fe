@@ -9850,7 +9850,7 @@ Public Class EventosEmision
 
 
 
-        Dim EnlaceQR = GenerarEnlaceQR(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_CLAVE_ACCESO", 0).Trim, "facturas", mForm.DataSources.DBDataSources.Item("OCRD").GetValue("LicTradNum", 0).Trim)
+        Dim EnlaceQR = GenerarEnlaceQR(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_CLAVE_ACCESO", 0).Trim, "facturas", mForm.DataSources.DBDataSources.Item("OADM").GetValue("TaxIdNum", 0).Trim)
 
         Dim EnlaceQRLIQ = GenerarEnlaceQR(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_LQ_CLAVE", 0).Trim)
 
