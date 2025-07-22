@@ -32,3 +32,15 @@ Public Class ResponseDocuments
     Public Property claveAcceso As String
     Public Property identificador As String
 End Class
+
+Public Class ResponseConsulta
+    'Public Property log As List(Of String)
+    Public Property mensaje As String
+    Public Property claveAcceso As String
+    Public Property tipoComprobante As String
+    Public Property fechaAutorizacion As String
+End Class
+
+Public Class RequestConsulta
+    Public Property claveAcceso As String
+End Class

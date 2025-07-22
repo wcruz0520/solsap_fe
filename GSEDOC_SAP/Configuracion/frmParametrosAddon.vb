@@ -370,6 +370,11 @@ Public Class frmParametrosAddon
             oForm.DataSources.UserDataSources.Add("EdP_Gr", SAPbouiCOM.BoDataType.dt_SHORT_TEXT, 250)
             txtFact.DataBind.SetBound(True, "", "EdP_Gr")
 
+            Dim txtConEst As SAPbouiCOM.EditText
+            txtFact = oForm.Items.Item("EdP_CnEst").Specific
+            oForm.DataSources.UserDataSources.Add("EdP_CnEst", SAPbouiCOM.BoDataType.dt_SHORT_TEXT, 250)
+            txtFact.DataBind.SetBound(True, "", "EdP_CnEst")
+
             Dim txtEnvC As SAPbouiCOM.EditText
             txtFact = oForm.Items.Item("EdP_EnvC").Specific
             oForm.DataSources.UserDataSources.Add("EdP_EnvC", SAPbouiCOM.BoDataType.dt_SHORT_TEXT, 250)
@@ -801,6 +806,10 @@ Public Class frmParametrosAddon
 
                 ElseIf odt.GetValue("U_Nombre", i).ToString().Equals("APISS_EpLiq") Then
                     oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_Liq")
+                    oUserDataSource.ValueEx = odt.GetValue("U_Valor", i).ToString()
+
+                ElseIf odt.GetValue("U_Nombre", i).ToString().Equals("APISS_EpCnEst") Then
+                    oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_CnEst")
                     oUserDataSource.ValueEx = odt.GetValue("U_Valor", i).ToString()
 
                 ElseIf odt.GetValue("U_Nombre", i).ToString().Equals("APISS_EpEnvC") Then
@@ -1247,6 +1256,10 @@ Public Class frmParametrosAddon
 
                                     oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_Gr")
                                     olistaDetalleConfiguracion.Add(New Entidades.ConfiguracionDetalle("APISS_EpGr", oUserDataSource.ValueEx.ToString()))
+                                    Functions.VariablesGlobales._ApiFactEmiSS = oUserDataSource.ValueEx
+                                    '
+                                    oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_CnEst")
+                                    olistaDetalleConfiguracion.Add(New Entidades.ConfiguracionDetalle("APISS_EpCnEst", oUserDataSource.ValueEx.ToString()))
                                     Functions.VariablesGlobales._ApiFactEmiSS = oUserDataSource.ValueEx
 
                                     oUserDataSource = oForm.DataSources.UserDataSources.Item("EdP_EnvC")

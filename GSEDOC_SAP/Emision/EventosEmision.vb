@@ -1221,6 +1221,9 @@ Public Class EventosEmision
                                     docentry = LTrim(RTrim(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("DocEntry", 0)))
                                     If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                         oManejoDocumentosEcua.Consulta_PDF_XML(ClaveAcceso, docentry, oTipoTabla, "pdf")
+                                    ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                        'consultar pdf facturas
+                                        oManejoDocumentosSolsap.ConsultaPDF(ClaveAcceso, "facturas")
                                     Else
                                         oManejoDocumentos.ConsultaPDF(ClaveAcceso)
                                     End If
@@ -1243,6 +1246,8 @@ Public Class EventosEmision
                                     docentry = LTrim(RTrim(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("DocEntry", 0)))
                                     If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                         oManejoDocumentosEcua.Consulta_PDF_XML(ClaveAccesoXML, docentry, oTipoTabla, "xml")
+                                    ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                        oManejoDocumentosSolsap.ConsultaXML(ClaveAccesoXML, "facturas")
                                     Else
                                         oManejoDocumentos.ConsultaXML(ClaveAccesoXML)
                                     End If
@@ -9850,9 +9855,14 @@ Public Class EventosEmision
 
     Private Sub ObtenerEnlacesURLyGenerarRQ(ByRef mForm As SAPbouiCOM.Form, FormularioID As String)
 
+        Dim taxIdNum As String = ""
+        Dim oRs As SAPbobsCOM.Recordset = CType(rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+        oRs.DoQuery("SELECT ""TaxIdNum"" FROM ""OADM""")
+        If Not oRs.EoF Then
+            taxIdNum = oRs.Fields.Item("TaxIdNum").Value.ToString().Trim()
+        End If
 
-
-        Dim EnlaceQR = GenerarEnlaceQR(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_CLAVE_ACCESO", 0).Trim, "facturas", mForm.DataSources.DBDataSources.Item("OCRD").GetValue("LicTradNum", 0).Trim)
+        Dim EnlaceQR = GenerarEnlaceQR(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_CLAVE_ACCESO", 0).Trim, "facturas", taxIdNum)
 
         Dim EnlaceQRLIQ = GenerarEnlaceQR(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_LQ_CLAVE", 0).Trim)
 

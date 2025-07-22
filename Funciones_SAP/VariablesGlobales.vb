@@ -444,9 +444,10 @@
     Public Shared _ApiRetEmiSS As String = "" 'endpoint enviar ret
     Public Shared _ApiLiqEmiSS As String = "" 'endpoint enviar liquidacion
     Public Shared _ApiGrEmiSS As String = "" 'endpoint enviar Guía remi
-    Public Shared _ApiEnvCSS As String = "" 'endpoint enviar Guía remi
-    Public Shared _ApiPDFSS As String = "" 'endpoint enviar Guía remi
-    Public Shared _ApiXMLSS As String = "" 'endpoint enviar Guía remi
+    Public Shared _ApiConEstSS As String = "" 'endpoint enviar correo
+    Public Shared _ApiEnvCSS As String = "" 'endpoint enviar correo
+    Public Shared _ApiPDFSS As String = "" 'endpoint enviar ver pdf
+    Public Shared _ApiXMLSS As String = "" 'endpoint enviar ver xml
 
 
 End Class

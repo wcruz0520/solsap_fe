@@ -485,6 +485,8 @@ Module SubMain
                                     Functions.VariablesGlobales._ApiLiqEmiSS = RsFe.Fields.Item("U_Valor").Value.ToString
                                 Case "APISS_EpGr"
                                     Functions.VariablesGlobales._ApiGrEmiSS = RsFe.Fields.Item("U_Valor").Value.ToString
+                                Case "APISS_EpCnEst"
+                                    Functions.VariablesGlobales._ApiConEstSS = RsFe.Fields.Item("U_Valor").Value.ToString
                                 Case "APISS_EpEnvC"
                                     Functions.VariablesGlobales._ApiEnvCSS = RsFe.Fields.Item("U_Valor").Value.ToString
                                 Case "APISS_EpPDF"

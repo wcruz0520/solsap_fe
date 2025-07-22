@@ -337,7 +337,6 @@ Public Class ManejoDeDocumentoSolsap
                             _Error = "Cabecera: " + ex.Message.ToString()
                             Return Nothing
                         End Try
-
                     ElseIf i = 1 Then
                         Try
                             For Each r As DataRow In ds.Tables(1).Rows
@@ -550,7 +549,685 @@ Public Class ManejoDeDocumentoSolsap
             Return Nothing
         End Try
     End Function
+    Public Function ConsultarNotadeCredito(ByVal TipoNC As String, ByVal DocEntry As Integer) As Object
 
+
+        Dim oNotaCredito As New Entidades.wsEDoc_NotaDeCredito41.ENTNotaCredito
+        Dim listaDetalle As New List(Of Entidades.wsEDoc_NotaDeCredito41.ENTDetalleNotaCredito)
+        Dim listaDatosAdicional As New List(Of Entidades.wsEDoc_NotaDeCredito41.ENTDatoAdicionalNotaCredito)
+
+        Dim SP As String = ""
+
+        Try
+            If _Nombre_Proveedor_SAP_BO = Functions.FuncionesAddon.PROVEEDOR_DE_SAPBO.EXXIS Then
+                SP = "GS_SAP_FE_ObtenerNotaDeCredito_4_3 "
+            ElseIf _Nombre_Proveedor_SAP_BO = Functions.FuncionesAddon.PROVEEDOR_DE_SAPBO.ONESOLUTIONS Then
+                SP = "GS_SAP_FE_ONE_OBTENERNOTADECREDITO_4_3 "
+            ElseIf _Nombre_Proveedor_SAP_BO = Functions.FuncionesAddon.PROVEEDOR_DE_SAPBO.HEINSOHN Then
+                SP = "GS_SAP_FE_HEI_OBTENERNOTADECREDITO_4_3 "
+            ElseIf _Nombre_Proveedor_SAP_BO = Functions.FuncionesAddon.PROVEEDOR_DE_SAPBO.SYPSOFT Then
+                SP = "GS_SAP_FE_SYP_OBTENERNOTADECREDITO_4_3 "
+            ElseIf _Nombre_Proveedor_SAP_BO = Functions.FuncionesAddon.PROVEEDOR_DE_SAPBO.TOPMANAGE Then
+                SP = "GS_SAP_FE_TM_OBTENERNOTADECREDITO_4_3 "
+            ElseIf _Nombre_Proveedor_SAP_BO = Functions.FuncionesAddon.PROVEEDOR_DE_SAPBO.SOLSAP Then
+                SP = "GS_SAP_FE_SS_OBTENERNOTADECREDITO_4_3 "
+            End If
+            If _tipoManejo = "A" Then
+
+                oFuncionesAddon.GuardaLOG(TipoNC, DocEntry, "Consultando Nota de Crédito con # DocEntry = " + DocEntry.ToString() + ", SP: " + SP.ToString(), Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
+
+            End If
+
+
+            '------------------------------------NUEVA LOGICA QUERYS ENCRYPTADOS---------
+            ' 1 RECUPERO QUERY ENCRYPTADOS Y EJECUTO SP
+
+
+            SP = GetQueryConsulta(tipoDocumento.NotaCredito, DocEntry)
+
+            Utilitario.Util_Log.Escribir_Log("Query Desencriptado " & SP.ToString(), "ManejoDeDocumentos")
+
+            If SP.Contains("GSCODEEXCEPCION") Then
+
+                Utilitario.Util_Log.Escribir_Log("EXCEPCION DETECTADA EN EL PROCESO DE OBTENER STRING QUERY - " & SP, "ManejoDeDocumentos")
+                rsboApp.StatusBar.SetText(Functions.VariablesGlobales._gNombreAddOn + " - Ocurrio Un Error Favor falidar el Archivo de Log y Buscar el Codigo GSCODEEXCEPCION", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error)
+                Return Nothing
+            End If
+
+            If SP.Contains("El relleno entre caracteres no es válido y no se puede quitar.") Then 'DM 2024-06-14 se hace el replace debido a que al desencriptar esta concatenando el siguiente texto El relleno entre caracteres no es válido y no se puede quitar.
+
+                Utilitario.Util_Log.Escribir_Log("Texto añadido al desencriptar", "ManejoDeDocumentos")
+                SP = SP.Replace("El relleno entre caracteres no es válido y no se puede quitar.", "")
+                Utilitario.Util_Log.Escribir_Log("Query Desencriptado con replace " & SP.ToString(), "ManejoDeDocumentos")
+            End If
+
+            Dim ds As DataSet
+
+            If rCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_HANADB Then
+
+
+                'Utilitario.Util_Log.Escribir_Log("Empezando Split..", "ManejoDeDocumentos")
+
+                Dim SPs() As String = Split(SP, "--*")
+
+
+                ' Este codigo se optimizo mara recuperar los datatables  Arturo 24.03.2020
+
+                Dim ds1, ds2, ds3 As DataSet
+                Dim dt1, dt2, dt3 As DataTable
+
+
+                ds = EjecutarSP(SPs(0).ToString(), DocEntry)
+                ds.Tables(0).TableName = "Cabecera"
+
+                ds1 = EjecutarSP(SPs(1).ToString(), DocEntry)
+                dt1 = ds1.Tables(0).Copy
+                dt1.TableName = "Detalles"
+                ds.Tables.Add(dt1)
+
+                ds2 = EjecutarSP(SPs(2).ToString(), DocEntry)
+                dt2 = ds2.Tables(0).Copy
+                dt2.TableName = "InfoAdicionales"
+                ds.Tables.Add(dt2)
+
+                'ds3 = EjecutarSP(SPs(3).ToString(), DocEntry)
+                'dt3 = ds3.Tables(0).Copy
+                'dt3.TableName = "FormaPago"
+                'ds.Tables.Add(dt3)
+
+
+            Else
+
+                ds = EjecutarSP(SP, DocEntry)
+
+            End If
+
+            '------------------------FIN QUERYS ENCRIPTADOS
+
+            'Dim ds As DataSet = EjecutarSP(SP, DocEntry)
+
+
+            Utilitario.Util_Log.Escribir_Log("Data Tables : " & ds.Tables.Count.ToString(), "ManejoDeDocumentos")
+            If Functions.VariablesGlobales._ValidarCamposNulos = "Y" And _tipoManejo = "A" Then
+                If Not ValidarCamposNulos(ds, "2") Then
+                    Return Nothing
+                End If
+            End If
+            If Not ds Is Nothing And Not ds.Tables.Count = 0 Then
+
+                For i As Integer = 0 To ds.Tables.Count - 1
+                    If i = 0 Then
+                        For Each r As DataRow In ds.Tables(0).Rows
+                            Try
+                                ' OFFLINE 14 NOVIEMBRE 2017
+                                If ValidaClave(r("ClaveAcceso"), r("CodigoDocumento"), r("Establecimiento") & r("PuntoEmision"), r("SecuencialDocumento")) = "" Then
+                                    oNotaCredito.ClaveAcceso = Nothing
+                                Else
+                                    oNotaCredito.ClaveAcceso = r("ClaveAcceso")
+                                End If
+
+
+                                oNotaCredito.Ambiente = r("Ambiente")
+                                oNotaCredito.TipoEmision = r("TipoEmision")
+
+                                oNotaCredito.RazonSocial = r("RazonSocial")
+
+                                If Not r("NombreComercial") = "" Then
+                                    oNotaCredito.NombreComercial = r("NombreComercial")
+                                End If
+
+                                oNotaCredito.Ruc = r("Ruc")
+                                'oNotaCredito.Ruc = "0992737964001"
+
+                                oNotaCredito.CodigoDocumento = r("CodigoDocumento")
+                                oNotaCredito.Establecimiento = r("Establecimiento")
+                                oNotaCredito.PuntoEmision = r("PuntoEmision")
+                                oNotaCredito.Secuencial = r("SecuencialDocumento")
+                                If Not oNotaCredito.Secuencial.ToString().Length.Equals("9") Then
+                                    oNotaCredito.Secuencial = oNotaCredito.Secuencial.PadLeft(9, "0")
+                                End If
+                                oNotaCredito.DireccionMatriz = r("DireccionMatriz")
+                                ' oNotaCredito.FechaEmision = r("FechaEmision")
+                                oNotaCredito.FechaEmision = CDate(r("FechaEmision")).ToString("yyyy-MM-dd")
+
+                                oNotaCredito.DireccionEstablecimiento = r("DireccionEstablecimiento")
+
+                                If Not r("ContribuyenteEspecial") = "0" Then
+                                    oNotaCredito.ContribuyenteEspecial = r("ContribuyenteEspecial")
+                                Else
+                                    oNotaCredito.ContribuyenteEspecial = Nothing
+                                End If
+                                If Not r("AgenteRetencion") = "0" Then
+                                    oNotaCredito.AgenteRetencion = r("AgenteRetencion")
+                                End If
+
+                                If Not r("RegimenMicroempresas") = "0" Then
+                                    oNotaCredito.RegimenMicroempresas = Convert.ToBoolean(r("RegimenMicroempresas"))
+                                End If
+
+                                If Not r("ContribuyenteRimpe") = "0" Then
+                                    oNotaCredito.ContribuyenteRimpe = Convert.ToBoolean(r("ContribuyenteRimpe"))
+                                End If
+
+
+                                oNotaCredito.ObligadoContabilidad = r("ObligadoContabilidad")
+
+                                oNotaCredito.TipoIdentificacionComprador = r("TipoIdentificadorComprador")
+
+                                oNotaCredito.RazonSocialComprador = r("RazonSocialComprador")
+                                oNotaCredito.IdentificacionComprador = r("IdentificacionComprador")
+
+                                If Not r("Rise") = "" Then
+                                    oNotaCredito.Rise = r("Rise")
+                                End If
+
+
+                                oNotaCredito.CodDocModificado = r("codDocModificado")
+                                oNotaCredito.NumDocModificado = r("numDocModificado")
+                                'oNotaCredito.FechaEmisionDocModificado = r("FechaEmisionDocModificado")
+                                oNotaCredito.FechaEmisionDocModificado = CDate(r("FechaEmisionDocModificado")).ToString("yyyy-MM-dd")
+
+
+                                oNotaCredito.TotalSinImpuesto = r("TotalSinImpuesto")
+                                oNotaCredito.ValorModificacion = r("ImporteTotal")
+                                oNotaCredito.ValorModificacion = r("ValorModificacion")
+                                oNotaCredito.MotivoModificacion = r("Motivo")
+                                oNotaCredito.Moneda = r("Moneda")
+
+
+                                '
+                                ' oNotaCredito.UsuarioCrea = r("UsuarioCreador") ' LOCAL
+
+                                oNotaCredito.UsuarioTransaccionERP = r("UsuarioTransaccionERP")
+                                oNotaCredito.EmailResponsable = r("EmailResponsable")
+                                oNotaCredito.SecuencialERP = r("SecuencialERP")
+                                oNotaCredito.CodigoTransaccionERP = r("CodigoTransaccionERP")
+                                oNotaCredito.Estado = r("Estado")
+                                '  oNotaCredito.FechaCarga = r("FechaCarga")
+                                oNotaCredito.Campo1 = r("Campo1")
+                                oNotaCredito.Campo2 = r("Campo2")
+                                oNotaCredito.Campo3 = r("Campo3")
+                                oNotaCredito.Campo4 = r("Campo4")
+                                oNotaCredito.Campo5 = r("Campo5")
+                                oNotaCredito.Campo6 = r("Campo6")
+                                oNotaCredito.Campo7 = r("Campo7")
+                                oNotaCredito.Campo8 = r("Campo8")
+                                oNotaCredito.Campo9 = r("Campo9")
+                                oNotaCredito.Campo10 = r("Campo10")
+
+                                'NEW DM 08012025
+                                oNotaCredito.Campo10 = r("Campo10")
+                                oNotaCredito.Campo11 = r("Campo11")
+                                oNotaCredito.Campo12 = r("Campo12")
+                                oNotaCredito.Campo13 = r("Campo13")
+                                oNotaCredito.Campo14 = r("Campo14")
+                                oNotaCredito.Campo15 = r("Campo15")
+
+                                'IMPUESTO FACTURA
+                                'Impuestos totalizados en la factura.
+                                Dim lstimpfact As New List(Of Entidades.wsEDoc_NotaDeCredito41.ENTNotaCreditoImpuesto)
+
+                                If r("Base8") <> 0 Then
+                                    Dim impfaIVA As New Entidades.wsEDoc_NotaDeCredito41.ENTNotaCreditoImpuesto
+
+                                    'impfaIVA.Codigo = "2"
+                                    'impfaIVA.CodigoPorcentaje = "2"
+                                    'impfaIVA.Tarifa = "12"
+                                    impfaIVA.Codigo = r("Codigo8")
+                                    impfaIVA.CodigoPorcentaje = r("CodigoPorcentaje8")
+                                    impfaIVA.Tarifa = r("Tarifa8")
+                                    impfaIVA.BaseImponible = r("Base8")
+                                    impfaIVA.Valor = r("ValorIva8")
+
+                                    lstimpfact.Add(impfaIVA)
+                                End If
+
+                                If r("Base12") <> 0 Then
+                                    Dim impfaIVA As New Entidades.wsEDoc_NotaDeCredito41.ENTNotaCreditoImpuesto
+
+                                    'impfaIVA.Codigo = "2"
+                                    'impfaIVA.CodigoPorcentaje = "2"
+                                    'impfaIVA.Tarifa = "12"
+                                    impfaIVA.Codigo = r("Codigo12")
+                                    impfaIVA.CodigoPorcentaje = r("CodigoPorcentaje12")
+                                    impfaIVA.Tarifa = r("Tarifa12")
+                                    impfaIVA.BaseImponible = r("Base12")
+                                    impfaIVA.Valor = r("ValorIva12")
+
+                                    lstimpfact.Add(impfaIVA)
+                                End If
+
+                                If r("Base13") <> 0 Then
+
+                                    Dim impfaIVA As New Entidades.wsEDoc_NotaDeCredito41.ENTNotaCreditoImpuesto
+                                    'impfaIVA.Codigo = "2"
+                                    'impfaIVA.CodigoPorcentaje = "3"
+                                    'impfaIVA.Tarifa = "14"
+                                    impfaIVA.Codigo = r("Codigo13")
+                                    impfaIVA.CodigoPorcentaje = r("CodigoPorcentaje13")
+                                    impfaIVA.Tarifa = r("Tarifa13")
+                                    impfaIVA.BaseImponible = r("Base13")
+                                    impfaIVA.Valor = r("ValorIva13")
+                                    lstimpfact.Add(impfaIVA)
+                                End If
+
+                                If r("Base0") <> 0 Then
+                                    Dim impfaNOIVA As New Entidades.wsEDoc_NotaDeCredito41.ENTNotaCreditoImpuesto
+                                    'impfaNOIVA.Codigo = "2"
+                                    'impfaNOIVA.CodigoPorcentaje = "0"
+                                    'impfaNOIVA.Tarifa = "0"
+                                    impfaNOIVA.Codigo = r("Codigo0")
+                                    impfaNOIVA.CodigoPorcentaje = r("CodigoPorcentaje0")
+                                    impfaNOIVA.Tarifa = r("Tarifa0")
+                                    impfaNOIVA.BaseImponible = r("Base0")
+                                    impfaNOIVA.Valor = r("ValorIva0")
+
+                                    lstimpfact.Add(impfaNOIVA)
+                                End If
+
+                                If r("BaseNoi") <> 0 Then
+                                    Dim impfaNOIVA As New Entidades.wsEDoc_NotaDeCredito41.ENTNotaCreditoImpuesto
+                                    'impfaNOIVA.Codigo = "2"
+                                    'impfaNOIVA.CodigoPorcentaje = "6"
+                                    'impfaNOIVA.Tarifa = "0"
+                                    impfaNOIVA.Codigo = r("CodigoNoi")
+                                    impfaNOIVA.CodigoPorcentaje = r("CodigoPorcentajeNoi")
+                                    impfaNOIVA.Tarifa = r("TarifaNoi")
+                                    impfaNOIVA.BaseImponible = r("BaseNoi")
+                                    impfaNOIVA.Valor = r("ValorIvaNoi")
+
+                                    lstimpfact.Add(impfaNOIVA)
+                                End If
+
+                                If r("BaseExen") <> 0 Then
+                                    Dim impfaNOIVA As New Entidades.wsEDoc_NotaDeCredito41.ENTNotaCreditoImpuesto
+                                    'impfaNOIVA.Codigo = "2"
+                                    'impfaNOIVA.CodigoPorcentaje = "7"
+                                    'impfaNOIVA.Tarifa = "0"
+                                    impfaNOIVA.Codigo = r("CodigoExen")
+                                    impfaNOIVA.CodigoPorcentaje = r("CodigoPorcentajeExen")
+                                    impfaNOIVA.Tarifa = r("TarifaExen")
+                                    impfaNOIVA.BaseImponible = r("BaseExen")
+                                    impfaNOIVA.Valor = r("ValorIvaExen")
+
+                                    lstimpfact.Add(impfaNOIVA)
+                                End If
+
+                                If r("BaseIce") <> 0 Then
+                                    Dim impfaNOIVA As New Entidades.wsEDoc_NotaDeCredito41.ENTNotaCreditoImpuesto
+                                    'impfaNOIVA.Codigo = "3"
+                                    'impfaNOIVA.CodigoPorcentaje = "3680"
+                                    'impfaNOIVA.Tarifa = r("TarifaICE")
+                                    impfaNOIVA.Codigo = r("CodigoIce")
+                                    impfaNOIVA.CodigoPorcentaje = r("CodigoPorcentajeIce")
+                                    impfaNOIVA.Tarifa = r("TarifaIce")
+                                    impfaNOIVA.BaseImponible = r("BaseIce")
+                                    impfaNOIVA.Valor = r("ValorIvaIce")
+
+                                    lstimpfact.Add(impfaNOIVA)
+                                End If
+
+                                If r("Base5") <> 0 Then
+                                    Dim impfaNOIVA As New Entidades.wsEDoc_NotaDeCredito41.ENTNotaCreditoImpuesto
+                                    'impfaNOIVA.Codigo = "3"
+                                    'impfaNOIVA.CodigoPorcentaje = "3680"
+                                    'impfaNOIVA.Tarifa = r("TarifaICE")
+                                    impfaNOIVA.Codigo = r("Codigo5")
+                                    impfaNOIVA.CodigoPorcentaje = r("CodigoPorcentaje5")
+                                    impfaNOIVA.Tarifa = r("Tarifa5")
+                                    impfaNOIVA.BaseImponible = r("Base5")
+                                    impfaNOIVA.Valor = r("ValorIva5")
+
+                                    lstimpfact.Add(impfaNOIVA)
+                                End If
+
+
+                                If r("Base15") <> 0 Then
+                                    Dim impfaNOIVA As New Entidades.wsEDoc_NotaDeCredito41.ENTNotaCreditoImpuesto
+                                    'impfaNOIVA.Codigo = "3"
+                                    'impfaNOIVA.CodigoPorcentaje = "3680"
+                                    'impfaNOIVA.Tarifa = r("TarifaICE")
+                                    impfaNOIVA.Codigo = r("Codigo15")
+                                    impfaNOIVA.CodigoPorcentaje = r("CodigoPorcentaje15")
+                                    impfaNOIVA.Tarifa = r("Tarifa15")
+                                    impfaNOIVA.BaseImponible = r("Base15")
+                                    impfaNOIVA.Valor = r("ValorIva15")
+
+                                    lstimpfact.Add(impfaNOIVA)
+                                End If
+
+                                If r("Base14") <> 0 Then
+                                    Dim impfaNOIVA As New Entidades.wsEDoc_NotaDeCredito41.ENTNotaCreditoImpuesto
+                                    'impfaNOIVA.Codigo = "3"
+                                    'impfaNOIVA.CodigoPorcentaje = "3680"
+                                    'impfaNOIVA.Tarifa = r("TarifaICE")
+                                    impfaNOIVA.Codigo = r("Codigo14")
+                                    impfaNOIVA.CodigoPorcentaje = r("CodigoPorcentaje14")
+                                    impfaNOIVA.Tarifa = r("Tarifa14")
+                                    impfaNOIVA.BaseImponible = r("Base14")
+                                    impfaNOIVA.Valor = r("ValorIva14")
+
+                                    lstimpfact.Add(impfaNOIVA)
+                                End If
+
+                                oNotaCredito.ENTNotaCreditoImpuesto = lstimpfact.ToArray
+                            Catch ex As Exception
+                                If _tipoManejo = "A" Then
+                                    rsboApp.SetStatusBarMessage("Cabecera nota de credito error " & ex.Message().ToString(), SAPbouiCOM.BoMessageTime.bmt_Short, True)
+                                End If
+                                _Error = "Cabecera: " + ex.Message.ToString()
+                                Utilitario.Util_Log.Escribir_Log("Cabcera nota de credito error : " & ex.Message.ToString(), "ManejoDeDocumentos")
+                                Return Nothing
+                            End Try
+
+                        Next
+                    ElseIf i = 1 Then
+                        Try
+                            For Each r As DataRow In ds.Tables(1).Rows
+                                Dim itemDetalleNC As New Entidades.wsEDoc_NotaDeCredito41.ENTDetalleNotaCredito
+                                Try
+                                    itemDetalleNC.CodigoPrincipal = r("CodigoPrincipal")
+                                    itemDetalleNC.CodigoAuxiliar = r("CodigoAuxiliar")
+                                    itemDetalleNC.Descripcion = r("Descripcion")
+                                    itemDetalleNC.Cantidad = r("Cantidad")
+                                    itemDetalleNC.PrecioUnitario = r("PrecioUnitario")
+
+                                    'If r("Descuento") = 0 Then
+                                    '    itemDetalleNC.Descuento = Nothing
+                                    'Else
+                                    '    itemDetalleNC.Descuento = r("Descuento")
+                                    'End If
+                                    Try
+                                        itemDetalleNC.Descuento = r("Descuento")
+                                        Utilitario.Util_Log.Escribir_Log("descuento lineal : " & itemDetalleNC.Descuento.ToString, "ManejoDeDocumentos")
+                                    Catch ex As Exception
+                                        Utilitario.Util_Log.Escribir_Log("descuento lineal : " & ex.Message.ToString() & " descuento: " + itemDetalleNC.Descuento.ToString, "ManejoDeDocumentos")
+                                    End Try
+                                    'itemDetalleNC.Descuento = r("Descuento")
+
+                                    itemDetalleNC.PrecioTotalSinImpuesto = r("PrecioTotalSinImpuesto")
+                                Catch ex As Exception
+                                    If _tipoManejo = "A" Then
+                                        rsboApp.SetStatusBarMessage("DETALLE nota de credito error " & ex.Message().ToString(), SAPbouiCOM.BoMessageTime.bmt_Short, True)
+                                    End If
+                                    Utilitario.Util_Log.Escribir_Log("DETALLE nota de credito error : " & ex.Message.ToString(), "ManejoDeDocumentos")
+                                End Try
+
+                                Try
+                                    If r("DocType") = "S" Then
+                                        itemDetalleNC.ENTDatoAdicionalDetalleNotaCredito = Nothing
+                                    Else
+                                        ''Datos adicionales de cada detalle del item                                                          
+                                        Dim listaDetalleDatoAdicional As New List(Of Entidades.wsEDoc_NotaDeCredito41.ENTDatoAdicionalDetalleNotaCredito)
+
+                                        'Adicional1
+                                        If Not r("ConceptoAdicional1") = "0" Then
+                                            Dim itemDetalleDatoAdicional As New Entidades.wsEDoc_NotaDeCredito41.ENTDatoAdicionalDetalleNotaCredito
+                                            itemDetalleDatoAdicional.Nombre = r("ConceptoAdicional1")
+                                            itemDetalleDatoAdicional.Descripcion = r("NombreAdicional1")
+                                            listaDetalleDatoAdicional.Add(itemDetalleDatoAdicional)
+                                        End If
+
+                                        'Adicional2
+                                        If Not r("ConceptoAdicional2") = "0" Then
+                                            Dim itemDetalleDatoAdicional2 As New Entidades.wsEDoc_NotaDeCredito41.ENTDatoAdicionalDetalleNotaCredito
+                                            itemDetalleDatoAdicional2.Nombre = r("ConceptoAdicional2")
+                                            itemDetalleDatoAdicional2.Descripcion = r("NombreAdicional2")
+                                            listaDetalleDatoAdicional.Add(itemDetalleDatoAdicional2)
+                                        End If
+
+                                        'Adicional3
+                                        If Not r("ConceptoAdicional3") = "0" Then
+                                            Dim itemDetalleDatoAdicional3 As New Entidades.wsEDoc_NotaDeCredito41.ENTDatoAdicionalDetalleNotaCredito
+                                            itemDetalleDatoAdicional3.Nombre = r("ConceptoAdicional3")
+                                            itemDetalleDatoAdicional3.Descripcion = r("NombreAdicional3")
+                                            listaDetalleDatoAdicional.Add(itemDetalleDatoAdicional3)
+                                        End If
+
+                                        itemDetalleNC.ENTDatoAdicionalDetalleNotaCredito = listaDetalleDatoAdicional.ToArray
+                                    End If
+                                Catch ex As Exception
+                                    If _tipoManejo = "A" Then
+                                        rsboApp.SetStatusBarMessage("ADICIONAL detalle nota de credito error " & ex.Message().ToString(), SAPbouiCOM.BoMessageTime.bmt_Short, True)
+                                    End If
+                                    Utilitario.Util_Log.Escribir_Log("ADICIONAL detalle nota de credito error : " & ex.Message.ToString(), "ManejoDeDocumentos")
+                                    _Error = "ADICIONAL nota de credito error " + ex.Message.ToString()
+                                    Return Nothing
+                                End Try
+                                ' Si es de Servicio no le envio datos adicionales en el detalle
+
+
+                                'IMPUESTOS DEL DETALLE
+                                'Puede Tener IVA y/0 ICE
+                                Dim lstimpdetalle As New List(Of Entidades.wsEDoc_NotaDeCredito41.ENTDetalleNotaCreditoImpuesto)
+                                'Detalle de impuesto de IVA
+
+
+                                'impdetalleIVA.Codigo = "2" '2 de que tabla debo verlo tabla 15 SRI
+                                Try
+                                    If r("TaxCodeAp") = "IVA_EXE" Then ' 0%
+                                        Dim impdetalleIVA As New Entidades.wsEDoc_NotaDeCredito41.ENTDetalleNotaCreditoImpuesto
+                                        'impdetalleIVA.Codigo = "2" '2 de que tabla debo verlo tabla 15 SRI
+                                        'impdetalleIVA.CodigoPorcentaje = 0  '2 de que tabla debo verlo tabla 16
+                                        'impdetalleIVA.Tarifa = 0
+                                        impdetalleIVA.Codigo = r("Codigo")
+                                        impdetalleIVA.CodigoPorcentaje = r("CodigoPorcentaje")
+                                        impdetalleIVA.Tarifa = r("Tarifa")
+                                        impdetalleIVA.BaseImponible = r("BaseImponible")
+                                        impdetalleIVA.Valor = r("TotalIva")
+
+                                        lstimpdetalle.Add(impdetalleIVA)
+                                    End If
+
+                                    If r("TaxCodeAp") = "IVA8" Then ' 0%
+                                        Dim impdetalleIVA As New Entidades.wsEDoc_NotaDeCredito41.ENTDetalleNotaCreditoImpuesto
+                                        'impdetalleIVA.Codigo = "2" '2 de que tabla debo verlo tabla 15 SRI
+                                        'impdetalleIVA.CodigoPorcentaje = 0  '2 de que tabla debo verlo tabla 16
+                                        'impdetalleIVA.Tarifa = 0
+                                        impdetalleIVA.Codigo = r("Codigo")
+                                        impdetalleIVA.CodigoPorcentaje = r("CodigoPorcentaje")
+                                        impdetalleIVA.Tarifa = r("Tarifa")
+                                        impdetalleIVA.BaseImponible = r("BaseImponible")
+                                        impdetalleIVA.Valor = r("TotalIva")
+
+                                        lstimpdetalle.Add(impdetalleIVA)
+                                    End If
+
+                                    If r("TaxCodeAp") = "IVA" Then ' 12%
+                                        Dim impdetalleIVA As New Entidades.wsEDoc_NotaDeCredito41.ENTDetalleNotaCreditoImpuesto
+                                        'impdetalleIVA.Codigo = "2" '2 de que tabla debo verlo tabla 15 SRI
+                                        'impdetalleIVA.CodigoPorcentaje = 2 '2 de que tabla debo verlo tabla 16
+                                        'impdetalleIVA.Tarifa = 12
+                                        impdetalleIVA.Codigo = r("Codigo")
+                                        impdetalleIVA.CodigoPorcentaje = r("CodigoPorcentaje")
+                                        impdetalleIVA.Tarifa = r("Tarifa")
+                                        impdetalleIVA.BaseImponible = r("BaseImponible")
+                                        impdetalleIVA.Valor = r("TotalIva")
+
+                                        lstimpdetalle.Add(impdetalleIVA)
+                                    End If
+
+                                    If r("TaxCodeAp") = "IVA13" Then ' 12%
+                                        Dim impdetalleIVA As New Entidades.wsEDoc_NotaDeCredito41.ENTDetalleNotaCreditoImpuesto
+                                        'impdetalleIVA.Codigo = "2" '2 de que tabla debo verlo tabla 15 SRI
+                                        'impdetalleIVA.CodigoPorcentaje = 3 '2 de que tabla debo verlo tabla 16
+                                        'impdetalleIVA.Tarifa = 14
+                                        impdetalleIVA.Codigo = r("Codigo")
+                                        impdetalleIVA.CodigoPorcentaje = r("CodigoPorcentaje")
+                                        impdetalleIVA.Tarifa = r("Tarifa")
+                                        impdetalleIVA.BaseImponible = r("BaseImponible")
+                                        impdetalleIVA.Valor = r("TotalIva")
+
+                                        lstimpdetalle.Add(impdetalleIVA)
+                                    End If
+
+                                    If r("TaxCodeAp") = "IVA_NOI" Then ' 12%
+                                        Dim impdetalleIVA As New Entidades.wsEDoc_NotaDeCredito41.ENTDetalleNotaCreditoImpuesto
+                                        'impdetalleIVA.Codigo = "2" '2 de que tabla debo verlo tabla 15 SRI
+                                        'impdetalleIVA.CodigoPorcentaje = 6 '2 de que tabla debo verlo tabla 16
+                                        'impdetalleIVA.Tarifa = 0
+                                        impdetalleIVA.Codigo = r("Codigo")
+                                        impdetalleIVA.CodigoPorcentaje = r("CodigoPorcentaje")
+                                        impdetalleIVA.Tarifa = r("Tarifa")
+                                        impdetalleIVA.BaseImponible = r("BaseImponible")
+                                        impdetalleIVA.Valor = r("TotalIva")
+
+                                        lstimpdetalle.Add(impdetalleIVA)
+                                    End If
+
+                                    If r("TaxCodeAp") = "IVA_EXEN" Then ' 12%
+                                        Dim impdetalleIVA As New Entidades.wsEDoc_NotaDeCredito41.ENTDetalleNotaCreditoImpuesto
+                                        'impdetalleIVA.Codigo = "2" '2 de que tabla debo verlo tabla 15 SRI
+                                        'impdetalleIVA.CodigoPorcentaje = 7 '2 de que tabla debo verlo tabla 16
+                                        'impdetalleIVA.Tarifa = 0
+                                        impdetalleIVA.Codigo = r("Codigo")
+                                        impdetalleIVA.CodigoPorcentaje = r("CodigoPorcentaje")
+                                        impdetalleIVA.Tarifa = r("Tarifa")
+                                        impdetalleIVA.BaseImponible = r("BaseImponible")
+                                        impdetalleIVA.Valor = r("TotalIva")
+
+                                        lstimpdetalle.Add(impdetalleIVA)
+                                    End If
+
+                                    If r("TaxCodeIce") = "IVA_ICE" Then ' 12%
+                                        Dim impdetalleIVA As New Entidades.wsEDoc_NotaDeCredito41.ENTDetalleNotaCreditoImpuesto
+                                        'impdetalleIVA.Codigo = "3"
+                                        'impdetalleIVA.CodigoPorcentaje = 3680 '2 de que tabla debo verlo tabla 16
+                                        'impdetalleIVA.Tarifa = r("TarifaICE")
+                                        impdetalleIVA.Codigo = r("CodigoIce")
+                                        impdetalleIVA.CodigoPorcentaje = r("CodigoPorcentajeIce")
+                                        impdetalleIVA.Tarifa = r("TarifaIce")
+                                        impdetalleIVA.BaseImponible = r("BaseImponibleIce")
+                                        impdetalleIVA.Valor = r("TotalIvaIce")
+
+                                        lstimpdetalle.Add(impdetalleIVA)
+                                    End If
+
+                                    If r("TaxCodeAp") = "IVA5" Then ' 12%
+                                        Dim impdetalleIVA As New Entidades.wsEDoc_NotaDeCredito41.ENTDetalleNotaCreditoImpuesto
+                                        'impdetalleIVA.Codigo = "2" '2 de que tabla debo verlo tabla 15 SRI
+                                        'impdetalleIVA.CodigoPorcentaje = 7 '2 de que tabla debo verlo tabla 16
+                                        'impdetalleIVA.Tarifa = 0
+                                        impdetalleIVA.Codigo = r("Codigo")
+                                        impdetalleIVA.CodigoPorcentaje = r("CodigoPorcentaje")
+                                        impdetalleIVA.Tarifa = r("Tarifa")
+                                        impdetalleIVA.BaseImponible = r("BaseImponible")
+                                        impdetalleIVA.Valor = r("TotalIva")
+
+                                        lstimpdetalle.Add(impdetalleIVA)
+                                    End If
+
+                                    If r("TaxCodeAp") = "IVA15" Then ' 12%
+                                        Dim impdetalleIVA As New Entidades.wsEDoc_NotaDeCredito41.ENTDetalleNotaCreditoImpuesto
+                                        'impdetalleIVA.Codigo = "2" '2 de que tabla debo verlo tabla 15 SRI
+                                        'impdetalleIVA.CodigoPorcentaje = 7 '2 de que tabla debo verlo tabla 16
+                                        'impdetalleIVA.Tarifa = 0
+                                        impdetalleIVA.Codigo = r("Codigo")
+                                        impdetalleIVA.CodigoPorcentaje = r("CodigoPorcentaje")
+                                        impdetalleIVA.Tarifa = r("Tarifa")
+                                        impdetalleIVA.BaseImponible = r("BaseImponible")
+                                        impdetalleIVA.Valor = r("TotalIva")
+
+                                        lstimpdetalle.Add(impdetalleIVA)
+                                    End If
+
+                                    If r("TaxCodeAp") = "IVA14" Then ' 12%
+                                        Dim impdetalleIVA As New Entidades.wsEDoc_NotaDeCredito41.ENTDetalleNotaCreditoImpuesto
+                                        'impdetalleIVA.Codigo = "2" '2 de que tabla debo verlo tabla 15 SRI
+                                        'impdetalleIVA.CodigoPorcentaje = 7 '2 de que tabla debo verlo tabla 16
+                                        'impdetalleIVA.Tarifa = 0
+                                        impdetalleIVA.Codigo = r("Codigo")
+                                        impdetalleIVA.CodigoPorcentaje = r("CodigoPorcentaje")
+                                        impdetalleIVA.Tarifa = r("Tarifa")
+                                        impdetalleIVA.BaseImponible = r("BaseImponible")
+                                        impdetalleIVA.Valor = r("TotalIva")
+
+                                        lstimpdetalle.Add(impdetalleIVA)
+                                    End If
+
+                                Catch ex As Exception
+                                    If _tipoManejo = "A" Then
+                                        rsboApp.SetStatusBarMessage("IMPUESTO nota de credito error " & ex.Message().ToString(), SAPbouiCOM.BoMessageTime.bmt_Short, True)
+                                    End If
+                                    Utilitario.Util_Log.Escribir_Log("IMPUESTO nota de credito error : " & ex.Message.ToString(), "ManejoDeDocumentos")
+                                    _Error = "IMPUESTO nota de credito error : " + ex.Message.ToString()
+                                    Return Nothing
+                                End Try
+
+                                'impdetalleIVA.BaseImponible = r("PrecioTotalSinImpuesto")
+                                'impdetalleIVA.Valor = r("TotalIva")
+
+                                'agrego impuesto a la lista
+                                'lstimpdetalle.Add(impdetalleIVA)
+
+                                'agrego lista de impuesto al detalle
+                                itemDetalleNC.ENTDetalleNotaCreditoImpuesto = lstimpdetalle.ToArray
+
+                                'agrego detalle a la lista
+                                listaDetalle.Add(itemDetalleNC)
+                            Next
+                            oNotaCredito.ENTDetalleNotaCredito = listaDetalle.ToArray
+                        Catch ex As Exception
+                            If _tipoManejo = "A" Then
+                                rsboApp.SetStatusBarMessage("detalle nota de credito error " & ex.Message().ToString(), SAPbouiCOM.BoMessageTime.bmt_Short, True)
+                            End If
+                            Utilitario.Util_Log.Escribir_Log("detalle nota de credito error : " & ex.Message.ToString(), "ManejoDeDocumentos")
+                            _Error = "detalle nota de credito error : " + ex.Message.ToString()
+                            Return Nothing
+                        End Try
+
+                    ElseIf i = 2 Then
+                        Try
+                            For Each r As DataRow In ds.Tables(2).Rows
+                                Dim itemDatoAdicionalFac As New Entidades.wsEDoc_NotaDeCredito41.ENTDatoAdicionalNotaCredito
+                                itemDatoAdicionalFac.Nombre = r("Concepto")
+                                itemDatoAdicionalFac.Descripcion = r("Descripcion")
+                                listaDatosAdicional.Add(itemDatoAdicionalFac)
+                            Next
+                            oNotaCredito.ENTDatoAdicionalNotaCredito = listaDatosAdicional.ToArray
+                        Catch ex As Exception
+                            If _tipoManejo = "A" Then
+                                rsboApp.SetStatusBarMessage("informacion adicional nota de credito error " & ex.Message().ToString(), SAPbouiCOM.BoMessageTime.bmt_Short, True)
+                            End If
+                            Utilitario.Util_Log.Escribir_Log("informacion adicional nota de credito error : " & ex.Message.ToString(), "ManejoDeDocumentos")
+                            _Error = "adicionales de nota de credito error : " + ex.Message.ToString()
+                            Return Nothing
+                        End Try
+
+                    End If
+                Next
+
+            End If
+
+            Return oNotaCredito
+
+        Catch x As ArgumentException
+            If _tipoManejo = "A" Then
+                rsboApp.SetStatusBarMessage("ArgumentException-Ocurrio un error al consultar datos de la Nota de Credito en la Base, DocEntry :  " & DocEntry.ToString() & " Descr: " & x.Message().ToString(), SAPbouiCOM.BoMessageTime.bmt_Short, True)
+            End If
+            If _tipoManejo = "A" Then
+
+                oFuncionesAddon.GuardaLOG(TipoNC, DocEntry, "ArgumentException-Error al Consultar Nota de Credito con # DocEntry = " + DocEntry.ToString() + ", Descr: " + x.Message().ToString(), Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
+
+            End If
+
+
+            Return Nothing
+        Catch ex As Exception
+            If _tipoManejo = "A" Then
+                rsboApp.SetStatusBarMessage("Ocurrio un error al consultar datos de la oNotaCredito en la Base, DocEntry:  " & DocEntry.ToString() & "Descr: " & ex.Message().ToString(), SAPbouiCOM.BoMessageTime.bmt_Short, True)
+            End If
+            If _tipoManejo = "A" Then
+
+                oFuncionesAddon.GuardaLOG(TipoNC, DocEntry, "Error al Consultar Nota de Credito con # DocEntry = " + DocEntry.ToString() + ", Descr: " + ex.Message().ToString(), Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
+
+            End If
+
+            Return Nothing
+            'oUtilitario_Email = New Utilitario.UtilManejador_Email("Error: UserControl_MainDocumentos/agregarControl", ConfigurationManager.AppSettings("CorreoResponsable"), ex.Message)
+            'oUtilitario_Email.Enviar()
+        End Try
+    End Function
     Public Function ProcesaEnvioDocumento(DocEntry As Integer, TipoDocumento As String, Optional ByVal sincronizado As Boolean = False) As String
 
         Try
@@ -573,6 +1250,119 @@ Public Class ManejoDeDocumentoSolsap
 
             If sincronizado = True Then
 
+                'Se valida el parametro sincronizado 
+                'en caso de ser verdadero solo se llamara al metodo sincronizar
+                'caso contrario se Enviara el documento
+                'llamar metodo sincronizador
+                'objetoRespuesta = SincronizarDocumentoEDOC(TipoDocumento, DocEntry, TipoWS)
+
+                'SEGUIR VALIDANDO CUANDO SE CONSULTA O REENVIA DESDE LA PANTALLA DE DOCUMENTOS ENVIADOS
+                Dim RequestconsEst As Entidades.RequestConsulta = New Entidades.RequestConsulta
+
+                Dim u_clave_acceso As String = ""
+                Dim oRs_ As SAPbobsCOM.Recordset = CType(rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+
+                If TipoDocumento = "FCE" Or TipoDocumento = "FRE" Or TipoDocumento = "FAE" Then
+
+                    Select Case TipoDocumento
+                        Case "FAE"
+                            oRs_.DoQuery($"SELECT ""U_CLAVE_ACCESO"" FROM ""ODPI"" WHERE ""DocEntry"" = {DocEntry}")
+                        Case Else
+                            oRs_.DoQuery($"SELECT ""U_CLAVE_ACCESO"" FROM ""OINV"" WHERE ""DocEntry"" = {DocEntry}")
+                    End Select
+
+                    If Not oRs_.EoF Then
+                        u_clave_acceso = oRs_.Fields.Item("U_CLAVE_ACCESO").Value.ToString().Trim()
+                    End If
+                    RequestconsEst.claveAcceso = u_clave_acceso
+                    objetoRespuesta = ConsultarDoc(RequestconsEst)
+                ElseIf TipoDocumento = "NCE" Then
+
+                ElseIf TipoDocumento = "REE" Or TipoDocumento = "REA" Or TipoDocumento = "RER" Then
+                End If
+
+                If Not objetoRespuesta Is Nothing Then
+
+                    'lbestadoSRI.Text = resp.Estado
+                    _EstadoAutorizacion = objetoRespuesta.Mensaje
+                    _ClaveAcceso = objetoRespuesta.claveAcceso
+
+                    If _tipoManejo = "A" Then
+                        oFuncionesAddon.GuardaLOG(TipoDocumento, DocEntry, "GS_SINCRO_Respuesta del SRI: " + _EstadoAutorizacion.ToString(), Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
+                    End If
+
+                    Dim mensajeError As String = ""
+                    If _EstadoAutorizacion.ToString().Equals("2") Or _EstadoAutorizacion.ToString().Equals("AUTORIZADO") Then
+                        Try
+                            _NumAutorizacion = objetoRespuesta.claveAcceso.ToString()
+                            _Observacion = "Documento AUTORIZADO AUTORIZACION # " & _NumAutorizacion
+                            _FechaAutorizacion = objetoRespuesta.fechaAutorizacion
+                        Catch ex As Exception
+
+                        End Try
+                    Else
+                        _NumAutorizacion = "0000000000"
+                        _Observacion = "GS_SINCRO: " & objetoRespuesta.ErrorEDOC
+                        mensajeError = _Observacion.ToString
+                    End If
+
+                    If _tipoManejo = "A" Then
+                        rsboApp.SetStatusBarMessage("GS_SINCRO_Grabando respuesta de SRI..!!", SAPbouiCOM.BoMessageTime.bmt_Short, False)
+                        oFuncionesAddon.GuardaLOG(TipoDocumento, DocEntry, "GS_SINCRO_Grabando Respuesta del SRI en Documento - " + TipoDocumento + " - " + DocEntry.ToString(), Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
+                    End If
+
+                    _Observacion = String.Format("SINCRO Estado:{0} - # AUTORIZACION {1} - Mensaje - {2}", _EstadoAutorizacion.ToString, _NumAutorizacion.ToString, mensajeError)
+
+                    ' Mando a Grabar a SAP
+                    If TipoDocumento = "LQE" Then
+
+                    ElseIf Functions.VariablesGlobales._FacturaGuiaRemision = "SI" Then
+
+                    ElseIf TipoDocumento = "SSGR" Then
+
+                    Else
+                        result = GrabaDatosAutorizacion(DocEntry, TipoDocumento)
+                    End If
+                    If result Then
+                        If _tipoManejo = "A" Then
+                            rsboApp.SetStatusBarMessage("Proceso terminado con exito..!!", SAPbouiCOM.BoMessageTime.bmt_Short, False)
+                        End If
+
+                    Else
+                        If _tipoManejo = "A" Then
+                            rsboApp.SetStatusBarMessage("Ocurrio un Error al Guardar los datos de Autorización..!!", SAPbouiCOM.BoMessageTime.bmt_Short, True)
+                        End If
+
+                    End If
+
+                Else
+
+                    'No se pudo sincronizar
+                    _Observacion = "GS_SINCRO - ProcesaEnvioDocumento - ObjetoRespuesta vacio  " + DocEntry.ToString() + " - " + mensaje.ToString()
+                    _Error = "GS_SINCRO-No se recibio respuesta inmediata del servicio : " + _errorMensajeWSEnvío.ToString()
+                    If _tipoManejo = "A" Then
+                        rsboApp.SetStatusBarMessage("GS_SINCRO-No se recibio respuesta, Presione nuevamente el boton de Consultar Autorizacion.", SAPbouiCOM.BoMessageTime.bmt_Short, True)
+
+                        oFuncionesAddon.GuardaLOG(TipoDocumento, DocEntry, "GS_SINCRO-No se recibió respuesta de los Web Services", Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
+
+
+                    End If
+
+                    Try
+                        If TipoDocumento = "LQE" Then
+
+                        ElseIf Functions.VariablesGlobales._FacturaGuiaRemision = "SI" Then
+
+                        ElseIf TipoDocumento = "SSGR" Then
+
+                        Else
+                            GrabaDatosAutorizacion_Error(DocEntry, TipoDocumento, _Error)
+                        End If
+                    Catch ex As Exception
+                    End Try
+
+                End If
+
             Else
 
                 If _tipoManejo = "A" Then rsboApp.SetStatusBarMessage("Seteando informacion a enviar..!!", SAPbouiCOM.BoMessageTime.bmt_Short, False)
@@ -580,7 +1370,7 @@ Public Class ManejoDeDocumentoSolsap
                 If TipoDocumento = "FCE" Or TipoDocumento = "FRE" Or TipoDocumento = "FAE" Then
                     oObjeto = ConsultarFactura(TipoDocumento, DocEntry)
                 ElseIf TipoDocumento = "NCE" Then
-
+                    oObjeto = ConsultarNotadeCredito(TipoDocumento, DocEntry)
                 ElseIf TipoDocumento = "REE" Or TipoDocumento = "REA" Or TipoDocumento = "RER" Then
                 End If
 
@@ -607,7 +1397,17 @@ Public Class ManejoDeDocumentoSolsap
 
                     Dim respuesta_WS As String = ""
                     If Functions.VariablesGlobales._ActApiSS = "Y" AndAlso (TipoDocumento = "FCE" Or TipoDocumento = "FRE" Or TipoDocumento = "FAE") Then
-                        objetoRespuesta = EnviarFacturaSolsap(DirectCast(oObjeto, Entidades.RequestFactura))
+                        Dim oDocumento As SAPbobsCOM.Documents = Nothing
+                        Dim RequestconsEst As Entidades.RequestConsulta = New Entidades.RequestConsulta
+                        oDocumento = rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oInvoices)
+                        Select Case oDocumento.UserFields.Fields.Item("U_ESTADO_AUTORIZACIO").Value
+                            Case "0", "6"
+                                objetoRespuesta = EnviarFacturaSolsap(DirectCast(oObjeto, Entidades.RequestFactura))
+                            Case "1", "5", "7"
+                                RequestconsEst.claveAcceso = oDocumento.UserFields.Fields.Item("U_CLAVE_ACCESO").Value
+                                objetoRespuesta = ConsultarDoc(RequestconsEst)
+                        End Select
+
                     Else
 
                     End If
@@ -628,7 +1428,7 @@ Public Class ManejoDeDocumentoSolsap
                         oFuncionesAddon.GuardaLOG(TipoDocumento, DocEntry, "Respuesta del SRI: " + _EstadoAutorizacion.ToString(), Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
 
                         If _tipoManejo = "A" Then
-                            ' Seteo el Error recibido del servicio EDOC
+                            ' Seteo el Error recibido del API SOLSAP
                             rsboApp.SetStatusBarMessage("Recibiendo respuesta..!!", SAPbouiCOM.BoMessageTime.bmt_Short, False)
                             'Dim respuestaaa = objetoRespuesta.Autorizaciones(0).Mensajes(0).mensaje1().ToString & "- " & objetoRespuesta.Autorizaciones(0).Mensajes(0).informacionAdicional().ToString
                         End If
@@ -643,16 +1443,38 @@ Public Class ManejoDeDocumentoSolsap
                         'oBackgroundWorker.ReportProgress(70)
 
                         If _EstadoAutorizacion.ToString().Equals("2") Or _EstadoAutorizacion.ToString().Equals("AUTORIZADO") Then
+                            Dim RequestconsEst As Entidades.RequestConsulta = New Entidades.RequestConsulta
+                            Dim ResponseconsEst As Entidades.ResponseConsulta = New Entidades.ResponseConsulta
+                            RequestconsEst.claveAcceso = _ClaveAcceso
+                            ResponseconsEst = ConsultarDoc(RequestconsEst)
+
                             Try
                                 _NumAutorizacion = objetoRespuesta.autorizaciones(0).numeroAutorizacion().ToString()
-                                _FechaAutorizacion = objetoRespuesta.autorizaciones(0).FechaAutorizacion()
+
+                                Dim fechaTexto As String = ResponseconsEst.fechaAutorizacion
+
+                                If Not String.IsNullOrWhiteSpace(fechaTexto) Then
+                                    Dim fechaConvertida As DateTime
+
+                                    ' Forzar el formato si sabes que es dd/MM/yyyy
+                                    If DateTime.TryParseExact(fechaTexto, "d/M/yyyy H:mm:ss", Globalization.CultureInfo.InvariantCulture, Globalization.DateTimeStyles.None, fechaConvertida) Then
+                                        _FechaAutorizacion = fechaConvertida.Date
+                                    Else
+                                        _FechaAutorizacion = Nothing
+                                        rsboApp.SetStatusBarMessage("Formato de fecha inválido: " & fechaTexto, SAPbouiCOM.BoMessageTime.bmt_Short, True)
+                                    End If
+                                Else
+                                    _FechaAutorizacion = Nothing
+                                    rsboApp.SetStatusBarMessage("La fecha de autorización está vacía o nula.", SAPbouiCOM.BoMessageTime.bmt_Short, True)
+                                End If
+                                '_FechaAutorizacion = ResponseconsEst.fechaAutorizacion
                             Catch ex As Exception
 
                             End Try
                         Else
                             _NumAutorizacion = "0000000000"
                             Try
-                                mensajesSRI = objetoRespuesta.ErrorEDOC
+                                mensajesSRI = objetoRespuesta.mensaje
                             Catch ex As Exception
                                 mensajesSRI = " No se recibio la descripcion del Error "
                             End Try
@@ -2088,6 +2910,66 @@ Public Class ManejoDeDocumentoSolsap
         End Try
     End Function
 
+    Public Function ConsultarDoc(reqEstado As Entidades.RequestConsulta) As Entidades.ResponseConsulta
+        Try
+            ActivarTLS()
+            Dim token As String = ObtenerTokenAutenticacion()
+            If String.IsNullOrEmpty(token) Then Return Nothing
+
+            Dim endpoint As String = Functions.VariablesGlobales._ApiConEstSS
+            If String.IsNullOrEmpty(endpoint) Then Return Nothing
+
+            Dim settings As New JsonSerializerSettings()
+            settings.NullValueHandling = NullValueHandling.Ignore
+            Dim jsonBody As String = JsonConvert.SerializeObject(reqEstado, settings)
+
+            Dim request As HttpWebRequest = CType(WebRequest.Create(endpoint), HttpWebRequest)
+            request.Method = "POST"
+            request.ContentType = "application/json"
+            request.Headers.Add("Authorization", $"Bearer {token}")
+
+            Using sw As New StreamWriter(request.GetRequestStream())
+                sw.Write(jsonBody)
+            End Using
+
+            Using resp As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
+                Using reader As New StreamReader(resp.GetResponseStream())
+                    Dim result As String = reader.ReadToEnd()
+                    Dim json As JObject = JObject.Parse(result)
+                    'Dim estado As String = json.SelectToken("data.result.codigo")?.ToString()
+                    Dim mensaje As String = json.SelectToken("data.result.mensaje")?.ToString()
+                    Dim clave As String = json.SelectToken("data.result.claveAcceso")?.ToString()
+                    Dim tipoComprobante As String = json.SelectToken("data.result.tipoComprobante")
+                    Dim fechaAutorizacion As String = json.SelectToken("data.result.fechaAutorizacion")?.ToString()
+
+                    Dim respuesta As New Entidades.ResponseConsulta()
+
+                    respuesta.mensaje = mensaje
+                    respuesta.claveAcceso = clave
+                    respuesta.tipoComprobante = tipoComprobante
+                    respuesta.fechaAutorizacion = fechaAutorizacion
+                    Return respuesta
+                End Using
+            End Using
+
+        Catch webEx As WebException
+            Dim mensajeError As String = webEx.Message
+            Dim respErr As HttpWebResponse = TryCast(webEx.Response, HttpWebResponse)
+            If respErr IsNot Nothing Then
+                Using reader As New StreamReader(respErr.GetResponseStream())
+                    mensajeError &= " - " & reader.ReadToEnd()
+                End Using
+            End If
+            If _tipoManejo = "A" Then rsboApp.SetStatusBarMessage("Error consultar documento SRI: " & mensajeError, SAPbouiCOM.BoMessageTime.bmt_Short, True)
+            Return Nothing
+
+        Catch ex As Exception
+            If _tipoManejo = "A" Then rsboApp.SetStatusBarMessage("Error consultar documento SRI: " & ex.Message, SAPbouiCOM.BoMessageTime.bmt_Short, True)
+            Return Nothing
+        End Try
+
+    End Function
+
     Public Function EnviarFacturaSolsap(factura As Entidades.RequestFactura) As Entidades.ResponseDocuments
         Try
 
@@ -2169,6 +3051,159 @@ Public Class ManejoDeDocumentoSolsap
         End Try
     End Function
 
+    Public Function EnviarNCSolsap(factura As Entidades.RequestFactura) As Entidades.ResponseDocuments
+        Try
+
+            ActivarTLS()
+            Dim token As String = ObtenerTokenAutenticacion()
+            If String.IsNullOrEmpty(token) Then Return Nothing
+
+            Dim endpoint As String = Functions.VariablesGlobales._ApiNCEmiSS
+            If String.IsNullOrEmpty(endpoint) Then Return Nothing
+
+            'comentar esta linea posterior a la correcion del endpoint de adicionales en el detalle
+            'If factura.detalles IsNot Nothing Then
+            '    For Each det As Entidades.detalleFE In factura.detalles
+            '        det.detallesAdicionales = Nothing
+            '    Next
+            'End If
+
+            'Dim jsonBody As String = JsonConvert.SerializeObject(factura)
+            Dim settings As New JsonSerializerSettings()
+            settings.NullValueHandling = NullValueHandling.Ignore
+            Dim jsonBody As String = JsonConvert.SerializeObject(factura, settings)
+
+            Try
+                Dim sRutaCarpeta As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "\LOG_SAED\"
+                Dim Secuencial = Right("000000000" & factura.infoTributaria.secuencial, 9)
+                Dim sRuta As String = sRutaCarpeta & factura.infoTributaria.estab & factura.infoTributaria.ptoEmi & Secuencial & ".xml"
+                'Dim sRuta As String = sRutaCarpeta & factura.infoTributaria.secuencial.ToString() + ".xml"
+                If System.IO.Directory.Exists(sRutaCarpeta) Then
+                    Utilitario.Util_Log.Escribir_Log("Serializando...", "ManejoDeDocumentos")
+                    Dim xml As XmlDocument = JsonConvert.DeserializeXmlNode(jsonBody, "nc")
+                    xml.Save(sRuta)
+                    Utilitario.Util_Log.Escribir_Log("Serializado..." + sRuta, "ManejoDeDocumentos")
+                End If
+            Catch ex As Exception
+                Utilitario.Util_Log.Escribir_Log("Serializado. Error: " + ex.Message.ToString(), "ManejoDeDocumentos")
+            End Try
+
+            Dim request As HttpWebRequest = CType(WebRequest.Create(endpoint), HttpWebRequest)
+            request.Method = "POST"
+            request.ContentType = "application/json"
+            request.Headers.Add("Authorization", $"Bearer {token}")
+
+            Using sw As New StreamWriter(request.GetRequestStream())
+                sw.Write(jsonBody)
+            End Using
+
+            Using resp As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
+                Using reader As New StreamReader(resp.GetResponseStream())
+                    Dim result As String = reader.ReadToEnd()
+                    Dim json As JObject = JObject.Parse(result)
+                    Dim estado As String = json.SelectToken("data.result.codigo")?.ToString()
+                    Dim mensaje As String = json.SelectToken("data.result.mensaje")?.ToString()
+                    Dim clave As String = json.SelectToken("data.result.claveAcceso")?.ToString()
+                    Dim identificador As String = json.SelectToken("data.result.identificador")?.ToString()
+
+                    Dim respuesta As New Entidades.ResponseDocuments()
+                    respuesta.codigo = estado
+                    respuesta.mensaje = mensaje
+                    respuesta.claveAcceso = clave
+                    respuesta.identificador = identificador
+                    Return respuesta
+                End Using
+            End Using
+
+        Catch webEx As WebException
+            Dim mensajeError As String = webEx.Message
+            Dim respErr As HttpWebResponse = TryCast(webEx.Response, HttpWebResponse)
+            If respErr IsNot Nothing Then
+                Using reader As New StreamReader(respErr.GetResponseStream())
+                    mensajeError &= " - " & reader.ReadToEnd()
+                End Using
+            End If
+            If _tipoManejo = "A" Then rsboApp.SetStatusBarMessage("Error enviando nota de crédito: " & mensajeError, SAPbouiCOM.BoMessageTime.bmt_Short, True)
+            Return Nothing
+
+        Catch ex As Exception
+            If _tipoManejo = "A" Then rsboApp.SetStatusBarMessage("Error enviando nota de crédito: " & ex.Message, SAPbouiCOM.BoMessageTime.bmt_Short, True)
+            Return Nothing
+        End Try
+    End Function
+
+    Public Function ConsultaPDF(sClaveAcceso As String, tipoDoc As String) As Boolean
+        Try
+            Dim taxIdNum As String = ""
+            Dim oRs As SAPbobsCOM.Recordset = CType(rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oRs.DoQuery("SELECT ""TaxIdNum"" FROM ""OADM""")
+            If Not oRs.EoF Then
+                taxIdNum = oRs.Fields.Item("TaxIdNum").Value.ToString().Trim()
+            End If
+
+            Dim urlReal As String = ""
+            Select Case tipoDoc
+                Case "facturas"
+                    urlReal = $"{Functions.VariablesGlobales._ApiPDFSS}/{tipoDoc}/{taxIdNum}/{sClaveAcceso}"
+                Case Else
+                    rsboApp.SetStatusBarMessage("Tipo de documento no soportado.", SAPbouiCOM.BoMessageTime.bmt_Short, True)
+                    Return False
+            End Select
+
+            Dim rutaTempPDF As String = Path.Combine(Path.GetTempPath(), $"{sClaveAcceso}.pdf")
+            Using wc As New WebClient()
+                wc.DownloadFile(urlReal, rutaTempPDF)
+            End Using
+
+            Dim proc As New Process()
+            proc.StartInfo.FileName = rutaTempPDF
+            proc.Start()
+            proc.Dispose()
+
+            Return True
+
+        Catch ex As Exception
+            rsboApp.SetStatusBarMessage("Error al descargar o abrir el PDF: " & ex.Message, SAPbouiCOM.BoMessageTime.bmt_Medium, True)
+            Return False
+        End Try
+    End Function
+
+    Public Function ConsultaXML(sClaveAcceso As String, tipoDoc As String) As Boolean
+        Try
+            Dim taxIdNum As String = ""
+            Dim oRs As SAPbobsCOM.Recordset = CType(rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+            oRs.DoQuery("SELECT ""TaxIdNum"" FROM ""OADM""")
+            If Not oRs.EoF Then
+                taxIdNum = oRs.Fields.Item("TaxIdNum").Value.ToString().Trim()
+            End If
+
+            Dim urlReal As String = ""
+            Select Case tipoDoc
+                Case "facturas"
+                    urlReal = $"{Functions.VariablesGlobales._ApiXMLSS}/{tipoDoc}/{taxIdNum}/{sClaveAcceso}"
+                Case Else
+                    rsboApp.SetStatusBarMessage("Tipo de documento no soportado.", SAPbouiCOM.BoMessageTime.bmt_Short, True)
+                    Return False
+            End Select
+
+            Dim rutaTempPDF As String = Path.Combine(Path.GetTempPath(), $"{sClaveAcceso}.xml")
+            Using wc As New WebClient()
+                wc.DownloadFile(urlReal, rutaTempPDF)
+            End Using
+
+            Dim proc As New Process()
+            proc.StartInfo.FileName = rutaTempPDF
+            proc.Start()
+            proc.Dispose()
+
+            Return True
+
+        Catch ex As Exception
+            rsboApp.SetStatusBarMessage("Error al descargar o abrir el XML: " & ex.Message, SAPbouiCOM.BoMessageTime.bmt_Medium, True)
+            Return False
+        End Try
+    End Function
+
     Public Sub ActivarTLS()
         ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol Or SecurityProtocolType.Ssl3 Or SecurityProtocolType.Tls Or 768 Or 3072
     End Sub
@@ -2182,5 +3217,40 @@ Public Class ManejoDeDocumentoSolsap
         End If
 
         Return valor.ToString()
+    End Function
+
+    Private Function ValidaClave(ByVal clave As String, ByVal cod_comp As String, ByVal serie As String, ByVal secuencia As String) As String
+
+        If clave.Length = 49 Then
+
+            Dim secufull As String = secuencia
+            Dim numero_documento As String = ""
+
+            If Not secufull.Length = 9 Then
+
+                secufull = secufull.PadLeft(9, "0")
+
+            End If
+
+            'construyo el numero del documento
+            numero_documento = serie & secufull
+
+            'verifico si el numero del documento y el cod del comprobante existe en la clave de acceso
+
+            If clave.Substring(8, 2) = cod_comp And clave.Substring(24, 15) = numero_documento Then
+
+                Return clave
+
+            Else
+
+                Return ""
+
+            End If
+
+
+        Else
+            Return ""
+        End If
+
     End Function
 End Class

@@ -984,7 +984,11 @@ Public Class frmDocumentosEnviados
 
                         Try
                             oGrid.Rows.SelectedRows.Add(y)
-                            oManejoDocumentos.ProcesaEnvioDocumento(identificador, ss_tipotabla, True)
+                            If Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                oManejoDocumentosSolsap.ProcesaEnvioDocumento(identificador, ss_tipotabla, True)
+                            Else
+                                oManejoDocumentos.ProcesaEnvioDocumento(identificador, ss_tipotabla, True)
+                            End If
                             gcss.SetRowBackColor(y + 1, 255000)
                             'oGrid.Rows.SelectedRows.Add(y)
                         Catch ex As Exception
@@ -1012,7 +1016,11 @@ Public Class frmDocumentosEnviados
                             Try
                                 'oGrid.SetCellFocus(x, 10)
                                 oGrid.Rows.SelectedRows.Add(y)
-                                oManejoDocumentos.ProcesaEnvioDocumento(identificador, ss_tipotabla, False)
+                                If Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                    oManejoDocumentosSolsap.ProcesaEnvioDocumento(identificador, ss_tipotabla, True)
+                                Else
+                                    oManejoDocumentos.ProcesaEnvioDocumento(identificador, ss_tipotabla, True)
+                                End If
                                 gcss.SetRowBackColor(y + 1, 255000)
                             Catch ex As Exception
                                 gcss.SetRowBackColor(y + 1, RGB(255, 0, 0))
