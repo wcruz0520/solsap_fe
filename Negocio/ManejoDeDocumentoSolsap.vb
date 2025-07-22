@@ -1284,7 +1284,7 @@ Public Class ManejoDeDocumentoSolsap
                 If Not objetoRespuesta Is Nothing Then
 
                     'lbestadoSRI.Text = resp.Estado
-                    _EstadoAutorizacion = objetoRespuesta.Mensaje
+                    _EstadoAutorizacion = objetoRespuesta.codigo
                     _ClaveAcceso = objetoRespuesta.claveAcceso
 
                     If _tipoManejo = "A" Then
@@ -1296,7 +1296,8 @@ Public Class ManejoDeDocumentoSolsap
                         Try
                             _NumAutorizacion = objetoRespuesta.claveAcceso.ToString()
                             _Observacion = "Documento AUTORIZADO AUTORIZACION # " & _NumAutorizacion
-                            _FechaAutorizacion = objetoRespuesta.fechaAutorizacion
+                            Dim fechaTexto As String = objetoRespuesta.fechaAutorizacion
+                            _FechaAutorizacion = Nothing 'FormatearFechaSAP(fechaTexto)
                         Catch ex As Exception
 
                         End Try
@@ -1452,21 +1453,7 @@ Public Class ManejoDeDocumentoSolsap
                                 _NumAutorizacion = objetoRespuesta.autorizaciones(0).numeroAutorizacion().ToString()
 
                                 Dim fechaTexto As String = ResponseconsEst.fechaAutorizacion
-
-                                If Not String.IsNullOrWhiteSpace(fechaTexto) Then
-                                    Dim fechaConvertida As DateTime
-
-                                    ' Forzar el formato si sabes que es dd/MM/yyyy
-                                    If DateTime.TryParseExact(fechaTexto, "d/M/yyyy H:mm:ss", Globalization.CultureInfo.InvariantCulture, Globalization.DateTimeStyles.None, fechaConvertida) Then
-                                        _FechaAutorizacion = fechaConvertida.Date
-                                    Else
-                                        _FechaAutorizacion = Nothing
-                                        rsboApp.SetStatusBarMessage("Formato de fecha inválido: " & fechaTexto, SAPbouiCOM.BoMessageTime.bmt_Short, True)
-                                    End If
-                                Else
-                                    _FechaAutorizacion = Nothing
-                                    rsboApp.SetStatusBarMessage("La fecha de autorización está vacía o nula.", SAPbouiCOM.BoMessageTime.bmt_Short, True)
-                                End If
+                                _FechaAutorizacion = Nothing 'FormatearFechaSAP(fechaTexto)
                                 '_FechaAutorizacion = ResponseconsEst.fechaAutorizacion
                             Catch ex As Exception
 
@@ -2941,6 +2928,7 @@ Public Class ManejoDeDocumentoSolsap
                     Dim clave As String = json.SelectToken("data.result.claveAcceso")?.ToString()
                     Dim tipoComprobante As String = json.SelectToken("data.result.tipoComprobante")
                     Dim fechaAutorizacion As String = json.SelectToken("data.result.fechaAutorizacion")?.ToString()
+                    Dim codigo As String = json.SelectToken("data.result.codigo")?.ToString()
 
                     Dim respuesta As New Entidades.ResponseConsulta()
 
@@ -2948,6 +2936,7 @@ Public Class ManejoDeDocumentoSolsap
                     respuesta.claveAcceso = clave
                     respuesta.tipoComprobante = tipoComprobante
                     respuesta.fechaAutorizacion = fechaAutorizacion
+                    respuesta.codigo = codigo
                     Return respuesta
                 End Using
             End Using
@@ -3252,5 +3241,26 @@ Public Class ManejoDeDocumentoSolsap
             Return ""
         End If
 
+    End Function
+
+    Public Function FormatearFechaSAP(fechaTexto As String) As String
+        Try
+            If Not String.IsNullOrWhiteSpace(fechaTexto) Then
+                Dim fechaConvertida As DateTime
+                Dim formatoEntrada As String = "d/M/yyyy H:mm:ss"
+
+                If DateTime.TryParseExact(fechaTexto, formatoEntrada, Globalization.CultureInfo.InvariantCulture, Globalization.DateTimeStyles.None, fechaConvertida) Then
+                    Return fechaConvertida.ToString("yyyy-MM-dd")
+                Else
+                    rsboApp.SetStatusBarMessage("Formato de fecha no válido: " & fechaTexto, SAPbouiCOM.BoMessageTime.bmt_Short, True)
+                End If
+            Else
+                rsboApp.SetStatusBarMessage("La fecha está vacía o nula.", SAPbouiCOM.BoMessageTime.bmt_Short, True)
+            End If
+        Catch ex As Exception
+            rsboApp.SetStatusBarMessage("Error al convertir la fecha: " & ex.Message, SAPbouiCOM.BoMessageTime.bmt_Short, True)
+        End Try
+
+        Return ""
     End Function
 End Class

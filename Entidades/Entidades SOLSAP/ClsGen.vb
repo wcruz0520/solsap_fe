@@ -36,6 +36,7 @@ End Class
 Public Class ResponseConsulta
     'Public Property log As List(Of String)
     Public Property mensaje As String
+    Public Property codigo As String
     Public Property claveAcceso As String
     Public Property tipoComprobante As String
     Public Property fechaAutorizacion As String
