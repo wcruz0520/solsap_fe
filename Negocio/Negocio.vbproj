@@ -170,6 +170,11 @@
     <Compile Include="ManejoDeDocumentos.vb" />
     <Compile Include="ManejoDeDocumentosEcua.vb" />
     <Compile Include="ManejoDeDocumentoSolsap.vb" />
+    <Compile Include="Managers\ApiAuthManager.vb" />
+    <Compile Include="Managers\ApiRequestManager.vb" />
+    <Compile Include="Managers\DatabaseQueryManager.vb" />
+    <Compile Include="Managers\FacturaManager.vb" />
+    <Compile Include="Managers\NotaCreditoManager.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
