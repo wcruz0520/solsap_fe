@@ -2021,10 +2021,7 @@ Public Class EventosEmision
 
 
                                                             If iReturnValue2 = 2 Then
-
                                                                 oFuncionesAddon.GuardaLOG(objType, docentry, "Contestó NO", Functions.FuncionesAddon.Transacciones.Reenvío, Functions.FuncionesAddon.TipoLog.Emision)
-
-
                                                                 BubbleEvent = False
                                                             ElseIf iReturnValue2 = 1 Then
 
