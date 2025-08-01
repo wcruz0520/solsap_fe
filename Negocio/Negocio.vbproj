@@ -176,6 +176,7 @@
     <Compile Include="Managers\FuncionesProcesoEmision.vb" />
     <Compile Include="Managers\LiquidacionManager.vb" />
     <Compile Include="Managers\NotaCreditoManager.vb" />
+    <Compile Include="Managers\NotaDebitoManager.vb" />
     <Compile Include="Managers\ProcesoEmision.vb" />
     <Compile Include="Managers\RetencionManager.vb" />
     <Compile Include="ManejoDeDocumentos.vb" />
