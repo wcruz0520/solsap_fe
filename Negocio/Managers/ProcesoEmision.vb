@@ -101,6 +101,16 @@ Public Class ProcesoEmision
                     objetoRespuesta = ApiRequestManager_.ConsultarDoc(RequestconsEst)
                 ElseIf TipoDocumento = "REE" Or TipoDocumento = "REA" Or TipoDocumento = "RER" Then
 
+                ElseIf TipoDocumento = "NDE" Then
+
+                    oRs_.DoQuery($"SELECT ""U_CLAVE_ACCESO"" FROM ""OINV"" WHERE ""DocEntry"" = {DocEntry} AND ""DocSubType"" = 'DN'")
+
+                    If Not oRs_.EoF Then
+                        u_clave_acceso = oRs_.Fields.Item("U_CLAVE_ACCESO").Value.ToString().Trim()
+                    End If
+                    RequestconsEst.claveAcceso = u_clave_acceso
+                    objetoRespuesta = ApiRequestManager_.ConsultarDoc(RequestconsEst)
+
                 End If
 
                 If Not objetoRespuesta Is Nothing Then
@@ -194,6 +204,8 @@ Public Class ProcesoEmision
                     oObjeto = FacturaManager_.ConsultarFactura(TipoDocumento, DocEntry, _Error, _campoNulo)
                 ElseIf TipoDocumento = "NCE" Then
                     oObjeto = NotaCreditoManager_.ConsultarNotaCredito(TipoDocumento, DocEntry, _Error, _campoNulo)
+                ElseIf TipoDocumento = "NDE" Then
+                    'oObjeto = NotaCreditoManager_.ConsultarNotaCredito(TipoDocumento, DocEntry, _Error, _campoNulo)
                 ElseIf TipoDocumento = "REE" Or TipoDocumento = "REA" Or TipoDocumento = "RER" Then
                 End If
 
@@ -238,6 +250,18 @@ Public Class ProcesoEmision
                         Select Case oDocumento.UserFields.Fields.Item("U_ESTADO_AUTORIZACIO").Value
                             Case "0", "3", "4", "6"
                                 objetoRespuesta = ApiRequestManager_.EnviarNCSolsap(DirectCast(oObjeto, Entidades.RequestNotaCredito))
+                            Case "1", "5", "7"
+                                RequestconsEst.claveAcceso = oDocumento.UserFields.Fields.Item("U_CLAVE_ACCESO").Value
+                                objetoRespuesta = ApiRequestManager_.ConsultarDoc(RequestconsEst)
+                        End Select
+
+                    ElseIf Functions.VariablesGlobales._ActApiSS = "Y" AndAlso TipoDocumento = "NDE" Then
+                        Dim oDocumento As SAPbobsCOM.Documents = Nothing
+                        Dim RequestconsEst As Entidades.RequestConsulta = New Entidades.RequestConsulta
+                        oDocumento = rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oInvoices)
+                        Select Case oDocumento.UserFields.Fields.Item("U_ESTADO_AUTORIZACIO").Value
+                            Case "0", "3", "4", "6"
+                                'objetoRespuesta = ApiRequestManager_.EnviarNCSolsap(DirectCast(oObjeto, Entidades.RequestNotaDebito))
                             Case "1", "5", "7"
                                 RequestconsEst.claveAcceso = oDocumento.UserFields.Fields.Item("U_CLAVE_ACCESO").Value
                                 objetoRespuesta = ApiRequestManager_.ConsultarDoc(RequestconsEst)
