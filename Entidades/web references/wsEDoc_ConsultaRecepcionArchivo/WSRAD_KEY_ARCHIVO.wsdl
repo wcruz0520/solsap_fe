@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="WSRAD_KEY_ARCHIVO" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://gurusoft-lab.com/eDocEcuador/WSEDOC_RECEPCION/WSRAD_KEY_ARCHIVO.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IWSRAD_KEY_ARCHIVO_ConsultaArchivoProveedor_PDF_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultaArchivoProveedor_PDF" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_ARCHIVO_ConsultaArchivoProveedor_PDF_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultaArchivoProveedor_PDFResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_ARCHIVO_ConsultaArchivoProveedor_PDF_URL_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultaArchivoProveedor_PDF_URL" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_ARCHIVO_ConsultaArchivoProveedor_PDF_URL_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultaArchivoProveedor_PDF_URLResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_ARCHIVO_CargarClavesAcceso_InputMessage">
+    <wsdl:part name="parameters" element="tns:CargarClavesAcceso" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_ARCHIVO_CargarClavesAcceso_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CargarClavesAccesoResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IWSRAD_KEY_ARCHIVO">
+    <wsdl:operation name="ConsultaArchivoProveedor_PDF">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWSRAD_KEY_ARCHIVO/ConsultaArchivoProveedor_PDF" message="tns:IWSRAD_KEY_ARCHIVO_ConsultaArchivoProveedor_PDF_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWSRAD_KEY_ARCHIVO/ConsultaArchivoProveedor_PDFResponse" message="tns:IWSRAD_KEY_ARCHIVO_ConsultaArchivoProveedor_PDF_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaArchivoProveedor_PDF_URL">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWSRAD_KEY_ARCHIVO/ConsultaArchivoProveedor_PDF_URL" message="tns:IWSRAD_KEY_ARCHIVO_ConsultaArchivoProveedor_PDF_URL_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWSRAD_KEY_ARCHIVO/ConsultaArchivoProveedor_PDF_URLResponse" message="tns:IWSRAD_KEY_ARCHIVO_ConsultaArchivoProveedor_PDF_URL_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CargarClavesAcceso">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWSRAD_KEY_ARCHIVO/CargarClavesAcceso" message="tns:IWSRAD_KEY_ARCHIVO_CargarClavesAcceso_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWSRAD_KEY_ARCHIVO/CargarClavesAccesoResponse" message="tns:IWSRAD_KEY_ARCHIVO_CargarClavesAcceso_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IWSRAD_KEY_ARCHIVO" type="tns:IWSRAD_KEY_ARCHIVO">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ConsultaArchivoProveedor_PDF">
+      <soap:operation soapAction="http://tempuri.org/IWSRAD_KEY_ARCHIVO/ConsultaArchivoProveedor_PDF" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaArchivoProveedor_PDF_URL">
+      <soap:operation soapAction="http://tempuri.org/IWSRAD_KEY_ARCHIVO/ConsultaArchivoProveedor_PDF_URL" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CargarClavesAcceso">
+      <soap:operation soapAction="http://tempuri.org/IWSRAD_KEY_ARCHIVO/CargarClavesAcceso" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WSRAD_KEY_ARCHIVO">
+    <wsdl:port name="BasicHttpBinding_IWSRAD_KEY_ARCHIVO" binding="tns:BasicHttpBinding_IWSRAD_KEY_ARCHIVO">
+      <soap:address location="http://gurusoft-lab.com/eDocEcuador/WSEDOC_RECEPCION/WSRAD_KEY_ARCHIVO.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

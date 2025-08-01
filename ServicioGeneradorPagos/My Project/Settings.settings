@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
+  <Profiles />
+  <Settings>
+    <Setting Name="ServicioGeneradorPagos_WS_LICENCIA_Licencia" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://labcr.guru-soft.com/eDocCR/Sitios_Solsap/WS_LICENCIA_SAP/Licencia.svc</Value>
+    </Setting>
+    <Setting Name="ServicioGeneradorPagos_CONSULTA_WSRAD_KEY_CONSULTA" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://labec.guru-soft.com/eDocEcuador/WSEDOC_RECEPCION/WSRAD_KEY_CONSULTA.svc</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

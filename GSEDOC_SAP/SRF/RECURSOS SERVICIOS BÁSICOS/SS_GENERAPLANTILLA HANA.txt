@@ -1,0 +1,87 @@
+CREATE PROCEDURE SS_GENERAPLANTILLA (IN Sucursal nvarchar(25), IN TipoServicio nvarchar(50))
+AS
+BEGIN
+
+Sucursal := NULLIF(Sucursal,'');
+TipoServicio := NULLIF(TipoServicio,'');
+
+Create LOCAL temporary TABLE "#ContratosTemporales"(
+"Contrato" INTEGER, "ContratoAnterior" INTEGER, "Denominacion" VARCHAR(250), "Locales" VARCHAR(250),  
+"Nivel" VARCHAR(25), "Medidor" VARCHAR(50), "LecturaInicial" integer, "LecturaFinal" integer);
+
+IF :Sucursal = 'MS' THEN -- Mal del sur
+
+	INSERT INTO "#ContratosTemporales"
+	SELECT A."DocEntry",  IFNULL(NULLIF(A."U_NumContrato",''),0), IFNULL(A."U_Denominacion",' '), C."Name" AS "U_NumLocales", IFNULL(C."U_Nivel", ' '), D."U_CodMed",
+		(SELECT MAX(IFNULL(T0."U_LecFin",0)) FROM "@SS_SB_DET1" T0 INNER JOIN "@SS_SB_CAB" T1 ON T0."DocEntry" = T1."DocEntry" 
+			WHERE T0."U_Contrato" = A."DocEntry" and IFNULL(T0."U_ContratoAnt",0) = IFNULL(A."U_NumContrato",0) AND IFNULL(T0."U_Medidor",T0."U_Locales") = D."U_CodMed" AND T1."U_TipSer" = TipoServicio AND T1."U_NivCC3" = Sucursal)
+		, 0
+	FROM "SBO_MS"."@SSCONTCAB" A
+		LEFT JOIN "SBO_MS"."@SSCONTDET1" B ON A."DocEntry" = B."DocEntry" 
+		LEFT JOIN "SBO_MS"."@SSLOCALCAB" C ON C."Code" = B."U_CodLocal"
+		LEFT JOIN "SBO_MS"."@SSLOCALDET2" D ON D."Code" = C."Code"
+	WHERE A."Canceled" <> 'Y' AND D."U_TipoMed" = REPLACE(TipoServicio,'í','i') AND A."U_CCid" = Sucursal AND A."U_Estado" = 'RECIBIDO';
+	
+ELSEIF :Sucursal = 'CM' THEN -- City mall
+
+	INSERT INTO "#ContratosTemporales"
+	SELECT A."DocEntry",  IFNULL(NULLIF(A."U_NumContrato",''),0), IFNULL(A."U_Denominacion",' '), C."Name" AS "U_NumLocales", IFNULL(C."U_Nivel", ' '), D."U_CodMed",
+		(SELECT MAX(IFNULL(T0."U_LecFin",0)) FROM "@SS_SB_DET1" T0 INNER JOIN "@SS_SB_CAB" T1 ON T0."DocEntry" = T1."DocEntry" 
+			WHERE T0."U_Contrato" = A."DocEntry" and IFNULL(T0."U_ContratoAnt",0) = IFNULL(A."U_NumContrato",0) AND IFNULL(T0."U_Medidor",T0."U_Locales") = D."U_CodMed" AND T1."U_TipSer" = TipoServicio AND T1."U_NivCC3" = Sucursal)
+		, 0
+	FROM "SBO_CM"."@SSCONTCAB" A
+		LEFT JOIN "SBO_CM"."@SSCONTDET1" B ON A."DocEntry" = B."DocEntry" 
+		LEFT JOIN "SBO_CM"."@SSLOCALCAB" C ON C."Code" = B."U_CodLocal"
+		LEFT JOIN "SBO_CM"."@SSLOCALDET2" D ON D."Code" = C."Code"
+	WHERE A."Canceled" <> 'Y' AND D."U_TipoMed" = REPLACE(TipoServicio,'í','i') AND A."U_CCid" = Sucursal AND A."U_Estado" = 'RECIBIDO';
+
+ELSEIF :Sucursal = 'MN' THEN -- Mal del norte
+
+	INSERT INTO "#ContratosTemporales"
+	SELECT A."DocEntry", IFNULL(NULLIF(A."U_NumContrato",''),0), IFNULL(A."U_Denominacion",' '), C."Name" AS "U_NumLocales", IFNULL(C."U_Nivel", ' '), D."U_CodMed",
+		IFNULL((SELECT MAX(T0."U_LecFin") FROM "@SS_SB_DET1" T0 INNER JOIN "@SS_SB_CAB" T1 ON T0."DocEntry" = T1."DocEntry" 
+			WHERE T0."U_Contrato" = A."DocEntry" and T0."U_ContratoAnt" = A."U_NumContrato" 
+			AND IFNULL(T0."U_Medidor",T0."U_Locales") = D."U_CodMed" AND T1."U_TipSer" = TipoServicio AND T1."U_NivCC3" = Sucursal),0)
+		, 0
+	FROM "SBO_MN"."@SSCONTCAB" A
+		LEFT JOIN "SBO_MN"."@SSCONTDET1" B ON A."DocEntry" = B."DocEntry" 
+		LEFT JOIN "SBO_MN"."@SSLOCALCAB" C ON C."Code" = B."U_CodLocal"
+		LEFT JOIN "SBO_MN"."@SSLOCALDET2" D ON D."Code" = C."Code"
+	WHERE A."Canceled" <> 'Y' AND D."U_TipoMed" = REPLACE(TipoServicio,'í','i') AND A."U_CCid" = Sucursal AND A."U_Estado" = 'RECIBIDO';
+
+ELSEIF :Sucursal = 'VI' THEN -- Village
+
+	INSERT INTO "#ContratosTemporales"
+	SELECT A."DocEntry",  IFNULL(NULLIF(A."U_NumContrato",''),0), IFNULL(A."U_Denominacion",' '), C."Name" AS "U_NumLocales", IFNULL(C."U_Nivel", ' '), D."U_CodMed",
+		(SELECT MAX(IFNULL(T0."U_LecFin",0)) FROM "@SS_SB_DET1" T0 INNER JOIN "@SS_SB_CAB" T1 ON T0."DocEntry" = T1."DocEntry" 
+			WHERE T0."U_Contrato" = A."DocEntry" and IFNULL(T0."U_ContratoAnt",0) = IFNULL(A."U_NumContrato",0) AND IFNULL(T0."U_Medidor",T0."U_Locales") = D."U_CodMed" AND T1."U_TipSer" = TipoServicio AND T1."U_NivCC3" = Sucursal)
+		, 0
+	FROM "SBO_VI"."@SSCONTCAB" A
+		LEFT JOIN "SBO_VI"."@SSCONTDET1" B ON A."DocEntry" = B."DocEntry" 
+		LEFT JOIN "SBO_VI"."@SSLOCALCAB" C ON C."Code" = B."U_CodLocal"
+		LEFT JOIN "SBO_VI"."@SSLOCALDET2" D ON D."Code" = C."Code"
+	WHERE A."Canceled" <> 'Y' AND D."U_TipoMed" = REPLACE(TipoServicio,'í','i') AND A."U_CCid" = Sucursal AND A."U_Estado" = 'RECIBIDO';
+		
+END IF;
+
+INSERT INTO "#ContratosTemporales"
+SELECT A."DocEntry",  IFNULL(NULLIF(A."U_NumContrato",''),0), IFNULL(A."U_Denominacion",' '), C."Name" AS "U_NumLocales", IFNULL(C."U_Nivel", ' '), D."U_CodMed",
+	IFNULL((SELECT MAX(IFNULL(T0."U_LecFin",0)) FROM "@SS_SB_DET1" T0 INNER JOIN "@SS_SB_CAB" T1 ON T0."DocEntry" = T1."DocEntry" 
+		WHERE T0."U_Contrato" = A."DocEntry" and IFNULL(T0."U_ContratoAnt",'') = IFNULL(A."U_NumContrato",'') AND IFNULL(T0."U_Medidor",T0."U_Locales") = D."U_CodMed" AND T1."U_TipSer" = TipoServicio AND T1."U_NivCC3" = Sucursal),0)
+	, 0
+FROM "@SSCONTCAB" A
+	LEFT JOIN "@SSCONTDET1" B ON A."DocEntry" = B."DocEntry" 
+	LEFT JOIN "@SSLOCALCAB" C ON C."Code" = B."U_CodLocal"
+	LEFT JOIN "@SSLOCALDET2" D ON D."Code" = C."Code"
+WHERE A."Canceled" <> 'Y' AND D."U_TipoMed" = REPLACE(TipoServicio,'í','i') AND A."U_CCid" = Sucursal AND A."U_Estado" = 'RECIBIDO';
+
+INSERT INTO "#ContratosTemporales"
+SELECT "U_Contrato", "U_Contrato", "U_Denominacion",'', '','', "U_LecIni", 0 
+FROM "@SS_SB_MED_ADM" WHERE "U_TipSer" = REPLACE(TipoServicio,'í','i') and "U_Sucursal" = Sucursal;
+
+select * from "#ContratosTemporales" ORDER BY "Locales" ASC;
+drop table "#ContratosTemporales";
+END
+/*
+call SS_GENERAPLANTILLA ('VI','Agua')
+*/

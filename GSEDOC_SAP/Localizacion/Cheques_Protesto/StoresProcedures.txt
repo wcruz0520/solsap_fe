@@ -1,0 +1,210 @@
+﻿*** HANA
+
+ALTER PROCEDURE SS_LOC_GET_CHEQUES(
+	IN Cliente nvarchar(15),
+	IN NumCheque int,
+	IN Estado nvarchar(50),
+	IN FechaIni datetime,
+	IN FechaFin datetime
+
+)
+AS 
+BEGIN
+	DECLARE C INTEGER :=0;
+DECLARE SQLTEXT varchar(500) ;
+	
+	 Cliente := NULLIF(Cliente,'');
+	 Estado := NULLIF(Estado,'TODOS');
+	 FechaIni := NULLIF(FechaIni, '1900-01-01 0:00:00');
+	 FechaFin := NULLIF(FechaFin, '1900-01-01 0:00:00');
+		
+
+--**********************************************
+	CREATE LOCAL TEMPORARY TABLE #CHEQUES
+	(
+		"NumPago" integer,
+		"FechaCheque" date,
+		"Cheque_Num" integer,
+		"Cheque_Valor" numeric(19,6),
+		"Banco" varchar(100),
+		"Cliente_Codigo" varchar(15),
+		"Cliente" varchar(100),
+		"Doc_Num" integer,
+		"Doc_Sec" varchar(50),	
+		"Doc_Protesto" integer,
+		"Pago_Coments" varchar(200),
+		"Doc_Coments" varchar(200),
+		"Estado" varchar(14)
+	);
+	
+
+	INSERT INTO #CHEQUES
+	SELECT 
+		 ORCT."DocEntry" AS NumPago
+	    ,CHE."DueDate" AS FechaCheque
+		,CHE."CheckNum" AS Cheque_Num
+		,CHE."CheckSum" AS Cheque_Valor
+		,IFNULL(BANCO."BankName",'') AS Banco
+		,ORCT."CardCode" as Cliente_Codigo
+		,ORCT."CardName" AS Cliente
+		,DOC."DocEntry" AS Doc_Num
+		,IFNULL(OINV."NumAtCard",'') AS Doc_Sec
+		,IFNULL(CHE."U_SS_IDND",0) AS Doc_Protesto
+
+		, IFNULL(ORCT."JrnlMemo",'') AS Pago_Coments
+		, IFNULL(OINV."Comments",'') AS Doc_Coments
+		,CASE WHEN IFNULL(CHE."U_SS_IDND",0) = 0 THEN 'NO PROTESTADOS' ELSE 'PROTESTADOS' END Estado
+	FROM RCT1 AS CHE
+	INNER JOIN RCT2 AS DOC ON CHE."DocNum" = DOC."DocNum"
+	INNER JOIN OINV ON DOC."DocEntry" = OINV."DocEntry"
+	INNER JOIN ORCT ON CHE."DocNum" = ORCT."DocEntry"
+	LEFT JOIN ODSC AS BANCO ON CHE."BankCode" = BANCO."BankCode"
+
+	WHERE DOC."InvType" = '13'
+	AND ORCT."Canceled" = 'N'
+	AND (CHE."DueDate" BETWEEN IFNULL(FechaIni, CHE."DueDate") AND IFNULL(FechaFiN, CHE."DueDate")) 
+	AND  ORCT."CardCode" = IFNULL(Cliente, ORCT."CardCode");
+	--AND  CHE."CheckNum" = 469
+
+SQLTEXT := N'SELECT * FROM #CHEQUES '  ;
+
+
+IF :NumCheque > 0 THEN
+   SQLTEXT := SQLTEXT ||' WHERE "Cheque_Num" = '|| CAST( NumCheque AS VARCHAR(15)) ;
+    C := 1;    
+END IF;
+IF :Estado <> 'TODOS' THEN
+	
+	IF :C = 1 THEN	
+		SQLTEXT := SQLTEXT ||' AND "Estado" = '''|| Estado||'''';
+	ELSE
+		SQLTEXT := SQLTEXT ||' WHERE "Estado" = '''|| Estado||'''';
+	END IF;   
+END IF;
+-- + quotename(@dbName) + N'..myTbl'
+EXECUTE IMMEDIATE SQLTEXT;
+--print @SQL
+--SELECT * FROM #Docs
+--WHERE SRI = IFNULL(NULLIF(@tipoDoc, ''), SRI)
+
+DROP TABLE #CHEQUES;
+
+
+end
+
+
+ALTER PROCEDURE [dbo].[SS_LOC_GET_CHEQUES]
+-- doc
+
+ 
+
+(
+    @Cliente nvarchar(15),
+    @NumCheque int,
+    @Estado nvarchar(50),
+    @FechaIni datetime,
+    @FechaFin datetime
+
+)
+AS 
+BEGIN
+
+ 
+
+    SET @Cliente = NULLIF(@Cliente,'')
+    --SET @NumCheque = NULLIF(@NumCheque,0)
+    SET @Estado = NULLIF(@Estado,'TODOS')
+    SET @FechaIni = NULLIF(@FechaIni, '1900-01-01 0:00:00')
+    SET @FechaFin = NULLIF(@FechaFin, '1900-01-01 0:00:00')
+
+ 
+
+    DECLARE @C as int
+    SET @C = 0
+
+ 
+
+    CREATE TABLE #Cheques
+    (
+        NumPago int,
+        FechaCheque datetime,
+        Cheque_Num int,
+        Cheque_Valor numeric(19,6),
+        Banco varchar(100),
+        Cliente_Codigo varchar(15),
+        Cliente varchar(100),
+        Doc_Protesto int,
+        Pago_Coments varchar(200),
+        Estado varchar(14),
+        CuentaContableDeposito varchar(25),
+        NombreCuentaContableDeposito varchar(150),
+        NumeroDeposito varchar(15)
+    )
+
+ 
+
+    INSERT INTO #Cheques
+    SELECT 
+         ORCT.DocEntry AS NumPago
+        ,CHE.DueDate AS FechaCheque
+        ,CHE.CheckNum AS Cheque_Num
+        ,CHE.CheckSum AS Cheque_Valor
+        ,ISNULL(BANCO.BankName,'') AS Banco
+        ,ORCT.CardCode as Cliente_Codigo
+        ,ORCT.CardName AS Cliente
+        ,ISNULL(CHE.U_SS_IDND,0) AS Doc_Protesto
+        , ISNULL(ORCT.JrnlMemo,'') AS Pago_Coments
+        ,CASE WHEN ISNULL(CHE.U_SS_IDND,0) = 0 THEN 'NO PROTESTADOS' ELSE 'PROTESTADOS' END Estado
+        ,OACT.FormatCode AS CuentaContableDeposito
+        ,OACT.AcctName  AS NombreCuentaContableDeposito
+        ,OCHH.DpstAbs As NumeroDeposito
+
+ 
+
+
+    FROM RCT1 AS CHE
+    INNER JOIN RCT2 AS DOC ON CHE.DocNum = DOC.DocNum
+    INNER JOIN ORCT ON CHE.DocNum = ORCT.DocEntry
+    LEFT JOIN ODSC AS BANCO ON CHE.BankCode = BANCO.BankCode
+    INNER JOIN OCHH ON CHE.CheckAbs = OCHH.CheckKey -- TABLA DE CHEQUES
+    INNER JOIN OACT ON OCHH.BankAcct = OACT.AcctCode -- TABLA DE CUENTAS
+
+ 
+
+    WHERE DOC.InvType = '13'
+    AND OCHH.Deposited = 'C' -- SOLO LOS CHEQUES DEPOSITADOS
+    AND (CHE.DueDate BETWEEN ISNULL(@FechaIni, CHE.DueDate) AND ISNULL(@FechaFiN, CHE.DueDate)) 
+    AND  ORCT.CardCode = ISNULL(@Cliente, ORCT.CardCode)
+    --AND  CHE.CheckNum = 3211
+
+ 
+
+DECLARE @SQL nvarchar(max) = N'SELECT * FROM #Cheques '
+
+ 
+
+IF @NumCheque > 0
+BEGIN
+   SET @SQL += ' WHERE Cheque_Num  = '+ cast(@NumCheque as varchar) 
+   SET @C = 1
+END
+IF @Estado <> 'TODOS'
+BEGIN    
+    IF @C = 1
+    BEGIN
+        SET @SQL += ' AND Estado = '''+ @Estado +''''
+    END
+    ELSE
+    BEGIN
+        SET @SQL += ' WHERE Estado = '''+ @Estado +''''
+    END   
+END
+-- + quotename(@dbName) + N'..myTbl'
+
+ 
+
+exec sp_executesql @SQL
+
+ 
+
+end

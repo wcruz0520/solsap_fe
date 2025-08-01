@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="WSRAD_KEY_CONSULTA" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="BasicHttpBinding_IWSRAD_KEY_CONSULTA_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken RequireClientCertificate="false" />
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="https://labec.guru-soft.com/eDocEcuador/WSEDOC_RECEPCION/WSRAD_KEY_CONSULTA.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarFactura_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarFactura" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarFactura_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarFacturaResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarNC_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarNC" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarNC_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarNCResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarND_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarND" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarND_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarNDResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarRetencion_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarRetencion" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarRetencion_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarRetencionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarGR_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarGR" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarGR_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarGRResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarLC_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarLC" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarLC_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarLCResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarFactura_CabeceraBuscar_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarFactura_CabeceraBuscar" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarFactura_CabeceraBuscar_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarFactura_CabeceraBuscarResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarNotaCredito_CabeceraBuscar_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarNotaCredito_CabeceraBuscar" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarNotaCredito_CabeceraBuscar_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarNotaCredito_CabeceraBuscarResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarNotaDebito_CabeceraBuscar_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarNotaDebito_CabeceraBuscar" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarNotaDebito_CabeceraBuscar_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarNotaDebito_CabeceraBuscarResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarRetencion_CabeceraBuscar_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarRetencion_CabeceraBuscar" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarRetencion_CabeceraBuscar_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarRetencion_CabeceraBuscarResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarGuiaRemision_CabeceraBuscar_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarGuiaRemision_CabeceraBuscar" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarGuiaRemision_CabeceraBuscar_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarGuiaRemision_CabeceraBuscarResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarLiquidacionCompra_CabeceraBuscar_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarLiquidacionCompra_CabeceraBuscar" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarLiquidacionCompra_CabeceraBuscar_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarLiquidacionCompra_CabeceraBuscarResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarFactura_Detalle_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarFactura_Detalle" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarFactura_Detalle_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarFactura_DetalleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarNotaCredito_Detalle_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarNotaCredito_Detalle" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarNotaCredito_Detalle_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarNotaCredito_DetalleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarNotaDebito_Detalle_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarNotaDebito_Detalle" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarNotaDebito_Detalle_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarNotaDebito_DetalleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarRetencion_Detalle_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarRetencion_Detalle" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarRetencion_Detalle_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarRetencion_DetalleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarGuiaRemision_Detalle_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarGuiaRemision_Detalle" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarGuiaRemision_Detalle_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarGuiaRemision_DetalleResponse" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarLiquidacionCompra_Detalle_InputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarLiquidacionCompra_Detalle" />
+  </wsdl:message>
+  <wsdl:message name="IWSRAD_KEY_CONSULTA_ConsultarLiquidacionCompra_Detalle_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ConsultarLiquidacionCompra_DetalleResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IWSRAD_KEY_CONSULTA">
+    <wsdl:operation name="ConsultarFactura">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarFactura" message="tns:IWSRAD_KEY_CONSULTA_ConsultarFactura_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarFacturaResponse" message="tns:IWSRAD_KEY_CONSULTA_ConsultarFactura_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarNC">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarNC" message="tns:IWSRAD_KEY_CONSULTA_ConsultarNC_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarNCResponse" message="tns:IWSRAD_KEY_CONSULTA_ConsultarNC_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarND">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarND" message="tns:IWSRAD_KEY_CONSULTA_ConsultarND_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarNDResponse" message="tns:IWSRAD_KEY_CONSULTA_ConsultarND_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarRetencion">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarRetencion" message="tns:IWSRAD_KEY_CONSULTA_ConsultarRetencion_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarRetencionResponse" message="tns:IWSRAD_KEY_CONSULTA_ConsultarRetencion_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarGR">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarGR" message="tns:IWSRAD_KEY_CONSULTA_ConsultarGR_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarGRResponse" message="tns:IWSRAD_KEY_CONSULTA_ConsultarGR_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarLC">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarLC" message="tns:IWSRAD_KEY_CONSULTA_ConsultarLC_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarLCResponse" message="tns:IWSRAD_KEY_CONSULTA_ConsultarLC_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarFactura_CabeceraBuscar">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarFactura_CabeceraBuscar" message="tns:IWSRAD_KEY_CONSULTA_ConsultarFactura_CabeceraBuscar_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarFactura_CabeceraBuscarResponse" message="tns:IWSRAD_KEY_CONSULTA_ConsultarFactura_CabeceraBuscar_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarNotaCredito_CabeceraBuscar">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarNotaCredito_CabeceraBuscar" message="tns:IWSRAD_KEY_CONSULTA_ConsultarNotaCredito_CabeceraBuscar_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarNotaCredito_CabeceraBuscarResponse" message="tns:IWSRAD_KEY_CONSULTA_ConsultarNotaCredito_CabeceraBuscar_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarNotaDebito_CabeceraBuscar">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarNotaDebito_CabeceraBuscar" message="tns:IWSRAD_KEY_CONSULTA_ConsultarNotaDebito_CabeceraBuscar_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarNotaDebito_CabeceraBuscarResponse" message="tns:IWSRAD_KEY_CONSULTA_ConsultarNotaDebito_CabeceraBuscar_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarRetencion_CabeceraBuscar">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarRetencion_CabeceraBuscar" message="tns:IWSRAD_KEY_CONSULTA_ConsultarRetencion_CabeceraBuscar_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarRetencion_CabeceraBuscarResponse" message="tns:IWSRAD_KEY_CONSULTA_ConsultarRetencion_CabeceraBuscar_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarGuiaRemision_CabeceraBuscar">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarGuiaRemision_CabeceraBuscar" message="tns:IWSRAD_KEY_CONSULTA_ConsultarGuiaRemision_CabeceraBuscar_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarGuiaRemision_CabeceraBuscarResponse" message="tns:IWSRAD_KEY_CONSULTA_ConsultarGuiaRemision_CabeceraBuscar_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarLiquidacionCompra_CabeceraBuscar">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarLiquidacionCompra_CabeceraBuscar" message="tns:IWSRAD_KEY_CONSULTA_ConsultarLiquidacionCompra_CabeceraBuscar_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarLiquidacionCompra_CabeceraBuscarResponse" message="tns:IWSRAD_KEY_CONSULTA_ConsultarLiquidacionCompra_CabeceraBuscar_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarFactura_Detalle">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarFactura_Detalle" message="tns:IWSRAD_KEY_CONSULTA_ConsultarFactura_Detalle_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarFactura_DetalleResponse" message="tns:IWSRAD_KEY_CONSULTA_ConsultarFactura_Detalle_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarNotaCredito_Detalle">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarNotaCredito_Detalle" message="tns:IWSRAD_KEY_CONSULTA_ConsultarNotaCredito_Detalle_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarNotaCredito_DetalleResponse" message="tns:IWSRAD_KEY_CONSULTA_ConsultarNotaCredito_Detalle_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarNotaDebito_Detalle">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarNotaDebito_Detalle" message="tns:IWSRAD_KEY_CONSULTA_ConsultarNotaDebito_Detalle_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarNotaDebito_DetalleResponse" message="tns:IWSRAD_KEY_CONSULTA_ConsultarNotaDebito_Detalle_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarRetencion_Detalle">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarRetencion_Detalle" message="tns:IWSRAD_KEY_CONSULTA_ConsultarRetencion_Detalle_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarRetencion_DetalleResponse" message="tns:IWSRAD_KEY_CONSULTA_ConsultarRetencion_Detalle_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarGuiaRemision_Detalle">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarGuiaRemision_Detalle" message="tns:IWSRAD_KEY_CONSULTA_ConsultarGuiaRemision_Detalle_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarGuiaRemision_DetalleResponse" message="tns:IWSRAD_KEY_CONSULTA_ConsultarGuiaRemision_Detalle_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarLiquidacionCompra_Detalle">
+      <wsdl:input wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarLiquidacionCompra_Detalle" message="tns:IWSRAD_KEY_CONSULTA_ConsultarLiquidacionCompra_Detalle_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarLiquidacionCompra_DetalleResponse" message="tns:IWSRAD_KEY_CONSULTA_ConsultarLiquidacionCompra_Detalle_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IWSRAD_KEY_CONSULTA" type="tns:IWSRAD_KEY_CONSULTA">
+    <wsp:PolicyReference URI="#BasicHttpBinding_IWSRAD_KEY_CONSULTA_policy" />
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ConsultarFactura">
+      <soap:operation soapAction="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarFactura" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarNC">
+      <soap:operation soapAction="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarNC" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarND">
+      <soap:operation soapAction="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarND" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarRetencion">
+      <soap:operation soapAction="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarRetencion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarGR">
+      <soap:operation soapAction="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarGR" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarLC">
+      <soap:operation soapAction="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarLC" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarFactura_CabeceraBuscar">
+      <soap:operation soapAction="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarFactura_CabeceraBuscar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarNotaCredito_CabeceraBuscar">
+      <soap:operation soapAction="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarNotaCredito_CabeceraBuscar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarNotaDebito_CabeceraBuscar">
+      <soap:operation soapAction="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarNotaDebito_CabeceraBuscar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarRetencion_CabeceraBuscar">
+      <soap:operation soapAction="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarRetencion_CabeceraBuscar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarGuiaRemision_CabeceraBuscar">
+      <soap:operation soapAction="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarGuiaRemision_CabeceraBuscar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarLiquidacionCompra_CabeceraBuscar">
+      <soap:operation soapAction="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarLiquidacionCompra_CabeceraBuscar" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarFactura_Detalle">
+      <soap:operation soapAction="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarFactura_Detalle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarNotaCredito_Detalle">
+      <soap:operation soapAction="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarNotaCredito_Detalle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarNotaDebito_Detalle">
+      <soap:operation soapAction="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarNotaDebito_Detalle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarRetencion_Detalle">
+      <soap:operation soapAction="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarRetencion_Detalle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarGuiaRemision_Detalle">
+      <soap:operation soapAction="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarGuiaRemision_Detalle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultarLiquidacionCompra_Detalle">
+      <soap:operation soapAction="http://tempuri.org/IWSRAD_KEY_CONSULTA/ConsultarLiquidacionCompra_Detalle" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WSRAD_KEY_CONSULTA">
+    <wsdl:port name="BasicHttpBinding_IWSRAD_KEY_CONSULTA" binding="tns:BasicHttpBinding_IWSRAD_KEY_CONSULTA">
+      <soap:address location="https://labec.guru-soft.com/eDocEcuador/WSEDOC_RECEPCION/WSRAD_KEY_CONSULTA.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

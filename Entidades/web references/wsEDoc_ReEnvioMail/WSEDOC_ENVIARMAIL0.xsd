@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="EnviarCorreoDocumentoEmitido">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="claveacceso" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="correocliente" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="mensaje" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EnviarCorreoDocumentoEmitidoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="EnviarCorreoDocumentoEmitidoResult" type="xs:boolean" />
+        <xs:element minOccurs="0" name="mensaje" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ReenvioMailEnLinea">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="MailEnLinea" type="tns:ClsMailEnLinea" />
+        <xs:element minOccurs="0" maxOccurs="1" name="mensaje" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="ClsMailEnLinea">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Credencial" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="Tipo" type="tns:TipoMail" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Compania" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Nickname" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ClaveAcceso" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Destinatario" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="TipoMail">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Cliente_RecuperarClave" />
+      <xs:enumeration value="Emision_DocumentoEmitido" />
+      <xs:enumeration value="Cliente_Bienvenida" />
+      <xs:enumeration value="Emision_MailResponsable" />
+      <xs:enumeration value="Recepcion_AutoResponse" />
+      <xs:enumeration value="Recepcion_Asignacion" />
+      <xs:enumeration value="Recepcion_Validacion" />
+      <xs:enumeration value="Recepcion_ExpiroDia" />
+      <xs:enumeration value="Recepcion_MailResponsable" />
+      <xs:enumeration value="Recepcion_MailResponsableError" />
+      <xs:enumeration value="Recepcion_OtrosAdjunto" />
+      <xs:enumeration value="Recepcion_SinAdjunto" />
+      <xs:enumeration value="Compania_RecuperarClave" />
+      <xs:enumeration value="Compania_Bienvenida" />
+      <xs:enumeration value="Emision_DocumentoProcesamiento5" />
+      <xs:enumeration value="Emision_DocumentoProcesamiento7" />
+      <xs:enumeration value="Emision_NotificarCorreoErroneo" />
+      <xs:enumeration value="Compania_AlertaCertificado" />
+      <xs:enumeration value="Recepcion_Notifica_Comercial" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="ReenvioMailEnLineaResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="1" name="ReenvioMailEnLineaResult" type="xs:boolean" />
+        <xs:element minOccurs="0" maxOccurs="1" name="mensaje" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ResendArchive">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="clave" type="xs:string" />
+        <xs:element minOccurs="0" maxOccurs="1" name="info" type="tns:ClsResendArchive" />
+        <xs:element minOccurs="0" maxOccurs="1" name="mensaje" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="ClsResendArchive">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="SendEmail" type="xs:boolean" />
+      <xs:element minOccurs="1" maxOccurs="1" name="SendAddressPrint" type="xs:boolean" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Email" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="AddressPrint" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="BillNumber" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="DateOfIssue" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ResendArchiveResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" name="ResendArchiveResult" type="tns:ResponseResendArchive" />
+        <xs:element minOccurs="0" maxOccurs="1" name="mensaje" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="ResponseResendArchive">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="StatusSendEmail" type="xs:boolean" />
+      <xs:element minOccurs="1" maxOccurs="1" name="StatusSendAddressPrint" type="xs:boolean" />
+      <xs:element minOccurs="0" maxOccurs="1" name="MessageSendMail" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="MessageSendAddressPrint" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
