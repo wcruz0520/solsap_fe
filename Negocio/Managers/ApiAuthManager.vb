@@ -45,7 +45,7 @@ Public Class ApiAuthManager
                 Dim token As String = json("token")?.ToString()
 
                 If Not String.IsNullOrEmpty(token) Then
-                    If _tipoManejo = "A" Then _sboApp.SetStatusBarMessage("Autenticación exitosa", SAPbouiCOM.BoMessageTime.bmt_Short, False)
+                    If _tipoManejo = "A" Then _sboApp.SetStatusBarMessage("Token obtenido, pasando a envío", SAPbouiCOM.BoMessageTime.bmt_Short, False)
                     Return token
                 Else
                     If _tipoManejo = "A" Then _sboApp.SetStatusBarMessage("No se recibió token de autenticación", SAPbouiCOM.BoMessageTime.bmt_Short, True)

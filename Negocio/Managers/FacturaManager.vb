@@ -204,16 +204,16 @@ Public Class FacturaManager
                             Detalle.PtoEmiDocReembolso = r("PtoEmiDocReembolso")
                             Detalle.SecuencialDocReembolso = r("SecuencialDocReembolso")
                             'Detalle.FechaEmisionDocReembolso = r("FechaEmisionDocReembolso")
-                            Detalle.FechaEmisionDocReembolso = CDate(r("FechaEmisionDocReembolso")).ToString("yyyy-MM-dd")
+                            Detalle.FechaEmisionDocReembolso = CDate(r("FechaEmisionDocReembolso")).ToString("dd/MM/yyyy")
                             Detalle.NumeroAutorizacionDocReemb = r("NumeroAutorizacionDocReemb")
 
                             If r("BaseImponibleIVA0").ToString() <> 0 Then
                                 impdetalleIVA = New Entidades.detImpReemFE
                                 impdetalleIVA.codigo = r("CodigoIVA0")
                                 impdetalleIVA.codigoPorcentaje = r("CodigoPorcentajeIVA0")
-                                impdetalleIVA.tarifa = r("TarifaIVA0")
-                                impdetalleIVA.BaseImponibleReembolso = r("BaseImponibleIVA0")
-                                impdetalleIVA.impuestoReembolso = r("ImpuestoReembolsoIVA0")
+                                impdetalleIVA.tarifa = FormatearNumero(r("TarifaIVA0"))
+                                impdetalleIVA.BaseImponibleReembolso = FormatearNumero(r("BaseImponibleIVA0"))
+                                impdetalleIVA.impuestoReembolso = FormatearNumero(r("ImpuestoReembolsoIVA0"))
                                 'agrego impuesto a la lista
                                 LisimpdetalleIVA.Add(impdetalleIVA)
 
@@ -223,9 +223,9 @@ Public Class FacturaManager
                                 impdetalleIVA = New Entidades.detImpReemFE
                                 impdetalleIVA.codigo = r("CodigoIVA")
                                 impdetalleIVA.codigoPorcentaje = r("CodigoPorcentajeIVA")
-                                impdetalleIVA.tarifa = r("TarifaIVA")
-                                impdetalleIVA.BaseImponibleReembolso = r("BaseImponibleIVA")
-                                impdetalleIVA.impuestoReembolso = r("ImpuestoReembolsoIVA")
+                                impdetalleIVA.tarifa = FormatearNumero(r("TarifaIVA"))
+                                impdetalleIVA.BaseImponibleReembolso = FormatearNumero(r("BaseImponibleIVA"))
+                                impdetalleIVA.impuestoReembolso = FormatearNumero(r("ImpuestoReembolsoIVA"))
                                 'agrego impuesto a la lista
                                 LisimpdetalleIVA.Add(impdetalleIVA)
                             End If
@@ -234,9 +234,9 @@ Public Class FacturaManager
                                 impdetalleIVA = New Entidades.detImpReemFE
                                 impdetalleIVA.codigo = r("CodigoNoObjIVA")
                                 impdetalleIVA.codigoPorcentaje = r("CodigoPorcentajeNoObjIVA")
-                                impdetalleIVA.tarifa = r("TarifaNoObjIVA")
-                                impdetalleIVA.BaseImponibleReembolso = r("BaseImponibleNoObjIVA")
-                                impdetalleIVA.impuestoReembolso = r("ImpuestoReembolsoNoObjIVA")
+                                impdetalleIVA.tarifa = FormatearNumero(r("TarifaNoObjIVA"))
+                                impdetalleIVA.BaseImponibleReembolso = FormatearNumero(r("BaseImponibleNoObjIVA"))
+                                impdetalleIVA.impuestoReembolso = FormatearNumero(r("ImpuestoReembolsoNoObjIVA"))
                                 'agrego impuesto a la lista
                                 LisimpdetalleIVA.Add(impdetalleIVA)
                             End If
@@ -245,9 +245,9 @@ Public Class FacturaManager
                                 impdetalleIVA = New Entidades.detImpReemFE
                                 impdetalleIVA.codigo = r("CodigoIvaExe")
                                 impdetalleIVA.codigoPorcentaje = r("CodigoPorcentajeIvaExe")
-                                impdetalleIVA.tarifa = r("TarifaIvaExe")
-                                impdetalleIVA.BaseImponibleReembolso = r("BaseImponibleIvaExe")
-                                impdetalleIVA.impuestoReembolso = r("ImpuestoReembolsoIvaExe")
+                                impdetalleIVA.tarifa = FormatearNumero(r("TarifaIvaExe"))
+                                impdetalleIVA.BaseImponibleReembolso = FormatearNumero(r("BaseImponibleIvaExe"))
+                                impdetalleIVA.impuestoReembolso = FormatearNumero(r("ImpuestoReembolsoIvaExe"))
                                 'agrego impuesto a la lista
                                 LisimpdetalleIVA.Add(impdetalleIVA)
                             End If
@@ -256,9 +256,9 @@ Public Class FacturaManager
                                 listaDetalle = New List(Of Entidades.detImpReemFE)
                                 listaDetalle.codigo = r("CodigoIva8")
                                 listaDetalle.codigoPorcentaje = r("CodigoPorcentajeIva8")
-                                listaDetalle.tarifa = r("TarifaIva8")
-                                listaDetalle.BaseImponibleReembolso = r("BaseImponibleIva8")
-                                listaDetalle.impuestoReembolso = r("ImpuestoReembolsoIva8")
+                                listaDetalle.tarifa = FormatearNumero(r("TarifaIva8"))
+                                listaDetalle.BaseImponibleReembolso = FormatearNumero(r("BaseImponibleIva8"))
+                                listaDetalle.impuestoReembolso = FormatearNumero(r("ImpuestoReembolsoIva8"))
                                 'agrego impuesto a la lista
                                 LisimpdetalleIVA.Add(impdetalleIVA)
                             End If
@@ -268,9 +268,9 @@ Public Class FacturaManager
                                 impdetalleIVA = New Entidades.detImpReemFE
                                 impdetalleIVA.codigo = r("CodigoIva5")
                                 impdetalleIVA.codigoPorcentaje = r("CodigoPorcentajeIva5")
-                                impdetalleIVA.tarifa = r("TarifaIva5")
-                                impdetalleIVA.BaseImponibleReembolso = r("BaseImponibleIva5")
-                                impdetalleIVA.impuestoReembolso = r("ImpuestoReembolsoIva5")
+                                impdetalleIVA.tarifa = FormatearNumero(r("TarifaIva5"))
+                                impdetalleIVA.BaseImponibleReembolso = FormatearNumero(r("BaseImponibleIva5"))
+                                impdetalleIVA.impuestoReembolso = FormatearNumero(r("ImpuestoReembolsoIva5"))
                                 'agrego impuesto a la lista
                                 LisimpdetalleIVA.Add(impdetalleIVA)
                             End If
@@ -279,9 +279,9 @@ Public Class FacturaManager
                                 impdetalleIVA = New Entidades.detImpReemFE
                                 impdetalleIVA.codigo = r("CodigoIva15")
                                 impdetalleIVA.codigoPorcentaje = r("CodigoPorcentajeIva15")
-                                impdetalleIVA.tarifa = r("TarifaIva15")
-                                impdetalleIVA.BaseImponibleReembolso = r("BaseImponibleIva15")
-                                impdetalleIVA.impuestoReembolso = r("ImpuestoReembolsoIva15")
+                                impdetalleIVA.tarifa = FormatearNumero(r("TarifaIva15"))
+                                impdetalleIVA.BaseImponibleReembolso = FormatearNumero(r("BaseImponibleIva15"))
+                                impdetalleIVA.impuestoReembolso = FormatearNumero(r("ImpuestoReembolsoIva15"))
                                 'agrego impuesto a la lista
                                 LisimpdetalleIVA.Add(impdetalleIVA)
                             End If
@@ -290,9 +290,9 @@ Public Class FacturaManager
                                 impdetalleIVA = New Entidades.detImpReemFE
                                 impdetalleIVA.codigo = r("CodigoIva14")
                                 impdetalleIVA.codigoPorcentaje = r("CodigoPorcentajeIva14")
-                                impdetalleIVA.tarifa = r("TarifaIva14")
-                                impdetalleIVA.BaseImponibleReembolso = r("BaseImponibleIva14")
-                                impdetalleIVA.impuestoReembolso = r("ImpuestoReembolsoIva14")
+                                impdetalleIVA.tarifa = FormatearNumero(r("TarifaIva14"))
+                                impdetalleIVA.BaseImponibleReembolso = FormatearNumero(r("BaseImponibleIva14"))
+                                impdetalleIVA.impuestoReembolso = FormatearNumero(r("ImpuestoReembolsoIva14"))
                                 'agrego impuesto a la lista
                                 LisimpdetalleIVA.Add(impdetalleIVA)
                             End If
@@ -301,20 +301,20 @@ Public Class FacturaManager
                                 impdetalleIVA = New Entidades.detImpReemFE
                                 impdetalleIVA.codigo = r("CodigoIva13")
                                 impdetalleIVA.codigoPorcentaje = r("CodigoPorcentajeIva13")
-                                impdetalleIVA.tarifa = r("TarifaIva13")
-                                impdetalleIVA.BaseImponibleReembolso = r("BaseImponibleIva13")
-                                impdetalleIVA.impuestoReembolso = r("ImpuestoReembolsoIva13")
+                                impdetalleIVA.tarifa = FormatearNumero(r("TarifaIva13"))
+                                impdetalleIVA.BaseImponibleReembolso = FormatearNumero(r("BaseImponibleIva13"))
+                                impdetalleIVA.impuestoReembolso = FormatearNumero(r("ImpuestoReembolsoIva13"))
                                 'agrego impuesto a la lista
                                 LisimpdetalleIVA.Add(impdetalleIVA)
                             End If
 
                             'agrego lista de impuesto al detalle
-                            Detalle.detalleImpuestos = LisimpdetalleIVA.ToList()
+                            Detalle.detalleImpuestos = LisimpdetalleIVA
 
                             listaDetalle.Add(Detalle)
 
                         Next
-                        oFactura.infoFactura.reembolsos = listaDetalle.ToArray()
+                        oFactura.infoFactura.reembolsos = listaDetalle
                     End If
                 Next
             End If
