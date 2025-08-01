@@ -29,6 +29,8 @@ Public Class FuncionesProcesoEmision
                 oDocumento = rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oDownPayments)
             ElseIf TipoDocumento = "NCE" Then 'NOTA DE CREDITO DE CLIENTES
                 oDocumento = rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oCreditNotes)
+            ElseIf TipoDocumento = "NDE" Then 'NOTA DE CREDITO DE CLIENTES
+                oDocumento = rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oInvoices)
             ElseIf TipoDocumento = "GRE" Then 'GUIA DE REMISION - ENTREGA
                 oDocumento = rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oDeliveryNotes)
             ElseIf TipoDocumento = "TRE" Then 'GUIA DE REMISION - TRANSFERENCIAS
@@ -130,6 +132,11 @@ Public Class FuncionesProcesoEmision
             ElseIf TipoDocumento = "NCE" Then 'NOTA DE CREDITO DE CLIENTES
                 oDocumento = rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oCreditNotes)
                 oDocumento.DocObjectCode = SAPbobsCOM.BoObjectTypes.oCreditNotes
+                'objectType = oDocumento.DocObjectCode
+                'CodDoc = "04"
+            ElseIf TipoDocumento = "NDE" Then 'NOTA DE DEBITO DE CLIENTES
+                oDocumento = rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oInvoices)
+                oDocumento.DocObjectCode = SAPbobsCOM.BoObjectTypes.oInvoices
                 'objectType = oDocumento.DocObjectCode
                 'CodDoc = "04"
             End If

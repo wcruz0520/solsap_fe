@@ -128,6 +128,63 @@ Public Class ApiRequestManager
         End Try
     End Function
 
+    Public Function EnviarNDSolsap(notaDebito As Entidades.RequestNotaDebito) As Entidades.ResponseDocuments
+        Try
+            _auth.ActivarTLS()
+            Dim token As String = _auth.ObtenerTokenAutenticacion()
+            If String.IsNullOrEmpty(token) Then Return Nothing
+
+            Dim endpoint As String = Functions.VariablesGlobales._ApiNDEmiSS
+            If String.IsNullOrEmpty(endpoint) Then Return Nothing
+
+            Dim settings As New JsonSerializerSettings()
+            settings.NullValueHandling = NullValueHandling.Ignore
+            Dim jsonBody As String = JsonConvert.SerializeObject(notaDebito, settings)
+
+            Dim request As HttpWebRequest = CType(WebRequest.Create(endpoint), HttpWebRequest)
+            request.Method = "POST"
+            request.ContentType = "application/json"
+            request.Headers.Add("Authorization", $"Bearer {token}")
+
+            Using sw As New StreamWriter(request.GetRequestStream())
+                sw.Write(jsonBody)
+            End Using
+
+            Using resp As HttpWebResponse = CType(request.GetResponse(), HttpWebResponse)
+                Using reader As New StreamReader(resp.GetResponseStream())
+                    Dim result As String = reader.ReadToEnd()
+                    Dim json As JObject = JObject.Parse(result)
+                    Dim estado As String = json.SelectToken("data.result.codigo")?.ToString()
+                    Dim mensaje As String = json.SelectToken("data.result.mensaje")?.ToString()
+                    Dim clave As String = json.SelectToken("data.result.claveAcceso")?.ToString()
+                    Dim identificador As String = json.SelectToken("data.result.identificador")?.ToString()
+
+                    Dim respuesta As New Entidades.ResponseDocuments()
+                    respuesta.codigo = estado
+                    respuesta.mensaje = mensaje
+                    respuesta.claveAcceso = clave
+                    respuesta.identificador = identificador
+                    Return respuesta
+                End Using
+            End Using
+
+        Catch webEx As WebException
+            Dim mensajeError As String = webEx.Message
+            Dim respErr As HttpWebResponse = TryCast(webEx.Response, HttpWebResponse)
+            If respErr IsNot Nothing Then
+                Using reader As New StreamReader(respErr.GetResponseStream())
+                    mensajeError &= " - " & reader.ReadToEnd()
+                End Using
+            End If
+            If _tipoManejo = "A" Then _sboApp.SetStatusBarMessage("Error enviando nota de débito: " & mensajeError, SAPbouiCOM.BoMessageTime.bmt_Short, True)
+            Return Nothing
+
+        Catch ex As Exception
+            If _tipoManejo = "A" Then _sboApp.SetStatusBarMessage("Error enviando nota de débito: " & ex.Message, SAPbouiCOM.BoMessageTime.bmt_Short, True)
+            Return Nothing
+        End Try
+    End Function
+
     Public Function EnviarLiquidacionSolsap(liquidacion As Entidades.RequestLiquidacion) As Entidades.ResponseDocuments
         Try
             _auth.ActivarTLS()

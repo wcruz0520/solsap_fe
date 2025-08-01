@@ -85,7 +85,13 @@ Public Class LiquidacionManager
 
                     liquidacion.infoLiquidacionCompra.fechaEmision = fecha.ToString("dd/MM/yyyy")
                     liquidacion.infoLiquidacionCompra.dirEstablecimiento = r("DireccionEstablecimiento").ToString()
-                    liquidacion.infoLiquidacionCompra.contribuyenteEspecial = r("ContribuyenteEspecial").ToString()
+
+                    Dim contri As String = r("ContribuyenteEspecial")
+
+                    If contri <> "0" And contri.Length = 3 Then
+                        liquidacion.infoLiquidacionCompra.contribuyenteEspecial = r("ContribuyenteEspecial").ToString()
+                    End If
+
                     liquidacion.infoLiquidacionCompra.obligadoContabilidad = r("ObligadoContabilidad").ToString()
                     liquidacion.infoLiquidacionCompra.tipoIdentificacionProveedor = r("TipoIdentificacionProveedor").ToString()
                     liquidacion.infoLiquidacionCompra.razonSocialProveedor = r("RazonSocialProveedor").ToString()
@@ -101,36 +107,20 @@ Public Class LiquidacionManager
                     liquidacion.infoLiquidacionCompra.moneda = r("Moneda").ToString()
 
                     Dim totales As New List(Of Entidades.totalConImpuestoLQ)
-                    If Convert.ToDecimal(r("Base12")) <> 0 Then
-                        Dim t As New Entidades.totalConImpuestoLQ
-                        t.codigo = r("Codigo12").ToString()
-                        t.codigoPorcentaje = r("CodigoPorcentaje12").ToString()
-                        t.baseImponible = FormatearNumero(r("Base12"))
-                        t.valor = FormatearNumero(r("ValorIva12"))
-                        t.tarifa = FormatearNumero(r("Tarifa12"))
-                        t.descuentoAdicional = FormatearNumero(r("DescuentoAdicional12"))
-                        totales.Add(t)
-                    End If
-                    If Convert.ToDecimal(r("Base8")) <> 0 Then
-                        Dim t As New Entidades.totalConImpuestoLQ
-                        t.codigo = r("Codigo8").ToString()
-                        t.codigoPorcentaje = r("CodigoPorcentaje8").ToString()
-                        t.baseImponible = FormatearNumero(r("Base8"))
-                        t.valor = FormatearNumero(r("ValorIva8"))
-                        t.tarifa = FormatearNumero(r("Tarifa8"))
-                        t.descuentoAdicional = FormatearNumero(r("DescuentoAdiciona8"))
-                        totales.Add(t)
-                    End If
-                    If Convert.ToDecimal(r("Base0")) <> 0 Then
-                        Dim t As New Entidades.totalConImpuestoLQ
-                        t.codigo = r("Codigo0").ToString()
-                        t.codigoPorcentaje = r("CodigoPorcentaje0").ToString()
-                        t.baseImponible = FormatearNumero(r("Base0"))
-                        t.valor = FormatearNumero(r("ValorIva0"))
-                        t.tarifa = FormatearNumero(r("Tarifa0"))
-                        t.descuentoAdicional = FormatearNumero(r("DescuentoAdicional0"))
-                        totales.Add(t)
-                    End If
+                    Dim sufijos As String() = {"0", "5", "8", "12", "13", "14", "15", "Exen", "Ice", "Noi"}
+                    For Each suf In sufijos
+                        Dim baseCol As String = "Base" & suf
+                        If r.Table.Columns.Contains(baseCol) AndAlso Convert.ToDecimal(r(baseCol)) <> 0 Then
+                            Dim t As New Entidades.totalConImpuestoLQ
+                            t.codigo = r("Codigo" & suf).ToString()
+                            t.codigoPorcentaje = r("CodigoPorcentaje" & suf).ToString()
+                            t.baseImponible = FormatearNumero(r("Base" & suf))
+                            t.valor = FormatearNumero(r("ValorIva" & suf))
+                            t.tarifa = FormatearNumero(r("Tarifa" & suf))
+                            t.descuentoAdicional = FormatearNumero(r("DescuentoAdicional" & suf))
+                            totales.Add(t)
+                        End If
+                    Next
                     liquidacion.infoLiquidacionCompra.totalConImpuestos = totales
                 Next
             End If
@@ -183,18 +173,25 @@ Public Class LiquidacionManager
                     re.estabDocReembolso = r("EstabDocReembolso").ToString()
                     re.ptoEmiDocReembolso = r("PtoEmiDocReembolso").ToString()
                     re.secuencialDocReembolso = r("SecuencialDocReembolso").ToString()
-                    re.fechaEmisionDocReembolso = r("FechaEmisionDocReembolso").ToString()
+                    re.fechaEmisionDocReembolso = CDate(r("FechaEmisionDocReembolso")).ToString("dd/MM/yyyy")
                     re.numeroautorizacionDocReemb = r("NumeroAutorizacionDocReem").ToString()
+
                     Dim listaImp As New List(Of Entidades.detalleImpuestoReembolsoLQ)
-                    If r.Table.Columns.Contains("Base12") AndAlso Convert.ToDecimal(r("Base12")) <> 0 Then
-                        Dim i As New Entidades.detalleImpuestoReembolsoLQ
-                        i.codigo = r("Codigo12").ToString()
-                        i.codigoPorcentaje = r("CodigoPorcentaje12").ToString()
-                        i.tarifa = FormatearNumero(r("Tarifa12"))
-                        i.baseImponibleReembolso = FormatearNumero(r("Base12"))
-                        i.impuestoReembolso = FormatearNumero(r("ValorIvaReem12"))
-                        listaImp.Add(i)
-                    End If
+                    Dim sufijos As String() = {"0", "5", "8", "12", "13", "14", "15", "Exen", "Ice", "Noi"}
+
+                    For Each suf In sufijos
+                        Dim baseCol As String = "Base" & suf
+                        If r.Table.Columns.Contains(baseCol) AndAlso Convert.ToDecimal(r(baseCol)) <> 0 Then
+                            Dim i As New Entidades.detalleImpuestoReembolsoLQ
+                            i.codigo = r("Codigo" & suf).ToString()
+                            i.codigoPorcentaje = r("CodigoPorcentaje" & suf).ToString()
+                            i.tarifa = FormatearNumero(r("Tarifa" & suf))
+                            i.baseImponibleReembolso = FormatearNumero(r("Base" & suf))
+                            i.impuestoReembolso = FormatearNumero(r("ValorIvaReem" & suf))
+                            listaImp.Add(i)
+                        End If
+                    Next
+                 
                     re.detalleImpuestos = listaImp
                     liquidacion.reembolsos.Add(re)
                 Next

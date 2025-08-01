@@ -10,6 +10,7 @@ Public Class ProcesoEmision
     Dim ApiAuthManager_ As ApiAuthManager
     Dim FacturaManager_ As FacturaManager
     Dim NotaCreditoManager_ As NotaCreditoManager
+    Dim NotaDebitoManager_ As NotaDebitoManager
     Dim DesencriptarQuery_ As DesencriptarQuery
     Dim FuncionesProcesoEmision_ As FuncionesProcesoEmision
 
@@ -26,6 +27,7 @@ Public Class ProcesoEmision
         DesencriptarQuery_ = New Negocio.DesencriptarQuery(rCompany, rsboApp, _tipoManejo, oFuncionesAddon)
         FacturaManager_ = New Negocio.FacturaManager(rCompany, rsboApp, _tipoManejo, oFuncionesAddon, DatabaseQueryManager_, DesencriptarQuery_)
         NotaCreditoManager_ = New Negocio.NotaCreditoManager(rCompany, rsboApp, _tipoManejo, oFuncionesAddon, DatabaseQueryManager_, DesencriptarQuery_)
+        NotaDebitoManager_ = New Negocio.NotaDebitoManager(rCompany, rsboApp, _tipoManejo, oFuncionesAddon, DatabaseQueryManager_, DesencriptarQuery_)
         FuncionesProcesoEmision_ = New Negocio.FuncionesProcesoEmision(rCompany, rsboApp, _tipoManejo, oFuncionesAddon)
     End Sub
     Public Function ProcesaEnvioDocumento(DocEntry As Integer,
@@ -205,7 +207,7 @@ Public Class ProcesoEmision
                 ElseIf TipoDocumento = "NCE" Then
                     oObjeto = NotaCreditoManager_.ConsultarNotaCredito(TipoDocumento, DocEntry, _Error, _campoNulo)
                 ElseIf TipoDocumento = "NDE" Then
-                    'oObjeto = NotaCreditoManager_.ConsultarNotaCredito(TipoDocumento, DocEntry, _Error, _campoNulo)
+                    oObjeto = NotaDebitoManager_.ConsultarNotaDebito(DocEntry, _Error)
                 ElseIf TipoDocumento = "REE" Or TipoDocumento = "REA" Or TipoDocumento = "RER" Then
                 End If
 
@@ -261,7 +263,7 @@ Public Class ProcesoEmision
                         oDocumento = rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oInvoices)
                         Select Case oDocumento.UserFields.Fields.Item("U_ESTADO_AUTORIZACIO").Value
                             Case "0", "3", "4", "6"
-                                'objetoRespuesta = ApiRequestManager_.EnviarNCSolsap(DirectCast(oObjeto, Entidades.RequestNotaDebito))
+                                objetoRespuesta = ApiRequestManager_.EnviarNDSolsap(DirectCast(oObjeto, Entidades.RequestNotaDebito))
                             Case "1", "5", "7"
                                 RequestconsEst.claveAcceso = oDocumento.UserFields.Fields.Item("U_CLAVE_ACCESO").Value
                                 objetoRespuesta = ApiRequestManager_.ConsultarDoc(RequestconsEst)
@@ -293,6 +295,8 @@ Public Class ProcesoEmision
                         If TipoDocumento = "FCE" Or TipoDocumento = "FRE" Or TipoDocumento = "FAE" And (TipoWS = "NUBE_4_1" And Functions.VariablesGlobales._ActApiSS = "Y") Then
                             _Observacion = FuncionesProcesoEmision_.recorreError_Solsap(CType(objetoRespuesta, Entidades.ResponseDocuments), DocEntry.ToString())
                         ElseIf TipoDocumento = "NCE" And (TipoWS = "NUBE_4_1" And Functions.VariablesGlobales._ActApiSS = "Y") Then
+                            _Observacion = FuncionesProcesoEmision_.recorreError_Solsap(CType(objetoRespuesta, Entidades.ResponseDocuments), DocEntry.ToString())
+                        ElseIf TipoDocumento = "NDE" And (TipoWS = "NUBE_4_1" And Functions.VariablesGlobales._ActApiSS = "Y") Then
                             _Observacion = FuncionesProcesoEmision_.recorreError_Solsap(CType(objetoRespuesta, Entidades.ResponseDocuments), DocEntry.ToString())
                         End If
 
