@@ -1154,8 +1154,8 @@ Public Class EventosEmision
                                 Select Case pVal.ItemUID
                                     Case "TabGenFE"
                                         mForm.PaneLevel = 50
-
-                                        ObtenerEnlacesURLyGenerarRQ(mForm, pVal.FormUID)
+                                        Dim docsubtype As String = mForm.DataSources.DBDataSources.Item(oTabla).GetValue("DocSubType", 0)
+                                        ObtenerEnlacesURLyGenerarRQ(mForm, pVal.FormUID, docsubtype)
 
                                     Case "TabGenLOC"
 
@@ -1195,6 +1195,7 @@ Public Class EventosEmision
 
                             If btnAccion.Caption = "(GS) Ver RIDE" Or btnAccion.Caption = "(SS) Ver RIDE" Then
                                 Dim ClaveAcceso As String = mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_CLAVE_ACCESO", 0)
+                                Dim docsubtype As String = mForm.DataSources.DBDataSources.Item(oTabla).GetValue("DocSubType", 0)
                                 'Dim oObject As Object = GetBusinessObjectForm(oForm)
                                 'strClaveAcceso = oObject.UserFields.Fields.Item("U_EXX_FE_ClaAcc").Value.Trim()
                                 Try
@@ -1225,7 +1226,7 @@ Public Class EventosEmision
                                         oManejoDocumentosEcua.Consulta_PDF_XML(ClaveAcceso, docentry, oTipoTabla, "pdf")
                                     ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
                                         'consultar pdf facturas
-                                        oManejoDocumentosSolsap.ConsultaPDF(ClaveAcceso, oTabla)
+                                        oManejoDocumentosSolsap.ConsultaPDF(ClaveAcceso, oTabla, docsubtype)
                                     Else
                                         oManejoDocumentos.ConsultaPDF(ClaveAcceso)
                                     End If
@@ -1238,6 +1239,7 @@ Public Class EventosEmision
                                 End Try
                             ElseIf btnAccion.Caption = "(GS) Ver XML" Or btnAccion.Caption = "(SS) Ver XML" Then
                                 Dim ClaveAccesoXML As String = mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_CLAVE_ACCESO", 0)
+                                Dim docsubtype As String = mForm.DataSources.DBDataSources.Item(oTabla).GetValue("DocSubType", 0)
                                 Try
                                     rSboApp.SetStatusBarMessage(NombreAddon + " -Consultando el XML, por favor espere..! ", SAPbouiCOM.BoMessageTime.bmt_Short, False)
                                     'If ConsultaParametro("SAED", "PARAMETROS", "CONFIGURACION", "SalidaporHttps") = "Y" Then
@@ -1249,7 +1251,7 @@ Public Class EventosEmision
                                     If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                         oManejoDocumentosEcua.Consulta_PDF_XML(ClaveAccesoXML, docentry, oTipoTabla, "xml")
                                     ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
-                                        oManejoDocumentosSolsap.ConsultaXML(ClaveAccesoXML, oTabla)
+                                        oManejoDocumentosSolsap.ConsultaXML(ClaveAccesoXML, oTabla, docsubtype)
                                     Else
                                         oManejoDocumentos.ConsultaXML(ClaveAccesoXML)
                                     End If
@@ -1361,6 +1363,9 @@ Public Class EventosEmision
                                                 Try
                                                     If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                         oManejoDocumentosEcua.ProcesaEnvioDocumento(docentry, oTipoTabla)
+
+                                                    ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                        oManejoDocumentosSolsap.ProcesaEnvioDocumento(docentry, oTipoTabla)
                                                     Else
                                                         oManejoDocumentos.ProcesaEnvioDocumento(docentry, oTipoTabla)
                                                     End If
@@ -1674,6 +1679,8 @@ Public Class EventosEmision
                                                                                 oFuncionesAddon.GuardaLOG(objType, docentry, "Secuencia Actualizada en Documentos Legales Internos..!!", Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
                                                                                 If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                                                     oManejoDocumentosEcua.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+                                                                                ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                                                    oManejoDocumentosSolsap.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                                                 Else
                                                                                     oManejoDocumentos.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                                                 End If
@@ -1697,6 +1704,8 @@ Public Class EventosEmision
                                                                             oFuncionesAddon.GuardaLOG(objType, docentry, "Secuencia Actualizada en la tabla SERIES..!!", Functions.FuncionesAddon.Transacciones.Reenvío, Functions.FuncionesAddon.TipoLog.Emision)
                                                                             If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                                                 oManejoDocumentosEcua.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+                                                                            ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                                                oManejoDocumentosSolsap.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                                             Else
                                                                                 oManejoDocumentos.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                                             End If
@@ -1714,7 +1723,7 @@ Public Class EventosEmision
                                                                             If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                                                 oManejoDocumentosEcua.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                                             ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
-
+                                                                                oManejoDocumentosSolsap.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                                             Else
                                                                                 oManejoDocumentos.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                                             End If
@@ -1733,6 +1742,8 @@ Public Class EventosEmision
                                                                             'oFuncionesAddon.GuardaLOG(objType, docentry, "Secuencia Actualizada en (SS) Documentos Legales..!!", Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
                                                                             If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                                                 oManejoDocumentosEcua.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+                                                                            ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                                                oManejoDocumentosSolsap.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                                             Else
                                                                                 oManejoDocumentos.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                                             End If
@@ -1765,6 +1776,8 @@ Public Class EventosEmision
                                                     Try
                                                         If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                             oManejoDocumentosEcua.ProcesaEnvioDocumento(docentry, oTipoTabla)
+                                                        ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                            oManejoDocumentosSolsap.ProcesaEnvioDocumento(docentry, oTipoTabla)
                                                         Else
                                                             oManejoDocumentos.ProcesaEnvioDocumento(docentry, oTipoTabla)
                                                         End If
@@ -2493,16 +2506,18 @@ Public Class EventosEmision
             oTipoTabla = "LQE"
             Dim _DocEntry As String = mForm.DataSources.DBDataSources.Item(oTabla).GetValue("DocEntry", 0)
             Dim _Serie As String = mForm.DataSources.DBDataSources.Item(oTabla).GetValue("Series", 0)
-            If btnAccLQ.Caption = "(GS) Ver RIDE" Then
+            If btnAccLQ.Caption = "(GS) Ver RIDE" Or btnAccLQ.Caption = "(SS) Ver RIDE" Then
                 Dim ClaveAcceso As String = mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_LQ_CLAVE", 0)
                 Dim docentry As String = ""
                 docentry = LTrim(RTrim(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("DocEntry", 0)))
                 Try
 
-                    rSboApp.SetStatusBarMessage(NombreAddon + " -Consultando La Lquidación de Compra, por favor espere..! ", SAPbouiCOM.BoMessageTime.bmt_Short, False)
+                    rSboApp.SetStatusBarMessage(NombreAddon + " - Consultando PDF liquidación de compra, por favor espere..! ", SAPbouiCOM.BoMessageTime.bmt_Short, False)
                     'oManejoDocumentos.SetProtocolosdeSeguridad()
                     If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                         oManejoDocumentosEcua.Consulta_PDF_XML(ClaveAcceso, docentry, oTipoTabla, "pdf")
+                    ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                        oManejoDocumentosSolsap.ConsultaPDF(ClaveAcceso, oTabla)
                     Else
                         oManejoDocumentos.ConsultaPDF(ClaveAcceso)
                     End If
@@ -2513,16 +2528,19 @@ Public Class EventosEmision
                 Catch ex As Exception
                     rSboApp.SetStatusBarMessage(NombreAddon + " - Existio un error: " + ex.Message.ToString(), SAPbouiCOM.BoMessageTime.bmt_Short, True)
                 End Try
-            ElseIf btnAccLQ.Caption = "(GS) Ver XML" Then
+            ElseIf btnAccLQ.Caption = "(GS) Ver XML" Or btnAccLQ.Caption = "(SS) Ver XML" Then
                 Dim ClaveAcceso As String = mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_LQ_CLAVE", 0)
                 Dim docentry As String = ""
                 docentry = LTrim(RTrim(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("DocEntry", 0)))
                 Try
 
-                    rSboApp.SetStatusBarMessage(NombreAddon + " -Consultando XML LIquidación de Compra, por favor espere..! ", SAPbouiCOM.BoMessageTime.bmt_Short, False)
+                    rSboApp.SetStatusBarMessage(NombreAddon + " - Consultando XML liquidación de compra, por favor espere..! ", SAPbouiCOM.BoMessageTime.bmt_Short, False)
                     'SetProtocolosdeSeguridad()
                     If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                         oManejoDocumentosEcua.Consulta_PDF_XML(ClaveAcceso, docentry, oTipoTabla, "xml")
+
+                    ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                        oManejoDocumentosSolsap.ConsultaXML(ClaveAcceso, oTabla)
                     Else
                         oManejoDocumentos.ConsultaXML(ClaveAcceso)
                     End If
@@ -2785,6 +2803,8 @@ Public Class EventosEmision
                                         'If oFuncionesAddon.ActualizaSecuencia_LiquidacionDeCompra(sCode, numFolio, oDocumento.DocEntry, oTipoTabla, Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision) Then
                                         If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                             oManejoDocumentosEcua.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+                                        ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                            oManejoDocumentosSolsap.ProcesaEnvioDocumento(docentry, oTipoTabla, False)
                                         Else
                                             oManejoDocumentos.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                         End If
@@ -2795,6 +2815,8 @@ Public Class EventosEmision
                                         If oFuncionesAddon.ActualizaSecuencia_LiquidacionDeCompra(sCode, numFolio, oDocumento.DocEntry, oTipoTabla, Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision) Then
                                             If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                 oManejoDocumentosEcua.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+                                            ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                oManejoDocumentosSolsap.ProcesaEnvioDocumento(docentry, oTipoTabla, False)
                                             Else
                                                 oManejoDocumentos.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                             End If
@@ -2813,6 +2835,8 @@ Public Class EventosEmision
                         Try
                             If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                 oManejoDocumentosEcua.ProcesaEnvioDocumento(docentry, oTipoTabla)
+                            ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                oManejoDocumentosSolsap.ProcesaEnvioDocumento(docentry, oTipoTabla, False)
                             Else
                                 oManejoDocumentos.ProcesaEnvioDocumento(docentry, oTipoTabla)
                             End If
@@ -3482,6 +3506,8 @@ Public Class EventosEmision
                                                                                 If Not EnviaDocumentosEnBackGround = "Y" Then
                                                                                     If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                                                         oManejoDocumentosEcua.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+                                                                                    ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                                                        oManejoDocumentosSolsap.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla, False)
                                                                                     Else
                                                                                         oManejoDocumentos.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                                                     End If
@@ -5654,7 +5680,12 @@ Public Class EventosEmision
                 If EsElectronico = "FE" Then
                     oForm.Title += " - ELECTRONICO"
                     If oTipoTabla = "REE" Then
-                        lbComentario.Caption = "(GS) RETENCIÓN ELECTRÓNICA"
+                        If Functions.VariablesGlobales._ActApiSS = "Y" Then
+                            lbComentario.Caption = "(SS) RETENCIÓN ELECTRÓNICA"
+                        Else
+                            lbComentario.Caption = "(GS) RETENCIÓN ELECTRÓNICA"
+                        End If
+
                     Else
                         If Functions.VariablesGlobales._ActApiSS = "Y" Then
                             lbComentario.Caption = "(SS) DOCUMENTO ELECTRÓNICO"
@@ -5668,7 +5699,12 @@ Public Class EventosEmision
                 Else
                     oForm.Title = nombreFormulario
                     If oTipoTabla = "REE" Then
-                        lbComentario.Caption = "(GS) RETENCIÓN NO ELECTRÓNICA"
+                        If Functions.VariablesGlobales._ActApiSS = "Y" Then
+                            lbComentario.Caption = "(SS) RETENCIÓN NO ELECTRÓNICA"
+                        Else
+                            lbComentario.Caption = "(GS) RETENCIÓN NO ELECTRÓNICA"
+                        End If
+
                     Else
                         If Functions.VariablesGlobales._ActApiSS = "Y" Then
                             lbComentario.Caption = "(SS) DOCUMENTO NO ELECTRÓNICO"
@@ -6362,6 +6398,8 @@ Public Class EventosEmision
 
     Private Sub CargaItemEnFormulario_LiquidacionCompra(oForm As SAPbouiCOM.Form, evento As String, typeEx As String, oTabla As String)
         Dim codDoc As String = "00"
+        Dim ss_api As String
+        ss_api = Functions.VariablesGlobales._ActApiSS
 
         Try
 
@@ -6449,17 +6487,34 @@ Public Class EventosEmision
                 lbComentarioLQ = oForm.Items.Item("lbComenLQ").Specific
                 If LQEsElectronico = "FE" Then
                     oForm.Title += " - ELECTRONICO"
-                    lbComentarioLQ.Caption = "(GS) LIQUIDACIÓN ELECTRÓNICA"
+
+                    Select Case ss_api
+                        Case "Y"
+                            lbComentarioLQ.Caption = "(SS) LIQUIDACIÓN ELECTRÓNICA"
+                        Case Else
+                            lbComentarioLQ.Caption = "(GS) LIQUIDACIÓN ELECTRÓNICA"
+                    End Select
+
                     lbComentarioLQ.Item.ForeColor = RGB(7, 118, 10)
                     ' lbComentario.Caption = "ELECTRONICO"
                 ElseIf LQEsElectronico <> "FE" Then
-                    lbComentarioLQ.Caption = "(GS) LIQUIDACIÓN NO ELECTRÓNICA"
+                    Select Case ss_api
+                        Case "Y"
+                            lbComentarioLQ.Caption = "(SS) LIQUIDACIÓN NO ELECTRÓNICA"
+                        Case Else
+                            lbComentarioLQ.Caption = "(GS) LIQUIDACIÓN NO ELECTRÓNICA"
+                    End Select
                     lbComentarioLQ.Item.ForeColor = RGB(204, 0, 0)
-
 
                 Else
                     oForm.Title = nombreFormulario
-                    lbComentarioLQ.Caption = "(GS) LIQUIDACIÓN NO ELECTRÓNICA"
+                    Select Case ss_api
+                        Case "Y"
+                            lbComentarioLQ.Caption = "(SS) LIQUIDACIÓN NO ELECTRÓNICA"
+                        Case Else
+                            lbComentarioLQ.Caption = "(GS) LIQUIDACIÓN NO ELECTRÓNICA"
+                    End Select
+                    'lbComentarioLQ.Caption = "(GS) LIQUIDACIÓN NO ELECTRÓNICA"
                     lbComentarioLQ.Item.ForeColor = RGB(204, 0, 0)
                 End If
                 lbComentarioLQ.Item.Visible = True
@@ -6516,15 +6571,24 @@ Public Class EventosEmision
                 Try
                     If LQEsElectronico = "FE" Then
                         If UDFEALQ = "2" Then
-                            btnAccLQ.ValidValues.Add("(GS) Ver RIDE", "(GS) Ver Ride")
-                            btnAccLQ.ValidValues.Add("(GS) Ver XML", "(GS) Ver XML")
-                            btnAccLQ.ValidValues.Add("(GS) Reenviar MAIL", "(GS) Reenviar Mail")
-                            btnAccLQ.Select("(GS) Ver RIDE", SAPbouiCOM.BoSearchKey.psk_ByValue)
+                            Select Case ss_api
+                                Case "Y"
+                                    btnAccLQ.ValidValues.Add("(SS) Ver RIDE", "(SS) Ver Ride")
+                                    btnAccLQ.ValidValues.Add("(SS) Ver XML", "(SS) Ver XML")
+                                    btnAccLQ.ValidValues.Add("(SS) Reenviar MAIL", "(SS) Reenviar Mail")
+                                    btnAccLQ.Select("(SS) Ver RIDE", SAPbouiCOM.BoSearchKey.psk_ByValue)
+                                Case Else
+                                    btnAccLQ.ValidValues.Add("(GS) Ver RIDE", "(GS) Ver Ride")
+                                    btnAccLQ.ValidValues.Add("(GS) Ver XML", "(GS) Ver XML")
+                                    btnAccLQ.ValidValues.Add("(GS) Reenviar MAIL", "(GS) Reenviar Mail")
+                                    btnAccLQ.Select("(GS) Ver RIDE", SAPbouiCOM.BoSearchKey.psk_ByValue)
+                            End Select
 
                             lbEstadoLQ.Item.ForeColor = RGB(7, 118, 10)
                             lbEstadoLQ.Caption = "Estado: AUTORIZADO"
 
                         ElseIf UDFEALQ = "5" Then
+
                             btnAccLQ.ValidValues.Add("(GS) Ver RIDE", "(GS) Ver Ride")
                             btnAccLQ.ValidValues.Add("(GS) Consultar AUT", "(GS) Cons. Autorizacion")
                             btnAccLQ.ValidValues.Add("(GS) Ver XML", "(GS) Ver XML")
@@ -6583,7 +6647,12 @@ Public Class EventosEmision
 
                 If LQEsElectronico = "FE" Then
                     oForm.Title += " - ELECTRONICO"
-                    lbComentarioLQ.Caption = "GS LQ ELECTRÓNICO"
+                    If ss_api = "Y" Then
+                        lbComentarioLQ.Caption = "SS LQ ELECTRÓNICO"
+                    Else
+                        lbComentarioLQ.Caption = "GS LQ ELECTRÓNICO"
+                    End If
+
                     lbComentarioLQ.Item.ForeColor = RGB(7, 118, 10)
 
                     Select Case oForm.Mode
@@ -9955,7 +10024,7 @@ Public Class EventosEmision
     End Sub
 
 
-    Private Sub ObtenerEnlacesURLyGenerarRQ(ByRef mForm As SAPbouiCOM.Form, FormularioID As String)
+    Private Sub ObtenerEnlacesURLyGenerarRQ(ByRef mForm As SAPbouiCOM.Form, FormularioID As String, Optional docsubtype As String = "")
 
         Dim carpeta As String = ""
         Dim taxIdNum As String = ""
@@ -9967,14 +10036,22 @@ Public Class EventosEmision
 
         Select Case oTabla
             Case "OINV" '& mForm.DataSources.DBDataSources.Item(oTabla).GetValue("DocSubType", 0).Trim = "--"
-                carpeta = "facturas"
+
+                If docsubtype = "DN" Then
+                    carpeta = "notadebito"
+                Else
+                    carpeta = "facturas"
+                End If
+
             Case "ORIN"
                 carpeta = "notacredito"
+            Case "OPCH"
+                carpeta = "liquidacioncompra"
         End Select
 
         Dim EnlaceQR = GenerarEnlaceQR(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_CLAVE_ACCESO", 0).Trim, carpeta, taxIdNum)
 
-        Dim EnlaceQRLIQ = GenerarEnlaceQR(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_LQ_CLAVE", 0).Trim)
+        Dim EnlaceQRLIQ = GenerarEnlaceQR(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_LQ_CLAVE", 0).Trim, carpeta, taxIdNum)
 
         Dim NombreImagen As String = mForm.DataSources.DBDataSources.Item(oTabla).GetValue("DocEntry", 0).Trim & "_" & FormularioID
 

@@ -11,6 +11,8 @@ Public Class ProcesoEmision
     Dim FacturaManager_ As FacturaManager
     Dim NotaCreditoManager_ As NotaCreditoManager
     Dim NotaDebitoManager_ As NotaDebitoManager
+    Dim LiquidacionManager_ As LiquidacionManager
+    Dim RetencionManager_ As RetencionManager
     Dim DesencriptarQuery_ As DesencriptarQuery
     Dim FuncionesProcesoEmision_ As FuncionesProcesoEmision
 
@@ -28,6 +30,8 @@ Public Class ProcesoEmision
         FacturaManager_ = New Negocio.FacturaManager(rCompany, rsboApp, _tipoManejo, oFuncionesAddon, DatabaseQueryManager_, DesencriptarQuery_)
         NotaCreditoManager_ = New Negocio.NotaCreditoManager(rCompany, rsboApp, _tipoManejo, oFuncionesAddon, DatabaseQueryManager_, DesencriptarQuery_)
         NotaDebitoManager_ = New Negocio.NotaDebitoManager(rCompany, rsboApp, _tipoManejo, oFuncionesAddon, DatabaseQueryManager_, DesencriptarQuery_)
+        LiquidacionManager_ = New Negocio.LiquidacionManager(rCompany, rsboApp, _tipoManejo, oFuncionesAddon, DatabaseQueryManager_, DesencriptarQuery_)
+        RetencionManager_ = New Negocio.RetencionManager(rCompany, rsboApp, _tipoManejo, oFuncionesAddon, DatabaseQueryManager_, DesencriptarQuery_)
         FuncionesProcesoEmision_ = New Negocio.FuncionesProcesoEmision(rCompany, rsboApp, _tipoManejo, oFuncionesAddon)
     End Sub
     Public Function ProcesaEnvioDocumento(DocEntry As Integer,
@@ -103,6 +107,15 @@ Public Class ProcesoEmision
                     objetoRespuesta = ApiRequestManager_.ConsultarDoc(RequestconsEst)
                 ElseIf TipoDocumento = "REE" Or TipoDocumento = "REA" Or TipoDocumento = "RER" Then
 
+                ElseIf TipoDocumento = "LQE" Then
+                    oRs_.DoQuery($"SELECT ""U_LQ_CLAVE"" FROM ""OPCH"" WHERE ""DocEntry"" = {DocEntry}")
+
+                    If Not oRs_.EoF Then
+                        u_clave_acceso = oRs_.Fields.Item("U_LQ_CLAVE").Value.ToString().Trim()
+                    End If
+                    RequestconsEst.claveAcceso = u_clave_acceso
+                    objetoRespuesta = ApiRequestManager_.ConsultarDoc(RequestconsEst)
+
                 ElseIf TipoDocumento = "NDE" Then
 
                     oRs_.DoQuery($"SELECT ""U_CLAVE_ACCESO"" FROM ""OINV"" WHERE ""DocEntry"" = {DocEntry} AND ""DocSubType"" = 'DN'")
@@ -151,7 +164,7 @@ Public Class ProcesoEmision
 
                     ' Mando a Grabar a SAP
                     If TipoDocumento = "LQE" Then
-
+                        result = FuncionesProcesoEmision_.GrabaDatosAutorizacion_LQ(DocEntry, TipoDocumento, _Nombre_Proveedor_SAP_BO, _NumAutorizacion, _FechaAutorizacion, _NumeroDeDocumentoSRI, _Observacion, _EstadoAutorizacion, _ClaveAcceso, _Error)
                     ElseIf Functions.VariablesGlobales._FacturaGuiaRemision = "SI" Then
 
                     ElseIf TipoDocumento = "SSGR" Then
@@ -209,6 +222,9 @@ Public Class ProcesoEmision
                 ElseIf TipoDocumento = "NDE" Then
                     oObjeto = NotaDebitoManager_.ConsultarNotaDebito(DocEntry, _Error)
                 ElseIf TipoDocumento = "REE" Or TipoDocumento = "REA" Or TipoDocumento = "RER" Then
+                    oObjeto = RetencionManager_.ConsultarRetencion(DocEntry, TipoDocumento)
+                ElseIf TipoDocumento = "LQE" Then
+                    oObjeto = LiquidacionManager_.ConsultarLiquidacion(DocEntry, _Error)
                 End If
 
                 If Not oObjeto Is Nothing Then
@@ -269,6 +285,29 @@ Public Class ProcesoEmision
                                 objetoRespuesta = ApiRequestManager_.ConsultarDoc(RequestconsEst)
                         End Select
 
+                    ElseIf Functions.VariablesGlobales._ActApiSS = "Y" AndAlso TipoDocumento = "LQE" Then
+                        Dim oDocumento As SAPbobsCOM.Documents = Nothing
+                        Dim RequestconsEst As Entidades.RequestConsulta = New Entidades.RequestConsulta
+                        oDocumento = rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseInvoices)
+                        Select Case oDocumento.UserFields.Fields.Item("U_LQ_ESTADO").Value
+                            Case "0", "3", "4", "6"
+                                objetoRespuesta = ApiRequestManager_.EnviarLiquidacionSolsap(DirectCast(oObjeto, Entidades.RequestLiquidacion))
+                            Case "1", "5", "7"
+                                RequestconsEst.claveAcceso = oDocumento.UserFields.Fields.Item("U_LQ_CLAVE").Value
+                                objetoRespuesta = ApiRequestManager_.ConsultarDoc(RequestconsEst)
+                        End Select
+
+                    ElseIf Functions.VariablesGlobales._ActApiSS = "Y" And (TipoDocumento = "REE" Or TipoDocumento = "REA" Or TipoDocumento = "RER") Then
+                        Dim oDocumento As SAPbobsCOM.Documents = Nothing
+                        Dim RequestconsEst As Entidades.RequestConsulta = New Entidades.RequestConsulta
+                        oDocumento = rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseInvoices)
+                        Select Case oDocumento.UserFields.Fields.Item("U_ESTADO_AUTORIZACIO").Value
+                            Case "0", "3", "4", "6"
+                                objetoRespuesta = ApiRequestManager_.EnviarRetencionSolsap(DirectCast(oObjeto, Entidades.RequestRetencion))
+                            Case "1", "5", "7"
+                                RequestconsEst.claveAcceso = oDocumento.UserFields.Fields.Item("U_CLAVE_ACCESO").Value
+                                objetoRespuesta = ApiRequestManager_.ConsultarDoc(RequestconsEst)
+                        End Select
                     End If
 
                     If Not objetoRespuesta Is Nothing Then
@@ -297,6 +336,10 @@ Public Class ProcesoEmision
                         ElseIf TipoDocumento = "NCE" And (TipoWS = "NUBE_4_1" And Functions.VariablesGlobales._ActApiSS = "Y") Then
                             _Observacion = FuncionesProcesoEmision_.recorreError_Solsap(CType(objetoRespuesta, Entidades.ResponseDocuments), DocEntry.ToString())
                         ElseIf TipoDocumento = "NDE" And (TipoWS = "NUBE_4_1" And Functions.VariablesGlobales._ActApiSS = "Y") Then
+                            _Observacion = FuncionesProcesoEmision_.recorreError_Solsap(CType(objetoRespuesta, Entidades.ResponseDocuments), DocEntry.ToString())
+                        ElseIf TipoDocumento = "LQE" And (TipoWS = "NUBE_4_1" And Functions.VariablesGlobales._ActApiSS = "Y") Then
+                            _Observacion = FuncionesProcesoEmision_.recorreError_Solsap(CType(objetoRespuesta, Entidades.ResponseDocuments), DocEntry.ToString())
+                        ElseIf (TipoDocumento = "REE" Or TipoDocumento = "REA" Or TipoDocumento = "RER") And (TipoWS = "NUBE_4_1" And Functions.VariablesGlobales._ActApiSS = "Y") Then
                             _Observacion = FuncionesProcesoEmision_.recorreError_Solsap(CType(objetoRespuesta, Entidades.ResponseDocuments), DocEntry.ToString())
                         End If
 
@@ -339,7 +382,7 @@ Public Class ProcesoEmision
 
                         ' Mando a Grabar a SAP
                         If TipoDocumento = "LQE" Then
-
+                            result = FuncionesProcesoEmision_.GrabaDatosAutorizacion_LQ(DocEntry, TipoDocumento, _Nombre_Proveedor_SAP_BO, _NumAutorizacion, _FechaAutorizacion, _NumeroDeDocumentoSRI, _Observacion, _EstadoAutorizacion, _ClaveAcceso, _Error)
                         ElseIf Functions.VariablesGlobales._FacturaGuiaRemision = "SI" Then
 
                         ElseIf Functions.VariablesGlobales._SalidaMercanciasGuiaRemision = "SI" Then
@@ -373,7 +416,7 @@ Public Class ProcesoEmision
 
                         Try
                             If TipoDocumento = "LQE" Then
-
+                                FuncionesProcesoEmision_.GrabaDatosAutorizacion_Error_LQ(DocEntry, TipoDocumento, _MsgError, _Error)
                             ElseIf Functions.VariablesGlobales._FacturaGuiaRemision = "SI" Then
 
                             ElseIf TipoDocumento = "SSGR" Then
@@ -397,7 +440,7 @@ Public Class ProcesoEmision
 
                     Try
                         If TipoDocumento = "LQE" Then
-
+                            FuncionesProcesoEmision_.GrabaDatosAutorizacion_Error_LQ(DocEntry, TipoDocumento, _MsgError, _Error)
                         ElseIf Functions.VariablesGlobales._FacturaGuiaRemision = "SI" Then
 
                         ElseIf Functions.VariablesGlobales._SalidaMercanciasGuiaRemision = "SI" Then

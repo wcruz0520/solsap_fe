@@ -68,7 +68,12 @@ Public Class LiquidacionManager
                 For Each r As DataRow In ds.Tables(0).Rows
                     liquidacion.infoTributaria.ambiente = r("Ambiente").ToString()
                     liquidacion.infoTributaria.tipoEmision = r("TipoEmision").ToString()
-                    liquidacion.infoTributaria.claveAcceso = r("ClaveAcceso").ToString()
+
+                    Dim claveacceso As String = r("ClaveAcceso")
+                    If claveacceso.Length >= 10 And claveacceso.Length <= 49 Then
+                        liquidacion.infoTributaria.claveAcceso = r("ClaveAcceso").ToString()
+                    End If
+
                     liquidacion.infoTributaria.razonSocial = r("RazonSocial").ToString()
                     liquidacion.infoTributaria.nombreComercial = r("NombreComercial").ToString()
                     liquidacion.infoTributaria.ruc = r("Ruc").ToString()
@@ -99,10 +104,16 @@ Public Class LiquidacionManager
                     liquidacion.infoLiquidacionCompra.direccionProveedor = r("DirProveedor").ToString()
                     liquidacion.infoLiquidacionCompra.totalSinImpuestos = FormatearNumero(r("TotalSinImpuesto"))
                     liquidacion.infoLiquidacionCompra.totalDescuento = FormatearNumero(r("TotalDescuento"))
-                    liquidacion.infoLiquidacionCompra.codDocReembolso = r("CodDocReemb").ToString()
-                    liquidacion.infoLiquidacionCompra.totalComprobantesReembolso = r("TotalComprobantesReembolso").ToString()
-                    liquidacion.infoLiquidacionCompra.totalBaseImponibleReembolso = r("TotalBaseImponibleReembolso").ToString()
-                    liquidacion.infoLiquidacionCompra.totalImpuestoReembolso = r("TotalImpuestoReembolso").ToString()
+
+                    Dim codReemb As String = r("CodDocReemb").ToString()
+
+                    If codReemb.Length > 0 Then
+                        liquidacion.infoLiquidacionCompra.codDocReembolso = r("CodDocReemb").ToString()
+                        liquidacion.infoLiquidacionCompra.totalComprobantesReembolso = r("TotalComprobantesReembolso").ToString()
+                        liquidacion.infoLiquidacionCompra.totalBaseImponibleReembolso = r("TotalBaseImponibleReembolso").ToString()
+                        liquidacion.infoLiquidacionCompra.totalImpuestoReembolso = r("TotalImpuestoReembolso").ToString()
+                    End If
+
                     liquidacion.infoLiquidacionCompra.importeTotal = FormatearNumero(r("ImporteTotal"))
                     liquidacion.infoLiquidacionCompra.moneda = r("Moneda").ToString()
 
@@ -117,7 +128,9 @@ Public Class LiquidacionManager
                             t.baseImponible = FormatearNumero(r("Base" & suf))
                             t.valor = FormatearNumero(r("ValorIva" & suf))
                             t.tarifa = FormatearNumero(r("Tarifa" & suf))
-                            t.descuentoAdicional = FormatearNumero(r("DescuentoAdicional" & suf))
+                            If r("DescuentoAdicional" & suf) > 0 Then
+                                t.descuentoAdicional = FormatearNumero(r("DescuentoAdicional" & suf))
+                            End If
                             totales.Add(t)
                         End If
                     Next
@@ -131,7 +144,7 @@ Public Class LiquidacionManager
                     det.codigoPrincipal = r("CodigoPrincipal").ToString()
                     det.codigoAuxiliar = r("CodigoAuxiliar").ToString()
                     det.descripcion = r("Descripcion").ToString()
-                    det.cantidad = Convert.ToDecimal(r("Cantidad"))
+                    det.cantidad = CInt(r("Cantidad"))
                     det.precioUnitario = FormatearNumero(r("PrecioUnitario"))
                     det.descuento = FormatearNumero(r("Descuento"))
                     det.precioTotalSinImpuesto = FormatearNumero(r("PrecioTotalSinImpuesto"))
@@ -143,7 +156,7 @@ Public Class LiquidacionManager
                     imp.codigoPorcentaje = r("CodigoPorcentaje").ToString()
                     imp.baseImponible = FormatearNumero(r("BaseImponible"))
                     imp.valor = FormatearNumero(r("TotalIva"))
-                    imp.tarifa = FormatearNumero(r("Tarifa"))
+                    imp.tarifa = CInt(r("Tarifa")).ToString()
                     lstImp.Add(imp)
                     det.impuestos = lstImp
 
@@ -191,7 +204,7 @@ Public Class LiquidacionManager
                             listaImp.Add(i)
                         End If
                     Next
-                 
+
                     re.detalleImpuestos = listaImp
                     liquidacion.reembolsos.Add(re)
                 Next

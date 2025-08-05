@@ -20,14 +20,15 @@ Public Class RetencionManager
         DesencriptarQuery_ = dsQm
     End Sub
 
-    Public Function ConsultarRetencion(DocEntry As Integer, ByVal tipoDoc As tipoDocumento) As Entidades.RequestRetencion
+    Public Function ConsultarRetencion(DocEntry As Integer, ByVal TipoRE As String) As Entidades.RequestRetencion
         Dim retencion As New Entidades.RequestRetencion
         retencion.infoTributaria = New Entidades.InfoTributariaRET
         retencion.infoCompRetencion = New Entidades.InfoCompRetencionRET
         retencion.docsSustento = New List(Of Entidades.DocSustentoRET)()
         retencion.infoAdicional = New List(Of Entidades.InfoAdicionalRET)()
 
-        Dim SP As String = DesencriptarQuery_.GetQueryConsulta(tipoDoc, DocEntry)
+
+        Dim SP As String = DesencriptarQuery_.GetQueryConsulta(TipoRE, DocEntry)
         If SP.Contains("El relleno entre caracteres no es válido y no se puede quitar.") Then
             SP = SP.Replace("El relleno entre caracteres no es válido y no se puede quitar.", "")
         End If
@@ -67,7 +68,12 @@ Public Class RetencionManager
             For Each r As DataRow In ds.Tables(0).Rows
                 retencion.infoTributaria.ambiente = r("Ambiente").ToString
                 retencion.infoTributaria.tipoEmision = r("TipoEmision").ToString
-                retencion.infoTributaria.claveAcceso = r("ClaveAcceso").ToString
+
+                Dim claveacceso As String = r("ClaveAcceso")
+                If claveacceso >= 10 And claveacceso <= 49 Then
+                    retencion.infoTributaria.claveAcceso = r("ClaveAcceso").ToString
+                End If
+
                 retencion.infoTributaria.razonSocial = r("RazonSocial").ToString
                 retencion.infoTributaria.nombreComercial = r("NombreComercial").ToString
                 retencion.infoTributaria.ruc = r("Ruc").ToString
@@ -110,6 +116,7 @@ Public Class RetencionManager
                 If r.Table.Columns.Contains("AplicConvDobTrib") Then doc.aplicConvDobTrib = r("AplicConvDobTrib").ToString
                 If r.Table.Columns.Contains("PagExtSujRetNorLeg") Then doc.pagExtSujRetNorLeg = r("PagExtSujRetNorLeg").ToString
                 If r.Table.Columns.Contains("PagoRegFis") Then doc.pagRegFis = r("PagoRegFis").ToString
+
                 If r.Table.Columns.Contains("TotalComprobantesReembolso") Then doc.totalComprobantesReembolso = r("TotalComprobantesReembolso").ToString
                 If r.Table.Columns.Contains("TotalBaseImponibleReembolso") Then doc.totalBaseImponibleReembolso = r("TotalBaseImponibleReembolso").ToString
                 If r.Table.Columns.Contains("TotalSinImpuestos") Then doc.totalSinImpuestos = r("TotalSinImpuestos").ToString

@@ -361,10 +361,11 @@ Public Class ApiRequestManager
 
     End Function
 
-    Public Function ConsultaPDF(sClaveAcceso As String, tipoDoc As String) As Boolean
+    Public Function ConsultaPDF(sClaveAcceso As String, tipoDoc As String, Optional docsubtype As String = "") As Boolean
         Try
             Dim taxIdNum As String = ""
             Dim TbDoc As String = ""
+            'Dim DocSubType As String = ""
             Dim oRs As SAPbobsCOM.Recordset = CType(_auth.rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
             oRs.DoQuery("SELECT ""TaxIdNum"" FROM ""OADM""")
             If Not oRs.EoF Then
@@ -374,9 +375,23 @@ Public Class ApiRequestManager
             Dim urlReal As String = ""
             Select Case tipoDoc
                 Case "OINV"
-                    TbDoc = "facturas"
+                    'Dim oRs2 As SAPbobsCOM.Recordset = CType(_auth.rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset), SAPbobsCOM.Recordset)
+                    'oRs2.DoQuery($"SELECT TOP 1 ""DocSubType"" FROM ""OINV"" WHERE ""U_CLAVE_ACCESO"" = {sClaveAcceso} AND ""CANCELED"" = 'N'")
+                    'If Not oRs.EoF Then
+                    'docsubtype = oRs2.Fields.Item("DocSubType").Value.ToString().Trim()
+                    'End If
+
+                    If docsubtype = "DN" Then
+                        TbDoc = "notadebito"
+                    Else
+                        TbDoc = "facturas"
+                    End If
+
                 Case "ORIN"
                     TbDoc = "notacredito"
+
+                Case "OPCH"
+                    TbDoc = "liquidacioncompra"
                 Case Else
                     _sboApp.SetStatusBarMessage("Tipo de documento no soportado.", SAPbouiCOM.BoMessageTime.bmt_Short, True)
                     Return False
@@ -406,7 +421,7 @@ Public Class ApiRequestManager
         End Try
     End Function
 
-    Public Function ConsultaXML(sClaveAcceso As String, tipoDoc As String) As Boolean
+    Public Function ConsultaXML(sClaveAcceso As String, tipoDoc As String, Optional docsubtype As String = "") As Boolean
         Try
             Dim taxIdNum As String = ""
             Dim TbDoc As String = ""
@@ -419,9 +434,15 @@ Public Class ApiRequestManager
             Dim urlReal As String = ""
             Select Case tipoDoc
                 Case "OINV"
-                    TbDoc = "facturas"
+                    If docsubtype = "DN" Then
+                        TbDoc = "notadebito"
+                    Else
+                        TbDoc = "facturas"
+                    End If
                 Case "ORIN"
                     TbDoc = "notacredito"
+                Case "OPCH"
+                    TbDoc = "liquidacioncompra"
                 Case Else
                     _sboApp.SetStatusBarMessage("Tipo de documento no soportado.", SAPbouiCOM.BoMessageTime.bmt_Short, True)
                     Return False

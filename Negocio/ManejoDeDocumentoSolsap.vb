@@ -98,12 +98,12 @@ Public Class ManejoDeDocumentoSolsap
         Return ProcesoEmision_.ProcesaEnvioDocumento(DocEntry, TipoDocumento, _Error, _Error, _EstadoAutorizacion, _ClaveAcceso, _NumAutorizacion, _Observacion, _FechaAutorizacion, _NumeroDeDocumentoSRI, mensaje, _errorMensajeWSEnvío, oObjeto, _CampoNulo, _Nombre_Proveedor_SAP_BO, sincronizado)
     End Function
 
-    Public Function ConsultaPDF(sClaveAcceso As String, tipoDoc As String) As Boolean
-        Return ApiRequestManager_.ConsultaPDF(sClaveAcceso, tipoDoc)
+    Public Function ConsultaPDF(sClaveAcceso As String, tipoDoc As String, Optional docsubtype As String = "") As Boolean
+        Return ApiRequestManager_.ConsultaPDF(sClaveAcceso, tipoDoc, docsubtype)
     End Function
 
-    Public Function ConsultaXML(sClaveAcceso As String, tipoDoc As String) As Boolean
-        Return ApiRequestManager_.ConsultaXML(sClaveAcceso, tipoDoc)
+    Public Function ConsultaXML(sClaveAcceso As String, tipoDoc As String, Optional docsubtype As String = "") As Boolean
+        Return ApiRequestManager_.ConsultaXML(sClaveAcceso, tipoDoc, docsubtype)
     End Function
 
     Private Function FormatearNumero(valor As Object) As String

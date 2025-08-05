@@ -11,6 +11,59 @@ Public Class FuncionesProcesoEmision
         _tipoManejo = tipoManejo
         oFuncionesAddon = funciones
     End Sub
+
+    Public Function GrabaDatosAutorizacion_Error_LQ(DocEntry As Integer, TipoDocumento As String, ByVal MsgError As String, ByRef _Error As String) As Boolean
+        Dim result As Boolean = False
+        Dim resultado As Integer = -1
+
+        Dim ErrCode As Long
+        Dim ErrMsg As String
+
+        Try
+            Dim oDocumento As SAPbobsCOM.Documents
+            Dim oTransferencia As SAPbobsCOM.StockTransfer
+
+            oDocumento = rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseInvoices)
+
+            If oDocumento.GetByKey(DocEntry) Then
+#Enable Warning BC42104 ' La variable 'oDocumento' se usa antes de que se le haya asignado un valor. Podría darse una excepción de referencia NULL en tiempo de ejecución.
+                Try
+                    oDocumento.UserFields.Fields.Item("U_LQ_OBSERVACION").Value = MsgError
+                Catch ex As Exception
+                    Utilitario.Util_Log.Escribir_Log("U_LQ_OBSERVACION error linea 4497: " + ex.Message.ToString, "ManejoDeDocumentos")
+                End Try
+
+                Try
+                    resultado = oDocumento.Update()
+                Catch ex As Exception
+                    Utilitario.Util_Log.Escribir_Log("error en linea 4503: " + ex.Message.ToString, "ManejoDeDocumentos")
+                End Try
+
+            End If
+
+            If resultado = 0 Then
+                result = True
+            Else
+#Disable Warning BC42030 ' La variable 'ErrMsg' se ha pasado como referencia antes de haberle asignado un valor. Podría darse una excepción de referencia NULL en tiempo de ejecución.
+                rCompany.GetLastError(ErrCode, ErrMsg)
+#Enable Warning BC42030 ' La variable 'ErrMsg' se ha pasado como referencia antes de haberle asignado un valor. Podría darse una excepción de referencia NULL en tiempo de ejecución.
+                If _tipoManejo = "A" Then
+                    rsboApp.SetStatusBarMessage("Ocurrio un error al grabar datos de Autorización :  " & ErrMsg.ToString(), SAPbouiCOM.BoMessageTime.bmt_Long, True)
+                End If
+
+                _Error = ErrCode.ToString() + "-" + ErrMsg
+            End If
+
+        Catch ex As Exception
+            result = False
+            _Error = ex.Message
+            'oUtilitario_Email = New Utilitario.UtilManejador_Email("Error: UserControl_Factura/GrabaDatosAutorizacion Usuario: " + _ConexionSAP.SBO_Application.Company.DatabaseName.ToString() + " - " + _ConexionSAP.SBO_Application.Company.UserName.ToString(), ConfigurationManager.AppSettings("CorreoResponsable"), ex.Message)
+            'oUtilitario_Email.Enviar()
+        End Try
+
+        Return result
+    End Function
+
     Public Function GrabaDatosAutorizacion_Error(DocEntry As Integer, TipoDocumento As String, ByVal MsgError As String, ByRef _Error As String) As Boolean
         Dim result As Boolean = False
         Dim resultado As Integer = -1
@@ -205,6 +258,98 @@ Public Class FuncionesProcesoEmision
 
                     If Not String.IsNullOrEmpty(_ClaveAcceso) Then
                         oDocumento.UserFields.Fields.Item("U_CLAVE_ACCESO").Value = _ClaveAcceso.ToString()
+                    End If
+
+                    resultado = oDocumento.Update()
+                End If
+            End If
+
+
+            If resultado = 0 Then
+                result = True
+            Else
+#Disable Warning BC42030 ' La variable 'ErrMsg' se ha pasado como referencia antes de haberle asignado un valor. Podría darse una excepción de referencia NULL en tiempo de ejecución.
+                rCompany.GetLastError(ErrCode, ErrMsg)
+#Enable Warning BC42030 ' La variable 'ErrMsg' se ha pasado como referencia antes de haberle asignado un valor. Podría darse una excepción de referencia NULL en tiempo de ejecución.
+                If _tipoManejo = "A" Then
+                    rsboApp.SetStatusBarMessage("Ocurrio un error al grabar datos de Autorización :  #Error: " + ErrCode.ToString() + " Mensaje: " + ErrMsg.ToString(), SAPbouiCOM.BoMessageTime.bmt_Long, True)
+                End If
+                If _tipoManejo = "A" Then
+                    oFuncionesAddon.GuardaLOG(TipoDocumento, DocEntry, "Error al grabar datos de Autorización :  #Error: " + ErrCode.ToString() + " Mensaje: " + ErrMsg.ToString(), Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
+                End If
+                Utilitario.Util_Log.Escribir_Log("Error al grabar datos de Autorización :  #Error: " + ErrCode.ToString() + " Mensaje: " + ErrMsg.ToString(), "ManejoDeDocumentos")
+                _Error = ErrCode.ToString() + "-" + ErrMsg
+            End If
+
+        Catch ex As Exception
+            result = False
+            _Error = ex.Message
+            If _tipoManejo = "A" Then
+                rsboApp.SetStatusBarMessage("Ocurrio un error al grabar datos de Autorización :  #Error: " + ErrCode.ToString() + " Mensaje: " + ErrMsg.ToString(), SAPbouiCOM.BoMessageTime.bmt_Long, True)
+                oFuncionesAddon.GuardaLOG(TipoDocumento, DocEntry, "Error al grabar datos de Autorización :  " & _Error.ToString(), Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
+            End If
+        End Try
+
+        Return result
+    End Function
+
+    Public Function GrabaDatosAutorizacion_LQ(DocEntry As Integer, TipoDocumento As String, ByVal _Nombre_Proveedor_SAP_BO As String, ByVal _NumAutorizacion As String, ByVal _FechaAutorizacion As DateTime, ByVal _NumeroDeDocumentoSRI As String, ByVal _Observacion As String, ByVal _EstadoAutorizacion As String, ByVal _ClaveAcceso As String, ByRef _Error As String) As Boolean
+        Dim result As Boolean = False
+        Dim resultado As Integer = -1
+
+        Dim ErrCode As Long
+        Dim ErrMsg As String
+        Dim objectType As String = "" 'obtener el objtype del documento para la localizacion de topmanage
+        Dim CodDoc As String = "" 'obtener el codigo del documento para la localizacion de topmanage
+        Dim SerieDoc As String = ""
+        Try
+            Dim oDocumento As SAPbobsCOM.Documents = Nothing
+            Dim oTransferencia As SAPbobsCOM.StockTransfer = Nothing
+
+            If TipoDocumento = "LQE" Then 'LIQUIDACION DE COMPRA
+                oDocumento = rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseInvoices)
+                oDocumento.DocObjectCode = SAPbobsCOM.BoObjectTypes.oPurchaseInvoices
+            End If
+
+            If TipoDocumento = "TRE" Or TipoDocumento = "TLE" Then
+
+            Else
+                If oDocumento.GetByKey(DocEntry) Then
+
+                    Try
+                        oDocumento.UserFields.Fields.Item("U_LQ_NUM_AUTO").Value = _NumAutorizacion.ToString()
+                    Catch ex As Exception
+                        Utilitario.Util_Log.Escribir_Log("U_LQ_NUM_AUTO errorgetbykey: " + ex.Message.ToString, "ManejoDeDocumentos")
+                    End Try
+
+
+                    Try
+                        'Dim fecha_formateada = _FechaAutorizacion.ToString("yyyyMMdd")
+                        oDocumento.UserFields.Fields.Item("U_LQ_FECHA_AUT").Value = _FechaAutorizacion '.ToString("yyyyMMdd")
+                    Catch ex As Exception
+                        Utilitario.Util_Log.Escribir_Log("U_LQ_FECHA_AUT errorgetbykey: " + ex.Message.ToString, "ManejoDeDocumentos")
+                    End Try
+
+                    'Try
+                    '    oDocumento.UserFields.Fields.Item("U_SYP_FECAUTOC").Value = Date.Now
+                    'Catch ex As Exception
+                    '    Utilitario.Util_Log.Escribir_Log("U_SYP_FECAUTOC DIBEAL: " + ex.Message.ToString, "ManejoDeDocumentos")
+                    'End Try
+
+                    Try
+                        oDocumento.UserFields.Fields.Item("U_LQ_OBSERVACION").Value = _Observacion.ToString + " Fecha y Hora Autorización " + _FechaAutorizacion.ToString("yyyyMMdd")
+                    Catch ex As Exception
+                        Utilitario.Util_Log.Escribir_Log("U_LQ_OBSERVACION errorgetbykey: " + ex.Message.ToString, "ManejoDeDocumentos")
+                    End Try
+
+                    Try
+                        oDocumento.UserFields.Fields.Item("U_LQ_ESTADO").Value = IIf(_EstadoAutorizacion = "-1", "0", _EstadoAutorizacion)
+                    Catch ex As Exception
+                        Utilitario.Util_Log.Escribir_Log("U_LQ_ESTADO errorgetbykey: " + ex.Message.ToString, "ManejoDeDocumentos")
+                    End Try
+
+                    If Not String.IsNullOrEmpty(_ClaveAcceso) Then
+                        oDocumento.UserFields.Fields.Item("U_LQ_CLAVE").Value = _ClaveAcceso.ToString()
                     End If
 
                     resultado = oDocumento.Update()
