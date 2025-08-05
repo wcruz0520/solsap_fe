@@ -26,9 +26,15 @@ Public Class RetencionManager
         retencion.infoCompRetencion = New Entidades.InfoCompRetencionRET
         retencion.docsSustento = New List(Of Entidades.DocSustentoRET)()
         retencion.infoAdicional = New List(Of Entidades.InfoAdicionalRET)()
+        Dim SP As String
 
+        If TipoRE = "REA" Then
+            SP = DesencriptarQuery_.GetQueryConsulta(tipoDocumento.RetencionAnticipo, DocEntry)
+        Else
+            SP = DesencriptarQuery_.GetQueryConsulta(tipoDocumento.Retencion, DocEntry)
+        End If
 
-        Dim SP As String = DesencriptarQuery_.GetQueryConsulta(TipoRE, DocEntry)
+        'Dim SP As String = DesencriptarQuery_.GetQueryConsulta(TipoRE, DocEntry)
         If SP.Contains("El relleno entre caracteres no es válido y no se puede quitar.") Then
             SP = SP.Replace("El relleno entre caracteres no es válido y no se puede quitar.", "")
         End If
@@ -70,7 +76,7 @@ Public Class RetencionManager
                 retencion.infoTributaria.tipoEmision = r("TipoEmision").ToString
 
                 Dim claveacceso As String = r("ClaveAcceso")
-                If claveacceso >= 10 And claveacceso <= 49 Then
+                If claveacceso.Length >= 10 And claveacceso.Length <= 49 Then
                     retencion.infoTributaria.claveAcceso = r("ClaveAcceso").ToString
                 End If
 
@@ -90,7 +96,10 @@ Public Class RetencionManager
 
                 retencion.infoCompRetencion.fechaEmision = fecha.ToString("dd/MM/yyyy")
                 retencion.infoCompRetencion.dirEstablecimiento = r("DireccionEstablecimiento").ToString
-                retencion.infoCompRetencion.contribuyenteEspecial = r("ContribuyenteEspecial").ToString
+                Dim contri As String = r("ContribuyenteEspecial").ToString()
+                If contri <> "0" AndAlso contri.Length = 3 Then
+                    retencion.infoCompRetencion.contribuyenteEspecial = contri
+                End If
                 retencion.infoCompRetencion.obligadoContabilidad = r("ObligadoContabilidad").ToString
                 retencion.infoCompRetencion.tipoIdentificacionSujetoRetenido = r("TipoIdentificacionSujetoRetenido").ToString
                 If r.Table.Columns.Contains("TipoSujetoRetenido") Then retencion.infoCompRetencion.tipoSujetoRetenido = r("TipoSujetoRetenido").ToString
@@ -107,8 +116,10 @@ Public Class RetencionManager
                 If r.Table.Columns.Contains("CodSustento") Then doc.codSustento = r("CodSustento").ToString
                 doc.codDocSustento = r("CodDocRetener").ToString
                 doc.numDocSustento = r("NumDocRetener").ToString
-                doc.fechaEmisionDocSustento = CDate(r("FechaEmisionDocRetener")).ToString("yyyy-MM-dd")
-                If r.Table.Columns.Contains("FechaRegistroContable") Then doc.fechaRegistroContable = CDate(r("FechaRegistroContable")).ToString("yyyy-MM-dd")
+                If r.Table.Columns.Contains("FacturaRelacionada") Then doc.factura_relacionada = r("FacturaRelacionada").ToString
+                If r.Table.Columns.Contains("Factura_Relacionada") Then doc.factura_relacionada = r("Factura_Relacionada").ToString
+                doc.fechaEmisionDocSustento = CDate(r("FechaEmisionDocRetener")).ToString("dd-MM-yyyy")
+                If r.Table.Columns.Contains("FechaRegistroContable") Then doc.fechaRegistroContable = CDate(r("FechaRegistroContable")).ToString("dd-MM-yyyy")
                 If r.Table.Columns.Contains("NumAutDocSustento") Then doc.numAutDocSustento = r("NumAutDocSustento").ToString
                 If r.Table.Columns.Contains("PagoLocExt") Then doc.pagoLocExt = r("PagoLocExt").ToString
                 If r.Table.Columns.Contains("TipoRegi") Then doc.tipoRegi = r("TipoRegi").ToString
@@ -117,10 +128,10 @@ Public Class RetencionManager
                 If r.Table.Columns.Contains("PagExtSujRetNorLeg") Then doc.pagExtSujRetNorLeg = r("PagExtSujRetNorLeg").ToString
                 If r.Table.Columns.Contains("PagoRegFis") Then doc.pagRegFis = r("PagoRegFis").ToString
 
-                If r.Table.Columns.Contains("TotalComprobantesReembolso") Then doc.totalComprobantesReembolso = r("TotalComprobantesReembolso").ToString
-                If r.Table.Columns.Contains("TotalBaseImponibleReembolso") Then doc.totalBaseImponibleReembolso = r("TotalBaseImponibleReembolso").ToString
-                If r.Table.Columns.Contains("TotalSinImpuestos") Then doc.totalSinImpuestos = r("TotalSinImpuestos").ToString
-                If r.Table.Columns.Contains("ImporteTotal") Then doc.importeTotal = r("ImporteTotal").ToString
+                If r.Table.Columns.Contains("TotalComprobantesReembolso") Then doc.totalComprobantesReembolso = FormatearNumero(r("TotalComprobantesReembolso")).ToString
+                If r.Table.Columns.Contains("TotalBaseImponibleReembolso") Then doc.totalBaseImponibleReembolso = FormatearNumero(r("TotalBaseImponibleReembolso")).ToString
+                If r.Table.Columns.Contains("TotalSinImpuestos") Then doc.totalSinImpuestos = FormatearNumero(r("TotalSinImpuestos")).ToString
+                If r.Table.Columns.Contains("ImporteTotal") Then doc.importeTotal = FormatearNumero(r("ImporteTotal")).ToString
 
                 doc.impuestosDocSustento = New List(Of Entidades.ImpuestoDocSustentoRET)()
                 Dim sufijos As String() = {"8", "12", "0", "Noi", "Exen", "5", "15", "14", "13"}
@@ -134,9 +145,9 @@ Public Class RetencionManager
                         Dim imp As New Entidades.ImpuestoDocSustentoRET
                         imp.codImpuestoDocSustento = r(codImp).ToString
                         imp.codigoPorcentaje = r(codPor).ToString
-                        imp.baseImponible = r(baseCol).ToString
-                        imp.tarifa = r(tarifa).ToString
-                        imp.valorImpuesto = r(valor).ToString
+                        imp.baseImponible = FormatearNumero(r(baseCol)).ToString
+                        imp.tarifa = CInt(r(tarifa)).ToString
+                        imp.valorImpuesto = FormatearNumero(r(valor)).ToString
                         doc.impuestosDocSustento.Add(imp)
                     End If
                 Next
@@ -146,7 +157,7 @@ Public Class RetencionManager
                 If r.Table.Columns.Contains("FormaPago") Then
                     Dim pg As New Entidades.PagoRET
                     pg.formaPago = r("FormaPago").ToString
-                    pg.total = r("Total").ToString
+                    pg.total = FormatearNumero(r("Total")).ToString
                     doc.pagos.Add(pg)
                 End If
 
@@ -161,12 +172,12 @@ Public Class RetencionManager
                 Dim re As New Entidades.RetencionRET
                 re.codigo = r("Codigo").ToString
                 re.codigoRetencion = r("CodigoRetencion").ToString
-                re.baseImponible = r("BaseImponible").ToString
+                re.baseImponible = FormatearNumero(r("BaseImponible")).ToString
                 re.porcentajeRetener = r("PorcentajeRetener").ToString
-                re.valorRetenido = r("ValorRetenido").ToString
+                re.valorRetenido = FormatearNumero(r("ValorRetenido")).ToString
                 If r.Table.Columns.Contains("FechaPagoDiv") Then
                     re.dividendos = New Entidades.DividendosRET
-                    re.dividendos.fechaPagoDiv = CDate(r("FechaPagoDiv")).ToString("yyyy-MM-dd")
+                    re.dividendos.fechaPagoDiv = CDate(r("FechaPagoDiv")).ToString("dd-MM-yyyy")
                     re.dividendos.imRentaSoc = r("ImRentaSoc").ToString
                     re.dividendos.ejerFisUtDiv = r("EjerFisUtDiv").ToString
                 End If

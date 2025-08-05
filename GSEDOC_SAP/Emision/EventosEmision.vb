@@ -1128,8 +1128,6 @@ Public Class EventosEmision
                                         EnlaceQR = mForm.Items.Item("etssut25").Specific.string
                                 End Select
 
-
-
                                 If EnlaceQR <> "" Then
                                     If Functions.VariablesGlobales._ActApiSS = "Y" Then
                                         oManejoDocumentosSolsap.AbrirEnlaceExterno(EnlaceQR)
