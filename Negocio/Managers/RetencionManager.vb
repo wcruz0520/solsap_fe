@@ -128,8 +128,13 @@ Public Class RetencionManager
                 If r.Table.Columns.Contains("PagExtSujRetNorLeg") Then doc.pagExtSujRetNorLeg = r("PagExtSujRetNorLeg").ToString
                 If r.Table.Columns.Contains("PagoRegFis") Then doc.pagRegFis = r("PagoRegFis").ToString
 
-                If r.Table.Columns.Contains("TotalComprobantesReembolso") Then doc.totalComprobantesReembolso = FormatearNumero(r("TotalComprobantesReembolso")).ToString
-                If r.Table.Columns.Contains("TotalBaseImponibleReembolso") Then doc.totalBaseImponibleReembolso = FormatearNumero(r("TotalBaseImponibleReembolso")).ToString
+                Dim reembol As Decimal
+                reembol = FormatearNumero(r("TotalComprobantesReembolso"))
+                If reembol > 0 Then
+                    If r.Table.Columns.Contains("TotalComprobantesReembolso") Then doc.totalComprobantesReembolso = FormatearNumero(r("TotalComprobantesReembolso")).ToString
+                    If r.Table.Columns.Contains("TotalBaseImponibleReembolso") Then doc.totalBaseImponibleReembolso = FormatearNumero(r("TotalBaseImponibleReembolso")).ToString
+                End If
+
                 If r.Table.Columns.Contains("TotalSinImpuestos") Then doc.totalSinImpuestos = FormatearNumero(r("TotalSinImpuestos")).ToString
                 If r.Table.Columns.Contains("ImporteTotal") Then doc.importeTotal = FormatearNumero(r("ImporteTotal")).ToString
 
@@ -173,7 +178,7 @@ Public Class RetencionManager
                 re.codigo = r("Codigo").ToString
                 re.codigoRetencion = r("CodigoRetencion").ToString
                 re.baseImponible = FormatearNumero(r("BaseImponible")).ToString
-                re.porcentajeRetener = r("PorcentajeRetener").ToString
+                re.porcentajeRetener = FormatearNumero(r("PorcentajeRetener")).ToString
                 re.valorRetenido = FormatearNumero(r("ValorRetenido")).ToString
                 If r.Table.Columns.Contains("FechaPagoDiv") Then
                     re.dividendos = New Entidades.DividendosRET
