@@ -820,8 +820,7 @@ Public Class EventosEmision
                                 If truco = False Then
 
                                     If (pVal.ItemUID = "etssloc63" And oCFL.UniqueID = "CFL1") Then
-                                        sCFL_ID = oCFLEvento.ChooseFromListUID
-                                        oCFL = oForm.ChooseFromLists.Item(sCFL_ID)
+
                                         oDataTable = oCFLEvento.SelectedObjects
                                         val = oDataTable.GetValue(0, 0)
 
@@ -1155,7 +1154,7 @@ Public Class EventosEmision
                                     Case "TabGenFE"
                                         mForm.PaneLevel = 50
                                         Dim docsubtype As String = mForm.DataSources.DBDataSources.Item(oTabla).GetValue("DocSubType", 0)
-                                        ObtenerEnlacesURLyGenerarRQ(mForm, pVal.FormUID, docsubtype, oTipoTabla)
+                                        ObtenerEnlacesURLyGenerarRQ(mForm, pVal.FormUID, docsubtype)
 
                                     Case "TabGenLOC"
 
@@ -1226,7 +1225,7 @@ Public Class EventosEmision
                                         oManejoDocumentosEcua.Consulta_PDF_XML(ClaveAcceso, docentry, oTipoTabla, "pdf")
                                     ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
                                         'consultar pdf facturas
-                                        oManejoDocumentosSolsap.ConsultaPDF(ClaveAcceso, oTabla, docsubtype, oTipoTabla)
+                                        oManejoDocumentosSolsap.ConsultaPDF(ClaveAcceso, oTabla, docsubtype)
                                     Else
                                         oManejoDocumentos.ConsultaPDF(ClaveAcceso)
                                     End If
@@ -1251,7 +1250,7 @@ Public Class EventosEmision
                                     If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                         oManejoDocumentosEcua.Consulta_PDF_XML(ClaveAccesoXML, docentry, oTipoTabla, "xml")
                                     ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
-                                        oManejoDocumentosSolsap.ConsultaXML(ClaveAccesoXML, oTabla, docsubtype, oTipoTabla)
+                                        oManejoDocumentosSolsap.ConsultaXML(ClaveAccesoXML, oTabla, docsubtype)
                                     Else
                                         oManejoDocumentos.ConsultaXML(ClaveAccesoXML)
                                     End If
@@ -3529,8 +3528,6 @@ Public Class EventosEmision
                                                                                     If Not EnviaDocumentosEnBackGround = "Y" Then
                                                                                         If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                                                             oManejoDocumentosEcua.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
-                                                                                        ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
-                                                                                            oManejoDocumentosSolsap.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                                                         Else
                                                                                             oManejoDocumentos.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                                                         End If
@@ -3576,8 +3573,6 @@ Public Class EventosEmision
                                                                         If Not EnviaDocumentosEnBackGround = "Y" Then
                                                                             If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                                                 oManejoDocumentosEcua.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
-                                                                            ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
-                                                                                oManejoDocumentosSolsap.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                                             Else
                                                                                 oManejoDocumentos.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                                             End If
@@ -3775,8 +3770,6 @@ Public Class EventosEmision
                                                                         If Not EnviaDocumentosEnBackGround = "Y" Then
                                                                             If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                                                 oManejoDocumentosEcua.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
-                                                                            ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
-                                                                                oManejoDocumentosSolsap.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                                             Else
                                                                                 oManejoDocumentos.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                                             End If
@@ -10030,7 +10023,7 @@ Public Class EventosEmision
     End Sub
 
 
-    Private Sub ObtenerEnlacesURLyGenerarRQ(ByRef mForm As SAPbouiCOM.Form, FormularioID As String, Optional docsubtype As String = "", Optional oTipoTabla_ As String = "")
+    Private Sub ObtenerEnlacesURLyGenerarRQ(ByRef mForm As SAPbouiCOM.Form, FormularioID As String, Optional docsubtype As String = "")
 
         Dim carpeta As String = ""
         Dim taxIdNum As String = ""
@@ -10052,12 +10045,7 @@ Public Class EventosEmision
             Case "ORIN"
                 carpeta = "notacredito"
             Case "OPCH"
-                If oTipoTabla = "REE" Or oTipoTabla = "REA" Or oTipoTabla = "RER" Or oTipoTabla = "RT" Then
-                    carpeta = "retenciones"
-                Else
-                    carpeta = "liquidacioncompra"
-                End If
-
+                carpeta = "liquidacioncompra"
         End Select
 
         Dim EnlaceQR = GenerarEnlaceQR(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_CLAVE_ACCESO", 0).Trim, carpeta, taxIdNum)
