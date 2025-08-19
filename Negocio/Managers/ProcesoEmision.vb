@@ -106,6 +106,13 @@ Public Class ProcesoEmision
                     RequestconsEst.claveAcceso = u_clave_acceso
                     objetoRespuesta = ApiRequestManager_.ConsultarDoc(RequestconsEst)
                 ElseIf TipoDocumento = "REE" Or TipoDocumento = "REA" Or TipoDocumento = "RER" Then
+                    oRs_.DoQuery($"SELECT ""U_CLAVE_ACCESO"" FROM ""OPCH"" WHERE ""DocEntry"" = {DocEntry}")
+
+                    If Not oRs_.EoF Then
+                        u_clave_acceso = oRs_.Fields.Item("U_CLAVE_ACCESO").Value.ToString().Trim()
+                    End If
+                    RequestconsEst.claveAcceso = u_clave_acceso
+                    objetoRespuesta = ApiRequestManager_.ConsultarDoc(RequestconsEst)
 
                 ElseIf TipoDocumento = "LQE" Then
                     oRs_.DoQuery($"SELECT ""U_LQ_CLAVE"" FROM ""OPCH"" WHERE ""DocEntry"" = {DocEntry}")

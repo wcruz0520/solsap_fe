@@ -192,6 +192,9 @@ Public Class FuncionesProcesoEmision
                 oDocumento.DocObjectCode = SAPbobsCOM.BoObjectTypes.oInvoices
                 'objectType = oDocumento.DocObjectCode
                 'CodDoc = "04"
+            ElseIf TipoDocumento = "REE" Or TipoDocumento = "REA" Or TipoDocumento = "RER" Then
+                oDocumento = rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oPurchaseInvoices)
+                oDocumento.DocObjectCode = SAPbobsCOM.BoObjectTypes.oPurchaseInvoices
             End If
 
             If TipoDocumento = "TRE" Or TipoDocumento = "TLE" Then
@@ -203,7 +206,9 @@ Public Class FuncionesProcesoEmision
                         oDocumento.UserFields.Fields.Item("U_NUM_AUTO_FAC").Value = _NumAutorizacion.ToString()
 
                         If TipoDocumento = "REE" Or TipoDocumento = "REA" Or TipoDocumento = "RER" Or TipoDocumento = "RDM" Then
-
+                            If _Nombre_Proveedor_SAP_BO = Functions.FuncionesAddon.PROVEEDOR_DE_SAPBO.SOLSAP Then
+                                oDocumento.UserFields.Fields.Item("U_SS_NumAutRet").Value = _NumAutorizacion.ToString()
+                            End If
                         Else
                             If _Nombre_Proveedor_SAP_BO = Functions.FuncionesAddon.PROVEEDOR_DE_SAPBO.SOLSAP Then
                                 oDocumento.UserFields.Fields.Item("U_SS_NumAut").Value = _NumAutorizacion.ToString()

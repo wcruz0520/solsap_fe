@@ -361,7 +361,7 @@ Public Class ApiRequestManager
 
     End Function
 
-    Public Function ConsultaPDF(sClaveAcceso As String, tipoDoc As String, Optional docsubtype As String = "") As Boolean
+    Public Function ConsultaPDF(sClaveAcceso As String, tipoDoc As String, Optional docsubtype As String = "", Optional tipoDocumento_ As String = "") As Boolean
         Try
             Dim taxIdNum As String = ""
             Dim TbDoc As String = ""
@@ -391,7 +391,12 @@ Public Class ApiRequestManager
                     TbDoc = "notacredito"
 
                 Case "OPCH"
-                    TbDoc = "liquidacioncompra"
+                    If tipoDocumento_ = "REE" Or tipoDocumento_ = "REA" Or tipoDocumento_ = "RER" Or tipoDocumento_ = "RT" Then
+                        TbDoc = "retenciones"
+                    Else
+                        TbDoc = "liquidacioncompra"
+                    End If
+
                 Case Else
                     _sboApp.SetStatusBarMessage("Tipo de documento no soportado.", SAPbouiCOM.BoMessageTime.bmt_Short, True)
                     Return False
@@ -421,7 +426,7 @@ Public Class ApiRequestManager
         End Try
     End Function
 
-    Public Function ConsultaXML(sClaveAcceso As String, tipoDoc As String, Optional docsubtype As String = "") As Boolean
+    Public Function ConsultaXML(sClaveAcceso As String, tipoDoc As String, Optional docsubtype As String = "", Optional tipoDocumento_ As String = "") As Boolean
         Try
             Dim taxIdNum As String = ""
             Dim TbDoc As String = ""
@@ -442,7 +447,12 @@ Public Class ApiRequestManager
                 Case "ORIN"
                     TbDoc = "notacredito"
                 Case "OPCH"
-                    TbDoc = "liquidacioncompra"
+                    If tipoDocumento_ = "REE" Or tipoDocumento_ = "REA" Or tipoDocumento_ = "RER" Or tipoDocumento_ = "RT" Then
+                        TbDoc = "retenciones"
+                    Else
+                        TbDoc = "liquidacioncompra"
+                    End If
+
                 Case Else
                     _sboApp.SetStatusBarMessage("Tipo de documento no soportado.", SAPbouiCOM.BoMessageTime.bmt_Short, True)
                     Return False

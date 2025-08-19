@@ -116,17 +116,30 @@ Public Class RetencionManager
                 If r.Table.Columns.Contains("CodSustento") Then doc.codSustento = r("CodSustento").ToString
                 doc.codDocSustento = r("CodDocRetener").ToString
                 doc.numDocSustento = r("NumDocRetener").ToString
+                Dim numDocSus As String = r("NumDocRetener").ToString
+
+                Dim fact_rel As String
+                If numDocSus.Length >= 15 Then
+                    fact_rel = numDocSus.Substring(0, 3) & "-" & numDocSus.Substring(3, 3) & "-" & numDocSus.Substring(6, 9)
+                Else
+                    fact_rel = ""
+                End If
+
+                doc.factura_relacionada = fact_rel.ToString
                 If r.Table.Columns.Contains("FacturaRelacionada") Then doc.factura_relacionada = r("FacturaRelacionada").ToString
                 If r.Table.Columns.Contains("Factura_Relacionada") Then doc.factura_relacionada = r("Factura_Relacionada").ToString
-                doc.fechaEmisionDocSustento = CDate(r("FechaEmisionDocRetener")).ToString("dd-MM-yyyy")
-                If r.Table.Columns.Contains("FechaRegistroContable") Then doc.fechaRegistroContable = CDate(r("FechaRegistroContable")).ToString("dd-MM-yyyy")
+                doc.fechaEmisionDocSustento = CDate(r("FechaEmisionDocRetener")).ToString("dd/MM/yyyy")
+                If r.Table.Columns.Contains("FechaRegistroContable") Then doc.fechaRegistroContable = CDate(r("FechaRegistroContable")).ToString("dd/MM/yyyy")
                 If r.Table.Columns.Contains("NumAutDocSustento") Then doc.numAutDocSustento = r("NumAutDocSustento").ToString
                 If r.Table.Columns.Contains("PagoLocExt") Then doc.pagoLocExt = r("PagoLocExt").ToString
                 If r.Table.Columns.Contains("TipoRegi") Then doc.tipoRegi = r("TipoRegi").ToString
                 If r.Table.Columns.Contains("PaisEfecPago") Then doc.paisEfecPago = r("PaisEfecPago").ToString
-                If r.Table.Columns.Contains("AplicConvDobTrib") Then doc.aplicConvDobTrib = r("AplicConvDobTrib").ToString
-                If r.Table.Columns.Contains("PagExtSujRetNorLeg") Then doc.pagExtSujRetNorLeg = r("PagExtSujRetNorLeg").ToString
-                If r.Table.Columns.Contains("PagoRegFis") Then doc.pagRegFis = r("PagoRegFis").ToString
+
+                If r("PagoLocExt").ToString = "02" Then
+                    If r.Table.Columns.Contains("AplicConvDobTrib") Then doc.aplicConvDobTrib = r("AplicConvDobTrib").ToString
+                    If r.Table.Columns.Contains("PagExtSujRetNorLeg") Then doc.pagExtSujRetNorLeg = r("PagExtSujRetNorLeg").ToString
+                    If r.Table.Columns.Contains("PagoRegFis") Then doc.pagRegFis = r("PagoRegFis").ToString
+                End If
 
                 Dim reembol As Decimal
                 reembol = FormatearNumero(r("TotalComprobantesReembolso"))
@@ -182,7 +195,7 @@ Public Class RetencionManager
                 re.valorRetenido = FormatearNumero(r("ValorRetenido")).ToString
                 If r.Table.Columns.Contains("FechaPagoDiv") Then
                     re.dividendos = New Entidades.DividendosRET
-                    re.dividendos.fechaPagoDiv = CDate(r("FechaPagoDiv")).ToString("dd-MM-yyyy")
+                    re.dividendos.fechaPagoDiv = CDate(r("FechaPagoDiv")).ToString("dd/MM/yyyy")
                     re.dividendos.imRentaSoc = r("ImRentaSoc").ToString
                     re.dividendos.ejerFisUtDiv = r("EjerFisUtDiv").ToString
                 End If
