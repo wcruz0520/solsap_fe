@@ -11,10 +11,12 @@ Imports CrystalDecisions.Shared
 Imports System.Reflection
 Imports Microsoft.Office.Interop.Excel
 
+
 Public Class EventosEmision
 
     Public WithEvents rSboApp As SAPbouiCOM.Application
     Private oUserFieldsMD As SAPbobsCOM.UserFieldsMD
+    Private formActivado As Boolean = False
     'Public _Nombre_Proveedor_SAP_BO As String = ""
 
 
@@ -714,7 +716,7 @@ Public Class EventosEmision
             ' 140 'GUIA DE REMISION
             ' 940 ' GUIA DE REMISION TRANSFERENCIA
             ' 141 'FACTURA DE PROVEEDOR/RETENCION
-
+            formActivado = False
             If Functions.VariablesGlobales._ActivarLocalizacionEC = "Y" Then
 
                 If pVal.FormTypeEx = "134" Then
@@ -775,7 +777,73 @@ Public Class EventosEmision
                 End If
             End If
 
+            'CARDAR DETALLE EN UDO REEMBOLSOS
+            If pVal.FormTypeEx = "UDO_FT_SS_REEMCAB" Then
+                If Functions.VariablesGlobales._ActivarLocalizacionEC = "Y" Then
+                    Select Case pVal.EventType
+                        Case SAPbouiCOM.BoEventTypes.et_FORM_ACTIVATE
+                            Try
 
+                                If pVal.BeforeAction = False Then
+                                    Dim mForm As SAPbouiCOM.Form = rSboApp.Forms.Item(pVal.FormUID)
+
+                                    'For i As Integer = 0 To mForm.Items.Count - 1
+                                    '    Dim oItem As SAPbouiCOM.Item = mForm.Items.Item(i)
+                                    '    If oItem.Type = SAPbouiCOM.BoFormItemTypes.it_MATRIX Then
+                                    '        'oMatrix = CType(oItem.Specific, SAPbouiCOM.Matrix)
+                                    '        Exit For
+                                    '    End If
+                                    'Next
+
+                                    If formActivado = False Then
+                                        formActivado = True
+                                        creaBotonCargaDetalleRemmbolso(mForm)
+
+                                    End If
+
+                                End If
+                            Catch ex As Exception
+                                rSboApp.SetStatusBarMessage("et_FORM_LOAD 385: " & ex.Message, SAPbouiCOM.BoMessageTime.bmt_Medium, True)
+                            End Try
+
+                        Case SAPbouiCOM.BoEventTypes.et_ITEM_PRESSED
+
+                            If pVal.ItemUID = "btnDetRmb" And pVal.BeforeAction = True Then
+
+                                Dim mForm As SAPbouiCOM.Form = rSboApp.Forms.Item(pVal.FormUID)
+                                Dim oMatrix As SAPbouiCOM.Matrix = Nothing
+                                For i As Integer = 0 To mForm.Items.Count - 1
+                                    Dim oItem As SAPbouiCOM.Item = mForm.Items.Item(i)
+                                    If oItem.Type = SAPbouiCOM.BoFormItemTypes.it_MATRIX Then
+                                        oMatrix = CType(oItem.Specific, SAPbouiCOM.Matrix)
+                                        Exit For
+                                    End If
+                                Next
+
+                                If oMatrix Is Nothing Then
+                                    rSboApp.StatusBar.SetText("No se encontro matrix detalle reembolso", SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
+                                    BubbleEvent = False
+                                End If
+
+                                'For Each item In mForm.Items
+                                '    Console.WriteLine(item.UniqueID)
+                                'Next
+                                Dim rutaXLS = ""
+                                'Dim selectFileDialog As New SelectFileDialog("C:\", "", "CSV files (*.csv)|*.csv|All files (*.*)|*.*", DialogType.OPEN)
+                                Dim selectFileDialog As New SelectFileDialog("C:\", "", "Excel files (*.xls;*.xlsx)|*.xls;*.xlsx|All files (*.*)|*.*", DialogType.OPEN)
+                                selectFileDialog.Open()
+
+                                If Not String.IsNullOrWhiteSpace(selectFileDialog.SelectedFile) Then
+                                    rutaXLS = selectFileDialog.SelectedFile
+                                    CargarXlsRetenciones(oMatrix, rutaXLS) 'BOTON DE EXTRACTO BANCARIO
+                                End If
+
+                            End If
+
+
+                    End Select
+                End If
+            End If
             Dim typeEx, idForm As String
 
 
@@ -974,6 +1042,21 @@ Public Class EventosEmision
 
 
                             End If
+
+                            If Functions.VariablesGlobales._SS_MostrarBotonImpresion = "Y" Then
+
+                                If pVal.FormTypeEx = "140" Or
+                                            pVal.FormTypeEx = "133" Or
+                                            pVal.FormTypeEx = "60091" Then
+
+
+                                    CrearBotonImpresion(rSboApp.Forms.Item(FormUID))
+
+
+                                End If
+
+                            End If
+
                         Catch ex As Exception
                             rSboApp.SetStatusBarMessage("et_FORM_LOAD2", SAPbouiCOM.BoMessageTime.bmt_Medium, True)
                         End Try
@@ -12609,6 +12692,101 @@ Public Class EventosEmision
 
     End Sub
 
+    Private Sub creaBotonCargaDetalleRemmbolso(oForm As SAPbouiCOM.Form)
+        oForm.Freeze(True)
+        Try
 
+            Dim item_1 As SAPbouiCOM.Button = oForm.Items.Item("2").Specific
+
+
+            Dim lef As Integer = item_1.Item.Left + item_1.Item.Width + 5
+            Dim top As Integer = item_1.Item.Top
+            Dim Width As Integer = item_1.Item.Width + 50
+            Dim Height As Integer = item_1.Item.Height
+            'Dim lef As Integer = 76 + 70
+            'Dim top As Integer = 297
+            'Dim Width As Integer = 130
+            'Dim Height As Integer = 19
+
+            oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_BUTTON, "btnDetRmb", "Carga Detalle Reembolso", lef, top, Width, Height, 0, False)
+
+        Catch ex As Exception
+            rSboApp.SetStatusBarMessage(NombreAddon + " - Erro al crear boton Carga Detalle Reembolso: " + ex.Message.ToString, SAPbouiCOM.BoMessageTime.bmt_Medium, True)
+        End Try
+        oForm.Freeze(False)
+
+    End Sub
+
+    Private Sub CargarXlsRetenciones(oMatrix As SAPbouiCOM.Matrix, ByRef selectedFile As String)
+
+        Try
+            Dim excelApp As Application = Nothing
+            Dim workbook As Workbook = Nothing
+            Dim sheet As Worksheet = Nothing
+            Dim range As Range = Nothing
+            Dim ListaFilas As New List(Of String)
+
+            'Dim oMatrix As SAPbouiCOM.Matrix = CType(mform.Items.Item("C_0_2").Specific, SAPbouiCOM.Matrix)
+            rSboApp.SetStatusBarMessage("Archivo seleccionado: " & selectedFile, SAPbouiCOM.BoMessageTime.bmt_Short, False)
+
+            excelApp = New Application
+            workbook = excelApp.Workbooks.Open(selectedFile)
+            sheet = workbook.Sheets(1)
+            range = sheet.UsedRange
+
+            Dim filaInicio As Integer = 2
+
+            Dim rows As Integer = range.Rows.Count
+            Dim cols As Integer = range.Columns.Count
+
+            For i As Integer = 2 To rows
+                Dim valoresFila As New List(Of String)
+
+                ' Recorrer columnas de esa fila
+                For j As Integer = 1 To cols
+                    Dim cellValue As String = ""
+                    If range.Cells(i, j).Value IsNot Nothing Then
+                        cellValue = range.Cells(i, j).Value.ToString()
+                    End If
+                    If IsDate(cellValue) Then
+                        cellValue = CDate(cellValue).ToString("yyyy-MM-dd").Replace("-", "")
+                    End If
+                    valoresFila.Add(cellValue)
+                Next
+
+                ' Ejemplo: imprimir los valores de esa fila
+                ListaFilas.Add(String.Join("|", valoresFila))
+            Next
+
+
+            For i As Integer = 0 To ListaFilas.Count - 1
+                ' Cada fila viene separada por "|"
+                Dim valoresFila As String() = ListaFilas(i).Split("|"c)
+
+                ' Si la Matrix no tiene suficientes filas, añadimos una
+                If oMatrix.RowCount < (i + 1) Then
+                    oMatrix.AddRow()
+                End If
+
+                ' Recorremos cada valor de la fila
+                For j As Integer = 0 To valoresFila.Length - 1
+                    ' Accedemos a la celda [ColUID, Row]
+                    Dim valor As String = valoresFila(j).ToString()
+
+                    ' IMPORTANTE: ajusta "Col_" & j con el UID real de tu columna en la Matrix
+                    'j+1 ya que despues coloca los valores en la columna #.
+                    oMatrix.Columns.Item(j + 1).Cells.Item(i + 1).Specific.value = valor
+                Next
+            Next
+
+            workbook.Close(False)
+            oFuncionesB1.Release(workbook)
+            excelApp.Quit()
+            oFuncionesB1.Release(excelApp)
+
+        Catch ex As Exception
+            rSboApp.SetStatusBarMessage(NombreAddon + " - Error al asignar valor al detalle: " + ex.Message.ToString(), SAPbouiCOM.BoMessageTime.bmt_Short, True)
+        End Try
+    End Sub
 
 End Class
