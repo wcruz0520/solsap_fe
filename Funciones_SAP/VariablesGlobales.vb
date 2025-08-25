@@ -126,6 +126,8 @@
     Public Shared _Token As String
     Public Shared _NombreWsEcua As String
     Public Shared _ConsultaFolioSS As String
+    Public Shared _ApiAuthToken As String
+    Public Shared _ApiAuthTokenExpiration As DateTime
 
     Public Shared _AsignarFolioalReenviarSolsap As String
 

@@ -5739,10 +5739,6 @@ Public Class EventosEmision
 
                 ' se trata de crear un codigo QR
 
-
-
-
-
             ElseIf evento = "ACTUALIZAR" Then
 
                 lbComentario = oForm.Items.Item("lbComen").Specific
@@ -10062,7 +10058,7 @@ Public Class EventosEmision
 
         Dim EnlaceQR = GenerarEnlaceQR(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_CLAVE_ACCESO", 0).Trim, carpeta, taxIdNum)
 
-        Dim EnlaceQRLIQ = GenerarEnlaceQR(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_LQ_CLAVE", 0).Trim, carpeta, taxIdNum)
+        Dim EnlaceQRLIQ = GenerarEnlaceQR(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_LQ_CLAVE", 0).Trim, "liquidacioncompra", taxIdNum)
 
         Dim NombreImagen As String = mForm.DataSources.DBDataSources.Item(oTabla).GetValue("DocEntry", 0).Trim & "_" & FormularioID
 
