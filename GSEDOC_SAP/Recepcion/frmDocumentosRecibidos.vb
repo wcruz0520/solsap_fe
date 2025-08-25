@@ -1139,7 +1139,8 @@ Public Class frmDocumentosRecibidos
                 Dim oDataTable As SAPbouiCOM.DataTable = oForm.DataSources.DataTables.Item("dtDocs")
                 oDataTable.Rows.Clear()
 
-                MarcarVistosDocumentosPendientes()
+                'SE QUITA PORQUE EN HANA SE QUEDA COLGADO
+                'MarcarVistosDocumentosPendientes()
 
                 If CargarDocumento() Then
                     rsboApp.StatusBar.SetText(NombreAddon + " - Cargando Documentos Recibidos, Listo..!", SAPbouiCOM.BoMessageTime.bmt_Medium, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
