@@ -20,6 +20,8 @@ Public Class infoTributariaNCE
     Public Property diaEmission As String
     Public Property mesEmission As String
     Public Property anioEmission As String
+    Public Property campoAdicional1 As String
+    Public Property campoAdicional2 As String
 End Class
 
 Public Class infoNotaCreditoNCE

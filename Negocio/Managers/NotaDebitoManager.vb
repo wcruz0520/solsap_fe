@@ -83,6 +83,21 @@ Public Class NotaDebitoManager
                     notaDebito.infoTributaria.anioEmission = fecha.ToString("yyyy")
 
                     notaDebito.infoNotaDebito.fechaEmision = fecha.ToString("dd/MM/yyyy")
+
+                    Try
+                        notaDebito.infoTributaria.campoAdicional1 = r("campoAdicional1")
+                        Utilitario.Util_Log.Escribir_Log(" notaDebito.infoTributaria.campoAdicional1 : " & r("campoAdicional1"), "ManejoDeDocumentos")
+                    Catch ex As Exception
+                        Utilitario.Util_Log.Escribir_Log(" notaDebito.infoTributaria.campoAdicional1 : " & ex.Message.ToString, "ManejoDeDocumentos")
+                    End Try
+
+                    Try
+                        notaDebito.infoTributaria.campoAdicional2 = r("campoAdicional2")
+                        Utilitario.Util_Log.Escribir_Log(" notaDebito.infoTributaria.campoAdicional2 : " & r("campoAdicional2"), "ManejoDeDocumentos")
+                    Catch ex As Exception
+                        Utilitario.Util_Log.Escribir_Log(" notaDebito.infoTributaria.campoAdicional2 : " & ex.Message.ToString, "ManejoDeDocumentos")
+                    End Try
+
                     notaDebito.infoNotaDebito.dirEstablecimiento = r("DireccionEstablecimiento").ToString()
                     notaDebito.infoNotaDebito.tipoIdentificacionComprador = r("TipoIdentificadorComprador").ToString()
                     notaDebito.infoNotaDebito.razonSocialComprador = r("RazonSocialComprador").ToString()

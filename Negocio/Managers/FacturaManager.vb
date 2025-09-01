@@ -467,6 +467,20 @@ Public Class FacturaManager
                                 oFactura.infoTributaria.anioEmission = CDate(r("FechaEmision")).ToString("yyyy")
 
                                 Try
+                                    oFactura.infoTributaria.campoAdicional1 = r("campoAdicional1")
+                                    Utilitario.Util_Log.Escribir_Log(" oFactura.infoTributaria.campoAdicional1 : " & r("campoAdicional1"), "ManejoDeDocumentos")
+                                Catch ex As Exception
+                                    Utilitario.Util_Log.Escribir_Log(" oFactura.infoTributaria.campoAdicional1 : " & ex.Message.ToString, "ManejoDeDocumentos")
+                                End Try
+
+                                Try
+                                    oFactura.infoTributaria.campoAdicional2 = r("campoAdicional2")
+                                    Utilitario.Util_Log.Escribir_Log(" oFactura.infoTributaria.campoAdicional2 : " & r("campoAdicional2"), "ManejoDeDocumentos")
+                                Catch ex As Exception
+                                    Utilitario.Util_Log.Escribir_Log(" oFactura.infoTributaria.campoAdicional2 : " & ex.Message.ToString, "ManejoDeDocumentos")
+                                End Try
+
+                                Try
                                     'El servicio de facturación exige la fecha en formato dd/MM/yyyy
                                     oFactura.infoFactura.fechaEmision = CDate(r("FechaEmision")).ToString("dd/MM/yyyy")
                                     Utilitario.Util_Log.Escribir_Log("oFactura.FechaEmision : " & CDate(r("FechaEmision")).ToString("dd/MM/yyyy"), "ManejoDeDocumentos")

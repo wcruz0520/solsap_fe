@@ -148,6 +148,7 @@ Public Class Servico_Ivend_Citikold
                     GETPArametros_INIT()
                     GuardaLog("Parametros Obtenidos")
 
+                    'COMENTAR CUANDO SE GENERE EL INSTALADOR
                     procesar_docEnvios()
 
                     Dim timer As Int64 = ConfigurationManager.AppSettings("timer") * 1000

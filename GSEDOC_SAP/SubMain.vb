@@ -80,7 +80,7 @@ Module SubMain
     'VALIDACION CAMPOS NULOS 2025
     Public mensajes As Dictionary(Of String, Object) = Nothing
     'RUTA ARCHIVO JOSN 
-    Dim rutaArchivo As String = "C:\Users\William\Downloads\MensajesCamposNulos.txt"
+    Dim rutaArchivo As String = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MensajesCamposNulos.txt") '"C:\Users\William\Downloads\MensajesCamposNulos.txt"
 
 
 #Region "Variables de Addon"

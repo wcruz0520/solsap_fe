@@ -95,6 +95,21 @@ Public Class RetencionManager
                 retencion.infoTributaria.anioEmission = fecha.ToString("yyyy")
 
                 retencion.infoCompRetencion.fechaEmision = fecha.ToString("dd/MM/yyyy")
+
+                Try
+                    retencion.infoTributaria.campoAdicional1 = r("campoAdicional1")
+                    Utilitario.Util_Log.Escribir_Log(" retencion.infoTributaria.campoAdicional1 : " & r("campoAdicional1"), "ManejoDeDocumentos")
+                Catch ex As Exception
+                    Utilitario.Util_Log.Escribir_Log(" retencion.infoTributaria.campoAdicional1 : " & ex.Message.ToString, "ManejoDeDocumentos")
+                End Try
+
+                Try
+                    retencion.infoTributaria.campoAdicional2 = r("campoAdicional2")
+                    Utilitario.Util_Log.Escribir_Log(" retencion.infoTributaria.campoAdicional2 : " & r("campoAdicional2"), "ManejoDeDocumentos")
+                Catch ex As Exception
+                    Utilitario.Util_Log.Escribir_Log(" retencion.infoTributaria.campoAdicional2 : " & ex.Message.ToString, "ManejoDeDocumentos")
+                End Try
+
                 retencion.infoCompRetencion.dirEstablecimiento = r("DireccionEstablecimiento").ToString
                 Dim contri As String = r("ContribuyenteEspecial").ToString()
                 If contri <> "0" AndAlso contri.Length = 3 Then

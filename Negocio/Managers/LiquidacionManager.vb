@@ -89,6 +89,22 @@ Public Class LiquidacionManager
                     liquidacion.infoTributaria.anioEmission = fecha.ToString("yyyy")
 
                     liquidacion.infoLiquidacionCompra.fechaEmision = fecha.ToString("dd/MM/yyyy")
+
+                    Try
+                        liquidacion.infoTributaria.campoAdicional1 = r("campoAdicional1")
+                        Utilitario.Util_Log.Escribir_Log(" liquidacion.infoTributaria.campoAdicional1 : " & r("campoAdicional1"), "ManejoDeDocumentos")
+                    Catch ex As Exception
+                        Utilitario.Util_Log.Escribir_Log(" liquidacion.infoTributaria.campoAdicional1 : " & ex.Message.ToString, "ManejoDeDocumentos")
+                    End Try
+
+                    Try
+                        liquidacion.infoTributaria.campoAdicional2 = r("campoAdicional2")
+                        Utilitario.Util_Log.Escribir_Log(" liquidacion.infoTributaria.campoAdicional2 : " & r("campoAdicional2"), "ManejoDeDocumentos")
+                    Catch ex As Exception
+                        Utilitario.Util_Log.Escribir_Log(" liquidacion.infoTributaria.campoAdicional2 : " & ex.Message.ToString, "ManejoDeDocumentos")
+                    End Try
+
+
                     liquidacion.infoLiquidacionCompra.dirEstablecimiento = r("DireccionEstablecimiento").ToString()
 
                     Dim contri As String = r("ContribuyenteEspecial")

@@ -143,6 +143,20 @@ Public Class NotaCreditoManager
 
                                 oNotaCredito.infoTributaria.anioEmission = CDate(r("FechaEmision")).ToString("yyyy")
 
+                                Try
+                                    oNotaCredito.infoTributaria.campoAdicional1 = r("campoAdicional1")
+                                    Utilitario.Util_Log.Escribir_Log(" oNotaCredito.infoTributaria.campoAdicional1 : " & r("campoAdicional1"), "ManejoDeDocumentos")
+                                Catch ex As Exception
+                                    Utilitario.Util_Log.Escribir_Log(" oNotaCredito.infoTributaria.campoAdicional1 : " & ex.Message.ToString, "ManejoDeDocumentos")
+                                End Try
+
+                                Try
+                                    oNotaCredito.infoTributaria.campoAdicional2 = r("campoAdicional2")
+                                    Utilitario.Util_Log.Escribir_Log(" oNotaCredito.infoTributaria.campoAdicional2 : " & r("campoAdicional2"), "ManejoDeDocumentos")
+                                Catch ex As Exception
+                                    Utilitario.Util_Log.Escribir_Log(" oNotaCredito.infoTributaria.campoAdicional2 : " & ex.Message.ToString, "ManejoDeDocumentos")
+                                End Try
+
                                 'Comienza estructura infoNotaCredito
                                 Try
                                     'El servicio de facturación exige la fecha en formato dd/MM/yyyy
