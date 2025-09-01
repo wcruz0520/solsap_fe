@@ -10,6 +10,7 @@ Imports System.Security.Cryptography.X509Certificates
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Functions
+Imports Newtonsoft.Json.Linq
 Imports SAPbobsCOM
 Imports Spire.Pdf
 Imports Spire.Pdf.AutomaticFields
@@ -61,6 +62,10 @@ Public Class ManejoDeDocumentos
 
     Dim mensajeDocAut As String = ""
 
+
+    'VALIDACION CAMPOS NULOS 2025
+    Dim _mensajeNulos As Dictionary(Of String, Object) = Nothing
+
     ''' <summary>
     ''' Tipo Manejo, A - Addon, S -  Servicio
     ''' </summary>
@@ -68,7 +73,7 @@ Public Class ManejoDeDocumentos
     ''' <param name="sboApp"></param>
     ''' <param name="tipoManejo"></param>
     ''' <remarks>Tipo Manejo, A - Addon, S -  Servicio</remarks>
-    Sub New(ByVal Company As SAPbobsCOM.Company, ByVal sboApp As SAPbouiCOM.Application, tipoManejo As String, ByVal ProveedorSAPBO As String)
+    Sub New(ByVal Company As SAPbobsCOM.Company, ByVal sboApp As SAPbouiCOM.Application, tipoManejo As String, ByVal ProveedorSAPBO As String, Optional ByVal mensajeNulos As Dictionary(Of String, Object) = Nothing)
         'Utilitario.Util_Log.Escribir_Log("SubNew Inicio", "ManejoDeDocumentos")
         rCompany = Company
         _tipoManejo = tipoManejo
@@ -81,6 +86,7 @@ Public Class ManejoDeDocumentos
             ' SI ES SERVICIO INSTANCIO ESTA CLASE, YA QUE NO USA LA UIAPI
             oFuncionesAddon = New Functions.FuncionesAddon(rCompany, rsboApp, True, False)
         End If
+        _mensajeNulos = mensajeNulos
     End Sub
 
 #Region "Consulta de Documentos"
@@ -1078,6 +1084,7 @@ Public Class ManejoDeDocumentos
             End If
 
             Dim ds As DataSet
+            Dim seccionPorTabla As New Dictionary(Of String, String)
 
             If rCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_HANADB Then
 
@@ -1111,10 +1118,18 @@ Public Class ManejoDeDocumentos
                 dt3.TableName = "FormaPago"
                 ds.Tables.Add(dt3)
 
+                seccionPorTabla("Cabecera") = "Cabecera"
+                seccionPorTabla("Detalles") = "Detalle"
+                seccionPorTabla("InfoAdicionales") = "InformacionAdicional"
+                seccionPorTabla("FormaPago") = "FormaDePagos"
 
             Else
 
                 ds = EjecutarSP(SP, DocEntry)
+                seccionPorTabla("Table") = "Cabecera"
+                seccionPorTabla("Table1") = "Detalle"
+                seccionPorTabla("Table2") = "InformacionAdicional"
+                seccionPorTabla("Table3") = "FormaDePagos"
 
             End If
 
@@ -1127,7 +1142,11 @@ Public Class ManejoDeDocumentos
             ' Dim ds As DataSet = EjecutarSP(SP, DocEntry)
 
             If Functions.VariablesGlobales._ValidarCamposNulos = "Y" And _tipoManejo = "A" Then
-                If Not ValidarCamposNulos(ds, "2") Then
+                'If Not ValidarCamposNulos(ds, "2") Then
+                '    Return Nothing
+                'End If
+
+                If ValidarCamposNulosV7(ds, "FacturaVenta", _mensajeNulos, seccionPorTabla) Then
                     Return Nothing
                 End If
             End If
@@ -17267,5 +17286,61 @@ Public Class ManejoDeDocumentos
     Public Sub ActivarTLS()
         ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol Or SecurityProtocolType.Ssl3 Or SecurityProtocolType.Tls Or 768 Or 3072
     End Sub
+
+    Private Function ValidarCamposNulosV7(dataset As DataSet, tipoDocumento As String, mensajes As Dictionary(Of String, Object), seccionPorTabla As Dictionary(Of String, String)) As Boolean
+        Try
+            For Each table As DataTable In dataset.Tables
+                ' Determinar la sección correspondiente del JSON
+                Dim seccion As String = If(seccionPorTabla.ContainsKey(table.TableName), seccionPorTabla(table.TableName), Nothing)
+
+                ' Solo procesar si existe sección y mensaje en el JSON
+                Dim seccionObj As Object = Nothing
+                'If seccion IsNot Nothing AndAlso mensajes.ContainsKey(tipoDocumento) AndAlso DirectCast(mensajes(tipoDocumento), JObject).ContainsKey(seccion) Then
+                '    seccionObj = DirectCast(mensajes(tipoDocumento), JObject)(seccion)
+                'End If
+                If seccion IsNot Nothing AndAlso mensajes.ContainsKey(tipoDocumento) Then
+                    Dim jDoc As JObject = DirectCast(mensajes(tipoDocumento), JObject)
+                    ' Seleccionar la sección aunque esté anidada (ej. "Reembolsos.Cabecera")
+                    seccionObj = jDoc.SelectToken(seccion)
+                End If
+
+                If seccionObj IsNot Nothing Then
+                    For Each row As DataRow In table.Rows
+                        For Each column As DataColumn In table.Columns
+                            Dim dictSec As JObject = TryCast(seccionObj, JObject)
+                            If dictSec Is Nothing Then Continue For
+
+                            ' Manejo especial para InformacionAdicional usando la columna Concepto
+                            If seccion = "InformacionAdicional" AndAlso column.ColumnName = "Concepto" Then
+                                Dim valorDescripcion As String = If(IsDBNull(row("Descripcion")), String.Empty, row("Descripcion").ToString().Trim())
+                                Dim claveMensaje As String = If(IsDBNull(row("Concepto")), String.Empty, row("Concepto").ToString().Trim())
+
+                                ' Solo mostrar mensaje si Descripcion está vacío
+                                If String.IsNullOrEmpty(valorDescripcion) AndAlso dictSec.ContainsKey(claveMensaje) Then
+                                    rsboApp.SetStatusBarMessage(dictSec(claveMensaje).ToString(), SAPbouiCOM.BoMessageTime.bmt_Short, True)
+                                    Return True
+                                End If
+                            Else
+                                ' Validación general de nulos o vacíos solo si la columna existe en JSON
+                                Dim claveColumna As String = column.ColumnName
+                                If dictSec.ContainsKey(claveColumna) Then
+                                    Dim valor As String = If(IsDBNull(row(column)), String.Empty, row(column).ToString().Trim())
+                                    If String.IsNullOrEmpty(valor) Then
+
+                                        rsboApp.SetStatusBarMessage(dictSec(claveColumna).ToString(), SAPbouiCOM.BoMessageTime.bmt_Short, True)
+                                        Return True
+                                    End If
+                                End If
+                            End If
+                        Next
+                    Next
+                End If
+            Next
+
+            Return False
+        Catch ex As Exception
+            Throw
+        End Try
+    End Function
 End Class
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<AddOnRegData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" SlientInstallation="No" SlientUpgrade="No" Partnernmsp="SOLSAP S.A" SchemaVersion="3.0" Type="" MultipleVersion="false" OnDemand="" OnPremise="" ExtName="SAED PLUS LW2" ExtVersion="3.9.1.2.6" Contdata="info@soluciones-sap.com" Partner="SOLSAP S.A" DBType="Both" ClientType="A">
+<AddOnRegData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" SlientInstallation="No" SlientUpgrade="No" Partnernmsp="SOLSAP S.A" SchemaVersion="3.0" Type="" MultipleVersion="false" OnDemand="" OnPremise="" ExtName="SAED PLUS LW" ExtVersion="3.9.1.2.6" Contdata="info@soluciones-sap.com" Partner="SOLSAP S.A" DBType="Both" ClientType="A">
   <Validity>
     <SBOCompatibility>
       <Version From="920.200.00" To="1000.250.00" />

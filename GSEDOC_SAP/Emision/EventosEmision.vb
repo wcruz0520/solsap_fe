@@ -107,7 +107,7 @@ Public Class EventosEmision
             ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
                 oManejoDocumentosSolsap = New Negocio.ManejoDeDocumentoSolsap(rCompany, rSboApp, "A", Nombre_Proveedor_SAP_BO)
             Else
-                oManejoDocumentos = New Negocio.ManejoDeDocumentos(rCompany, rSboApp, "A", Nombre_Proveedor_SAP_BO)
+                oManejoDocumentos = New Negocio.ManejoDeDocumentos(rCompany, rSboApp, "A", Nombre_Proveedor_SAP_BO, mensajes)
             End If
 
             ofrmDocumentosEnviados = New frmDocumentosEnviados(rCompany, rSboApp)
@@ -732,6 +732,35 @@ Public Class EventosEmision
                                 End If
 
                             End If
+                        Case = "TabLOC_SS"
+                            If pVal.BeforeAction Then
+                                Try
+                                    Dim mForm As SAPbouiCOM.Form = rSboApp.Forms.Item(pVal.FormUID)
+
+                                    Select Case pVal.ItemUID
+                                        Case "TabLOC_SS"
+                                            mForm.PaneLevel = 99
+                                            'mForm.Items.Item("gridDH").Visible = True
+                                    End Select
+
+                                Catch ex As Exception
+                                End Try
+                            End If
+                    End Select
+
+                    Select Case pVal.EventType
+                        Case SAPbouiCOM.BoEventTypes.et_FORM_LOAD
+                            If Functions.VariablesGlobales._ActivarLocalizacionEC = "Y" Then
+                                If pVal.BeforeAction = False Then
+                                    Try
+                                        Dim mForm As SAPbouiCOM.Form = rSboApp.Forms.Item(pVal.FormUID)
+
+                                        crearTabSN_Localizacion(mForm)
+                                    Catch ex As Exception
+
+                                    End Try
+                                End If
+                            End If
 
                     End Select
 
@@ -863,7 +892,8 @@ Public Class EventosEmision
                 pVal.FormTypeEx = "-141" Or
                 pVal.FormTypeEx = "141" Or
                 pVal.FormTypeEx = "-60092" Or
-                pVal.FormTypeEx = "720" Then
+                pVal.FormTypeEx = "720" Or
+                pVal.FormTypeEx = "181" Then
 
                 Select Case pVal.EventType
 
@@ -1010,9 +1040,9 @@ Public Class EventosEmision
 
                                 'se intenta crear un tab para representar os UDF
                                 Try
-
-                                    crearTabPrueba_Facturacion(mForm)
-
+                                    If Not (pVal.FormTypeEx = "181") Then
+                                        crearTabPrueba_Facturacion(mForm)
+                                    End If
 
                                 Catch ex As Exception
 
@@ -2189,6 +2219,8 @@ Public Class EventosEmision
                                                                                 oFuncionesAddon.GuardaLOG(objType, docentry, "Secuencia Actualizada en Documentos Legales Internos..!!", Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
                                                                                 If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                                                     oManejoDocumentosEcua.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
+                                                                                ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                                                    oManejoDocumentosSolsap.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
                                                                                 Else
                                                                                     oManejoDocumentos.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
                                                                                 End If
@@ -2202,6 +2234,8 @@ Public Class EventosEmision
                                                                                 oFuncionesAddon.GuardaLOG(objType, docentry, "Secuencia Actualizada en Documentos Legales Internos..!!", Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
                                                                                 If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                                                     oManejoDocumentosEcua.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+                                                                                ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                                                    oManejoDocumentosSolsap.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                                                 Else
                                                                                     oManejoDocumentos.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                                                 End If
@@ -2691,6 +2725,8 @@ Public Class EventosEmision
                     'If Not EnviaDocumentosEnBackGround = "Y" Then ' se comenta ya que cuando la serie esta excluida y activo parametro para envia servicio no se reenvia
                     If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                         oManejoDocumentosEcua.ProcesaEnvioDocumento(_DocEntry, oTipoTabla)
+                    ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                        oManejoDocumentosSolsap.ProcesaEnvioDocumento(_DocEntry, oTipoTabla)
                     Else
                         oManejoDocumentos.ProcesaEnvioDocumento(_DocEntry, oTipoTabla)
                     End If
@@ -3116,7 +3152,50 @@ Public Class EventosEmision
             '    End Select
             'End If
 
+            If BusinessObjectInfo.FormTypeEx = "134" Then
 
+                Select Case BusinessObjectInfo.EventType
+                    Case SAPbouiCOM.BoEventTypes.et_FORM_DATA_LOAD
+                        If Not BusinessObjectInfo.BeforeAction Then
+                            If Functions.VariablesGlobales._ActivarLocalizacionEC = "Y" Then
+
+
+                                Dim mForm As SAPbouiCOM.Form = rSboApp.Forms.Item(BusinessObjectInfo.FormUID)
+                                If Not ExisteItem(mForm, "TabLOC_SS") Then
+                                    crearTabSN_Localizacion(mForm)
+                                End If
+                                Dim tipoSN As String = ""
+                                tipoSN = LTrim(RTrim(mForm.DataSources.DBDataSources.Item("OCRD").GetValue("CardType", 0)))
+
+                                'OcultarItemsTab_SN_LOC(mForm, tipoSN)
+
+                                Dim Folder As SAPbouiCOM.Folder = mForm.Items.Item("TabLOC_SS").Specific
+                                Folder.GroupWith("15") ' Reforzar agrupación
+                                Folder.Pane = 99
+
+                                Dim tabReferencia As SAPbouiCOM.Item = mForm.Items.Item("15") 'Direcciones
+                                Dim miTab As SAPbouiCOM.Item = mForm.Items.Item("TabLOC_SS")
+
+                                miTab.Left = tabReferencia.Left + tabReferencia.Width
+                                miTab.Top = tabReferencia.Top
+
+                                mForm.Freeze(True)
+                                Folder.Select()
+                                OcultarItemsTab_SN_LOC(mForm, tipoSN)
+
+
+                                Dim tabGeneral As SAPbouiCOM.Folder = mForm.Items.Item("3").Specific
+                                tabGeneral.Select()
+
+                                mForm.Freeze(False)
+                                mForm.Refresh()
+
+                                'carpetaEdoc.GroupWith("6")
+                                'carpetaEdoc.Pane = 99
+                            End If
+                        End If
+                End Select
+            End If
 
             If BusinessObjectInfo.FormTypeEx = "133" Or
                 BusinessObjectInfo.FormTypeEx = "60090" Or
@@ -3427,6 +3506,8 @@ Public Class EventosEmision
                                                                         If Not EnviaDocumentosEnBackGround = "Y" Then
                                                                             If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                                                 oManejoDocumentosEcua.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+                                                                            ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                                                oManejoDocumentosSolsap.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                                             Else
                                                                                 oManejoDocumentos.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                                             End If
@@ -3970,6 +4051,311 @@ Public Class EventosEmision
 
 
 
+        End Try
+    End Sub
+    Private Function ExisteItem(ByVal oForm As SAPbouiCOM.Form, ByVal itemId As String) As Boolean
+        Try
+            Dim item As SAPbouiCOM.Item = oForm.Items.Item(itemId)
+            Return True
+        Catch ex As Exception
+            Return False
+        End Try
+    End Function
+    Private Sub OcultarItemsTab_SN_LOC(oForm As SAPbouiCOM.Form, tipo As String)
+
+        Try
+            If tipo = "C" Or tipo = "L" Then
+
+                oForm.Items.Item("SSDM11").Visible = False
+                oForm.Items.Item("SSDMCMB8").Visible = False
+                oForm.Items.Item("SSDM12").Visible = False
+                oForm.Items.Item("SSDMCMB9").Visible = False
+                oForm.Items.Item("SSDM13").Visible = False
+                oForm.Items.Item("SSDMCMB10").Visible = False
+                oForm.Items.Item("SSDM14").Visible = False
+                oForm.Items.Item("SSDMCMB11").Visible = False
+                oForm.Items.Item("SSDM15").Visible = False
+                oForm.Items.Item("SSDMCMB12").Visible = False
+                oForm.Items.Item("SSDM16").Visible = False
+                oForm.Items.Item("SSDMCMB13").Visible = False
+                oForm.Items.Item("SSDM17").Visible = False
+                oForm.Items.Item("SSDMCMB14").Visible = False
+
+
+            ElseIf tipo = "S" Then
+
+                oForm.Items.Item("SSDM11").Visible = True
+                oForm.Items.Item("SSDMCMB8").Visible = True
+                oForm.Items.Item("SSDM12").Visible = True
+                oForm.Items.Item("SSDMCMB9").Visible = True
+                oForm.Items.Item("SSDM13").Visible = True
+                oForm.Items.Item("SSDMCMB10").Visible = True
+                oForm.Items.Item("SSDM14").Visible = True
+                oForm.Items.Item("SSDMCMB11").Visible = True
+                oForm.Items.Item("SSDM15").Visible = True
+                oForm.Items.Item("SSDMCMB12").Visible = True
+                oForm.Items.Item("SSDM16").Visible = True
+                oForm.Items.Item("SSDMCMB13").Visible = True
+                oForm.Items.Item("SSDM17").Visible = True
+                oForm.Items.Item("SSDMCMB14").Visible = True
+
+            End If
+        Catch ex As Exception
+            Utilitario.Util_Log.Escribir_Log("Error al ocultar items del tab sn loc:" + ex.Message.ToString, "EventosEmision")
+        End Try
+
+    End Sub
+
+    Private Sub crearTabSN_Localizacion(oForm As SAPbouiCOM.Form)
+        oForm.Freeze(True)
+        Try
+
+            oForm.DataSources.UserDataSources.Add("FolderSSSN", SAPbouiCOM.BoDataType.dt_SHORT_TEXT)
+            Dim Tipo_SN As String = oForm.DataSources.DBDataSources.Item("OCRD").GetValue("CardType", 0).Trim()
+            Dim ValorCombo As String = ""
+            Const NumeroPane As Integer = 99
+
+            'CREO EL NUEVO TAB
+            Dim tabreferencia As SAPbouiCOM.Item
+            Dim itemreferencia As SAPbouiCOM.Item
+
+            Dim campoTexto As SAPbouiCOM.EditText
+            Dim carpetaEdoc As SAPbouiCOM.Folder
+            Dim campoCombo As SAPbouiCOM.ComboBox
+
+            Dim ItemLinkedButton As SAPbouiCOM.LinkedButton
+
+            Dim IdTabReferencia As String = "15" 'Direcciones
+            Dim ItemToLinkear As String = "6" 'Codigo
+            Dim anchoGenerico = 0
+            Dim altoGenerico = 0
+
+            Dim lef1 As Integer = oForm.Items.Item("44").Left
+            Dim top1 As Integer = oForm.Items.Item("44").Top
+            Dim valorAncho As Integer = oForm.Items.Item("43").Width
+            Dim valorAlto As Integer = oForm.Items.Item("43").Height
+
+            anchoGenerico = valorAncho
+            altoGenerico = valorAlto
+
+            tabreferencia = oForm.Items.Item(IdTabReferencia)
+
+
+            If oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_FOLDER, "TabLOC_SS", "SAED Localizacion", tabreferencia.Left + tabreferencia.Width, tabreferencia.Top, tabreferencia.Width, tabreferencia.Height) Then
+
+                carpetaEdoc = oForm.Items.Item("TabLOC_SS").Specific
+                carpetaEdoc.Pane = NumeroPane
+                carpetaEdoc.DataBind.SetBound(True, "", "FolderSSSN")
+
+                carpetaEdoc.GroupWith(IdTabReferencia)
+
+                'Aqui empieza la columna 1
+
+                'Establecimiento
+                'top1 += 20
+                'top2 += 20
+
+
+                '(SS) Tipo Id
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_STATIC, "SSDM1", "(SS) Tipo Id", lef1, top1, anchoGenerico, altoGenerico, NumeroPane, False, True)
+                oForm.Items.Item("SSDM1").LinkTo = ItemToLinkear
+
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_COMBO_BOX, "SSDMCMB1", "", lef1 + 140, top1, anchoGenerico, altoGenerico, NumeroPane, True)
+                oForm.Items.Item("SSDMCMB1").LinkTo = ItemToLinkear
+                'ValorCombo = oForm.DataSources.DBDataSources.Item("OCRD").GetValue("u_SS_TipoId", 0).Trim()
+                campoCombo = oForm.Items.Item("SSDMCMB1").Specific
+                campoCombo.DataBind.SetBound(True, "OCRD", "U_SS_TipoId")
+                'LlenadoCombosValoresValidos(campoCombo, "OCRD", "SS_TipoId")
+                'campoCombo.ExpandType = SAPbouiCOM.BoExpandType.et_DescriptionOnly
+                'campoCombo.Select(ValorCombo, SAPbouiCOM.BoSearchKey.psk_ByValue)
+
+                '(SS) Tipo S.N
+                top1 += 15
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_STATIC, "SSDM2", "(SS) Tipo S.N", lef1, top1, anchoGenerico, altoGenerico, NumeroPane,, True)
+                oForm.Items.Item("SSDM2").LinkTo = ItemToLinkear
+
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_COMBO_BOX, "SSDMCMB2", "", lef1 + 140, top1, anchoGenerico, altoGenerico, NumeroPane, True)
+                oForm.Items.Item("SSDMCMB2").LinkTo = ItemToLinkear
+                campoCombo = oForm.Items.Item("SSDMCMB2").Specific
+                campoCombo.DataBind.SetBound(True, "OCRD", "U_SS_TipoSN")
+
+                '(SS) Tipo Contribuyente
+                top1 += 15
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_STATIC, "SSDM3", "(SS) Tipo Contribuyente", lef1, top1, anchoGenerico, altoGenerico, NumeroPane,, True)
+                oForm.Items.Item("SSDM3").LinkTo = ItemToLinkear
+
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_COMBO_BOX, "SSDMCMB3", "", lef1 + 140, top1, anchoGenerico, altoGenerico, NumeroPane, True)
+                oForm.Items.Item("SSDMCMB3").LinkTo = ItemToLinkear
+                campoCombo = oForm.Items.Item("SSDMCMB3").Specific
+                campoCombo.DataBind.SetBound(True, "OCRD", "U_SS_TipoCon")
+
+                '(SS) Sexo
+                top1 += 15
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_STATIC, "SSDM4", "(SS) Sexo", lef1, top1, anchoGenerico, altoGenerico, NumeroPane,, True)
+                oForm.Items.Item("SSDM4").LinkTo = ItemToLinkear
+
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_COMBO_BOX, "SSDMCMB4", "", lef1 + 140, top1, anchoGenerico, altoGenerico, NumeroPane, True)
+                oForm.Items.Item("SSDMCMB4").LinkTo = ItemToLinkear
+                campoCombo = oForm.Items.Item("SSDMCMB4").Specific
+                campoCombo.DataBind.SetBound(True, "OCRD", "U_SS_Sexo")
+
+                '(SS) Estado Civil
+                top1 += 15
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_STATIC, "SSDM5", "(SS) Estado Civil", lef1, top1, anchoGenerico, altoGenerico, NumeroPane,, True)
+                oForm.Items.Item("SSDM5").LinkTo = ItemToLinkear
+
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_COMBO_BOX, "SSDMCMB5", "", lef1 + 140, top1, anchoGenerico, altoGenerico, NumeroPane, True)
+                oForm.Items.Item("SSDMCMB5").LinkTo = ItemToLinkear
+                campoCombo = oForm.Items.Item("SSDMCMB5").Specific
+                'LlenadoCombosporUDT(campoCombo, "@SS_FORMASDEPAGO") '"@SS_FORMAS_DE_PAGOS")
+                campoCombo.DataBind.SetBound(True, "OCRD", "U_SS_EstCivil")
+
+                '(SS) Origen de Ingresos
+                top1 += 15
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_STATIC, "SSDM6", "(SS) Origen de Ingresos", lef1, top1, anchoGenerico, altoGenerico, NumeroPane,, True)
+                oForm.Items.Item("SSDM6").LinkTo = ItemToLinkear
+
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_COMBO_BOX, "SSDMCMB6", "", lef1 + 140, top1, anchoGenerico, altoGenerico, NumeroPane, True)
+                oForm.Items.Item("SSDMCMB6").LinkTo = ItemToLinkear
+                campoCombo = oForm.Items.Item("SSDMCMB6").Specific
+                campoCombo.DataBind.SetBound(True, "OCRD", "U_SS_OrigIng")
+
+                '(SS) Provincia
+                top1 += 15
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_STATIC, "SSDM7", "(SS) Provincia", lef1, top1, anchoGenerico, altoGenerico, NumeroPane,, True)
+                oForm.Items.Item("SSDM7").LinkTo = ItemToLinkear
+
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_EDIT, "SSDMEDT1", "", lef1 + 140, top1, anchoGenerico, altoGenerico + 50, NumeroPane, True)
+                oForm.Items.Item("SSDMEDT1").LinkTo = ItemToLinkear
+                campoTexto = oForm.Items.Item("SSDMEDT1").Specific
+                campoTexto.DataBind.SetBound(True, "OCRD", "U_SS_Provincia")
+
+                '(SS) Cantón
+                top1 += 65
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_STATIC, "SSDM8", "(SS) Cantón", lef1, top1, anchoGenerico, altoGenerico, NumeroPane,, True)
+                oForm.Items.Item("SSDM8").LinkTo = ItemToLinkear
+
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_EDIT, "SSDMEDT2", "", lef1 + 140, top1, anchoGenerico, altoGenerico + 50, NumeroPane, True)
+                oForm.Items.Item("SSDMEDT2").LinkTo = ItemToLinkear
+                campoTexto = oForm.Items.Item("SSDMEDT2").Specific
+                campoTexto.DataBind.SetBound(True, "OCRD", "U_SS_Canton")
+
+                '(SS) Parroquia
+                top1 += 65
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_STATIC, "SSDM9", "(SS) Parroquia", lef1, top1, anchoGenerico, altoGenerico, NumeroPane,, True)
+                oForm.Items.Item("SSDM9").LinkTo = ItemToLinkear
+
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_EDIT, "SSDMEDT3", "", lef1 + 140, top1, anchoGenerico, altoGenerico + 50, NumeroPane, True)
+                oForm.Items.Item("SSDMEDT3").LinkTo = ItemToLinkear
+                campoTexto = oForm.Items.Item("SSDMEDT3").Specific
+                campoTexto.DataBind.SetBound(True, "OCRD", "U_SS_Parroquia")
+
+                '(SS) Origen de Ingresos
+                top1 += 65
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_STATIC, "SSDM10", "(SS) Origen de Ingresos", lef1, top1, anchoGenerico, altoGenerico, NumeroPane,, True)
+                oForm.Items.Item("SSDM10").LinkTo = ItemToLinkear
+
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_COMBO_BOX, "SSDMCMB7", "", lef1 + 140, top1, anchoGenerico, altoGenerico, NumeroPane, True)
+                oForm.Items.Item("SSDMCMB7").LinkTo = ItemToLinkear
+                campoCombo = oForm.Items.Item("SSDMCMB7").Specific
+                campoCombo.DataBind.SetBound(True, "OCRD", "U_SS_OrigIng")
+
+
+                'If tipo = "S" Then
+
+                anchoGenerico = 0
+                altoGenerico = 0
+
+                lef1 = oForm.Items.Item("118").Left
+                top1 = oForm.Items.Item("118").Top
+                valorAncho = oForm.Items.Item("117").Width
+                valorAlto = oForm.Items.Item("117").Height
+
+                anchoGenerico = valorAncho
+                altoGenerico = valorAlto
+
+                ItemToLinkear = "30"
+
+                '(SS) Aplica Doble Tributación
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_STATIC, "SSDM11", "(SS) Aplica Doble Tributación", lef1, top1, anchoGenerico, altoGenerico, NumeroPane, False, True)
+                oForm.Items.Item("SSDM11").LinkTo = ItemToLinkear
+
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_COMBO_BOX, "SSDMCMB8", "", lef1 + 140, top1, anchoGenerico, altoGenerico, NumeroPane, True)
+                oForm.Items.Item("SSDMCMB8").LinkTo = ItemToLinkear
+                campoCombo = oForm.Items.Item("SSDMCMB8").Specific
+                campoCombo.DataBind.SetBound(True, "OCRD", "U_SS_AplDobTri")
+
+                '(SS) Pago Residente
+                top1 += 15
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_STATIC, "SSDM12", "(SS) Pago Residente", lef1, top1, anchoGenerico, altoGenerico, NumeroPane, False, True)
+                oForm.Items.Item("SSDM12").LinkTo = ItemToLinkear
+
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_COMBO_BOX, "SSDMCMB9", "", lef1 + 140, top1, anchoGenerico, altoGenerico, NumeroPane, True)
+                oForm.Items.Item("SSDMCMB9").LinkTo = ItemToLinkear
+                campoCombo = oForm.Items.Item("SSDMCMB9").Specific
+                campoCombo.DataBind.SetBound(True, "OCRD", "U_SS_PagoLocExt")
+
+                '(SS) Parte Relacionada
+                top1 += 15
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_STATIC, "SSDM13", "(SS) Parte Relacionada", lef1, top1, anchoGenerico, altoGenerico, NumeroPane, False, True)
+                oForm.Items.Item("SSDM13").LinkTo = ItemToLinkear
+
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_COMBO_BOX, "SSDMCMB10", "", lef1 + 140, top1, anchoGenerico, altoGenerico, NumeroPane, True)
+                oForm.Items.Item("SSDMCMB10").LinkTo = ItemToLinkear
+                campoCombo = oForm.Items.Item("SSDMCMB10").Specific
+                campoCombo.DataBind.SetBound(True, "OCRD", "U_SS_PagoLocExt")
+
+                '(SS) Tip Regímen Fiscal Ext
+                top1 += 15
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_STATIC, "SSDM14", "(SS) Tip Regímen Fiscal Ext", lef1, top1, anchoGenerico, altoGenerico, NumeroPane, False, True)
+                oForm.Items.Item("SSDM14").LinkTo = ItemToLinkear
+
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_COMBO_BOX, "SSDMCMB11", "", lef1 + 140, top1, anchoGenerico, altoGenerico, NumeroPane, True)
+                oForm.Items.Item("SSDMCMB11").LinkTo = ItemToLinkear
+                campoCombo = oForm.Items.Item("SSDMCMB11").Specific
+                campoCombo.DataBind.SetBound(True, "OCRD", "U_SS_TipoRegi")
+
+                '(SS) País se Efectua Pago
+                top1 += 15
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_STATIC, "SSDM15", "(SS) País se Efectua Pago", lef1, top1, anchoGenerico, altoGenerico, NumeroPane, False, True)
+                oForm.Items.Item("SSDM15").LinkTo = ItemToLinkear
+
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_COMBO_BOX, "SSDMCMB12", "", lef1 + 140, top1, anchoGenerico, altoGenerico, NumeroPane, True)
+                oForm.Items.Item("SSDMCMB12").LinkTo = ItemToLinkear
+                campoCombo = oForm.Items.Item("SSDMCMB12").Specific
+                campoCombo.DataBind.SetBound(True, "OCRD", "U_SS_PaisEfecPago")
+
+                '(SS) Pag.Sujeto a Ret N.Legal
+                top1 += 15
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_STATIC, "SSDM16", "(SS) Pag.Sujeto a Ret N.Legal", lef1, top1, anchoGenerico, altoGenerico, NumeroPane, False, True)
+                oForm.Items.Item("SSDM16").LinkTo = ItemToLinkear
+
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_COMBO_BOX, "SSDMCMB13", "", lef1 + 140, top1, anchoGenerico, altoGenerico, NumeroPane, True)
+                oForm.Items.Item("SSDMCMB13").LinkTo = ItemToLinkear
+                campoCombo = oForm.Items.Item("SSDMCMB13").Specific
+                campoCombo.DataBind.SetBound(True, "OCRD", "U_SS_PagExtSujRetNorLeg")
+
+                '(SS) Pag. Regimen Fiscal
+                top1 += 15
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_STATIC, "SSDM17", "(SS) Pag. Regimen Fiscal", lef1, top1, anchoGenerico, altoGenerico, NumeroPane, False, True)
+                oForm.Items.Item("SSDM17").LinkTo = ItemToLinkear
+
+                oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_COMBO_BOX, "SSDMCMB14", "", lef1 + 140, top1, anchoGenerico, altoGenerico, NumeroPane, True)
+                oForm.Items.Item("SSDMCMB14").LinkTo = ItemToLinkear
+                campoCombo = oForm.Items.Item("SSDMCMB14").Specific
+                campoCombo.DataBind.SetBound(True, "OCRD", "U_SS_PagoRegFis")
+
+
+                'End If
+
+
+            End If
+
+        Catch ex As Exception
+            Utilitario.Util_Log.Escribir_Log("Error al crear tab sn loc:" + ex.Message.ToString, "EventosEmision")
+            oForm.Freeze(False)
+        Finally
+            oForm.Freeze(False)
         End Try
     End Sub
 
@@ -5015,6 +5401,8 @@ Public Class EventosEmision
                                                         End If
                                                         If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                             oManejoDocumentosEcua.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+                                                        ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                            oManejoDocumentosSolsap.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                         Else
                                                             oManejoDocumentos.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                         End If
@@ -5047,6 +5435,8 @@ Public Class EventosEmision
                                                     If Not EnviaDocumentosEnBackGround = "Y" Then
                                                         If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                             oManejoDocumentosEcua.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+                                                        ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                            oManejoDocumentosSolsap.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                         Else
                                                             oManejoDocumentos.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                         End If
@@ -5064,6 +5454,8 @@ Public Class EventosEmision
                                         If Not EnviaDocumentosEnBackGround = "Y" Then
                                             If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                 oManejoDocumentosEcua.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+                                            ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                oManejoDocumentosSolsap.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                             Else
                                                 oManejoDocumentos.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                             End If
@@ -5237,6 +5629,9 @@ Public Class EventosEmision
             ElseIf pVal.FormTypeEx = "720" Then 'Salida de mercancias
                 oTabla = "OIGE"
                 oTipoTabla = "GRSM"
+            ElseIf pVal.FormTypeEx = "181" Then 'nc proveedores
+                oTabla = "ORPC"
+                oTipoTabla = "NCP"
             End If
         Catch ex As Exception
             rSboApp.SetStatusBarMessage(NombreAddon + " - Error al Setear Tipo Tabla: " + ex.Message.ToString(), SAPbouiCOM.BoMessageTime.bmt_Short, True)
@@ -5286,6 +5681,9 @@ Public Class EventosEmision
             ElseIf FormTypeEx = "720" Then ' SOLICITUD DE MERCANCIAS
                 oTabla = "OIGE"
                 oTipoTabla = "GRSM"
+            ElseIf FormTypeEx = "181" Then 'nc proveedores
+                oTabla = "ORPC"
+                oTipoTabla = "NCP"
             End If
         Catch ex As Exception
             rSboApp.SetStatusBarMessage(NombreAddon + " - Error al Setear Tipo Tabla: " + ex.Message.ToString(), SAPbouiCOM.BoMessageTime.bmt_Short, True)
@@ -10082,6 +10480,18 @@ Public Class EventosEmision
 
                             campoTexto = oForm.Items.Item("etssloc62").Specific
                             campoTexto.DataBind.SetBound(True, oTabla, "U_SS_FecRet")
+
+                            'Sustento tributario
+                            top1 += 15
+                            top2 += 15
+                            oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_STATIC, "lssloc63", "Sustento Tributario", lef1, top1, anchoGenerico, altoGenerico, NumeroPane)
+                            oForm.Items.Item("lssloc63").LinkTo = ItemToLinkear
+
+                            oFuncionesB1.creaControl(oForm, SAPbouiCOM.BoFormItemTypes.it_COMBO_BOX, "etssloc63", "", lef2, top2, anchoGenerico, altoGenerico, NumeroPane)
+                            oForm.Items.Item("etssloc63").LinkTo = ItemToLinkear
+
+                            campoCombo = oForm.Items.Item("etssloc63").Specific
+                            campoCombo.DataBind.SetBound(True, oTabla, "U_SS_SUSTRIB")
 
 
                         End If

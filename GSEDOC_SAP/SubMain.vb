@@ -13,6 +13,7 @@ Imports System.Xml
 Imports System.Net
 Imports System.Security.Cryptography.X509Certificates
 Imports System.Net.Security
+Imports Newtonsoft.Json
 '
 Module SubMain
 
@@ -75,6 +76,11 @@ Module SubMain
 
     Public ofrmProcesoLoteC As frmProcesoLoteC
     Public OfrmListaAEnviar As frmListaAEnviar
+
+    'VALIDACION CAMPOS NULOS 2025
+    Public mensajes As Dictionary(Of String, Object) = Nothing
+    'RUTA ARCHIVO JOSN 
+    Dim rutaArchivo As String = "C:\Users\William\Downloads\MensajesCamposNulos.txt"
 
 
 #Region "Variables de Addon"
@@ -499,6 +505,24 @@ Module SubMain
 
                             RsFe.MoveNext()
                         End While
+
+                        If File.Exists(rutaArchivo) Then
+
+                            Dim contenido As String = IO.File.ReadAllText(rutaArchivo)
+                            Dim estructuraValida As Boolean = False
+
+                            Try
+                                'mensajes = JsonConvert.DeserializeObject(Of Negocio.MensajesParaCamposNulos)(contenido)
+                                mensajes = JsonConvert.DeserializeObject(Of Dictionary(Of String, Object))(contenido)
+                                'Functions.VariablesGlobales.ValidarNuloJson = True
+                            Catch ex As Exception
+                                rSboApp.SetStatusBarMessage(NombreAddon + " - Carga Json campos nulos " & ex.Message, SAPbouiCOM.BoMessageTime.bmt_Medium, True)
+                            End Try
+
+                        Else
+                            'Functions.VariablesGlobales.ValidarNuloJson = False
+                        End If
+
 
                         Dim checkApiSS As String = Functions.VariablesGlobales._ActApiSS
                         ' Registro del estado de la integración con api solsap
@@ -1730,6 +1754,7 @@ Module SubMain
 
                 oFiltro.AddEx("frmGuiasRemision")
                 'oFiltro.AddEx("frmPagosMasivos")
+                oFiltro.AddEx("134")
 
             End If
 
@@ -1823,6 +1848,7 @@ Module SubMain
                 oFiltro.AddEx("frmCashManagement")
                 oFiltro.AddEx("frmServiciosBasicos")
                 oFiltro.AddEx("385")
+                oFiltro.AddEx("134")
             End If
 
             If Functions.VariablesGlobales._ActivarCMFML = "Y" Then
@@ -1875,6 +1901,8 @@ Module SubMain
                 oFiltro.AddEx("frmGuiasRemision")
                 oFiltro.AddEx("frmServiciosBasicos")
                 oFiltro.AddEx("385")
+                oFiltro.AddEx("134")
+                oFiltro.AddEx("181")
             End If
 
 
@@ -2326,7 +2354,7 @@ Module SubMain
 
             oMenuItem = rSboApp.Menus.Item("mnPrincipal")
             oMenus = oMenuItem.SubMenus
-         
+
             oCreationPackage.Type = SAPbouiCOM.BoMenuType.mt_STRING
             oCreationPackage.UniqueID = "GS30"
             oCreationPackage.String = "Acerca De.."
@@ -2374,7 +2402,7 @@ Module SubMain
                 oMenus.AddEx(oCreationPackage)
             Catch ex As Exception
             End Try
-           
+
             oCreationPackage.Type = SAPbouiCOM.BoMenuType.mt_STRING
             oCreationPackage.UniqueID = "GS30"
             oCreationPackage.String = "Acerca De.."
@@ -2446,7 +2474,7 @@ Module SubMain
 
             oMenuItem = rSboApp.Menus.Item("mnPrincipal")
             oMenus = oMenuItem.SubMenus
-           
+
             oCreationPackage.Type = SAPbouiCOM.BoMenuType.mt_POPUP
             oCreationPackage.UniqueID = "GS20"
             oCreationPackage.String = "Recepción de Documentos Electrónicos"
@@ -3064,9 +3092,9 @@ Module SubMain
 
 
     End Sub
-    Function customCertValidation(ByVal sender As Object, _
-                                     ByVal cert As X509Certificate, _
-                                     ByVal chain As X509Chain, _
+    Function customCertValidation(ByVal sender As Object,
+                                     ByVal cert As X509Certificate,
+                                     ByVal chain As X509Chain,
                                      ByVal errors As SslPolicyErrors) As Boolean
         Return True
     End Function

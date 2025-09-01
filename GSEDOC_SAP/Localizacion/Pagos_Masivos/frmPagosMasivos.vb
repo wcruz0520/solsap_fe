@@ -1889,7 +1889,7 @@ Public Class frmPagosMasivos
                         pag.DueDate = Date.Now
                         pag.TaxDate = Date.Now
                         pag.ApplyVAT = SAPbobsCOM.BoYesNoEnum.tYES
-                        pag.DocCurrency = "USD"
+                        'pag.DocCurrency = "USD"
                         pag.UserFields.Fields.Item("U_DE_PM").Value = txtDocEnt.Value
 
                         pag.Remarks = $"PAGO DE NOMINA SEGUN SOLICITUD DE PAGO MASIVO #{txtDocEnt.Value} CON CHEQUE #{NumCheque}"
@@ -1959,7 +1959,7 @@ Public Class frmPagosMasivos
                                     pag.CardCode = b.CodPro
                                     pag.TaxDate = Date.Now
                                     pag.ApplyVAT = SAPbobsCOM.BoYesNoEnum.tYES
-                                    pag.DocCurrency = "USD"
+                                    'pag.DocCurrency = "USD"
                                     pag.UserFields.Fields.Item("U_DE_PM").Value = txtDocEnt.Value
 
                                     pag.Remarks = $"PAGO A PROVEEDOR SEGUN SOLICITUD DE PAGO MASIVO #{txtDocEnt.Value} CON CHEQUE #{NumCheque}"
@@ -2026,7 +2026,7 @@ Public Class frmPagosMasivos
                                 pag.CardCode = b.CodPro
                                 pag.TaxDate = Date.Now
                                 pag.ApplyVAT = SAPbobsCOM.BoYesNoEnum.tYES
-                                pag.DocCurrency = "USD"
+                                'pag.DocCurrency = "USD"
                                 pag.UserFields.Fields.Item("U_DE_PM").Value = txtDocEnt.Value
 
                                 pag.Remarks = $"PAGO A PROVEEDOR SEGUN SOLICITUD DE PAGO MASIVO #{txtDocEnt.Value} CON CHEQUE #{NumCheque}"
@@ -2108,7 +2108,7 @@ Public Class frmPagosMasivos
                         pag.CardCode = a.CodPro
                         pag.TaxDate = DateTime.ParseExact(txtFArc.Value, formato, Globalization.CultureInfo.InvariantCulture)  'Date.Now
                         pag.ApplyVAT = SAPbobsCOM.BoYesNoEnum.tYES
-                        pag.DocCurrency = "USD"
+                        'pag.DocCurrency = "USD"
                         pag.UserFields.Fields.Item("U_DE_PM").Value = txtDocEnt.Value
 
                         pag.Remarks = $"PAGO CONSUMO DE SERVICIOS BASICOS SEGUN SOLICITUD #{txtDocEnt.Value}"
@@ -2161,6 +2161,13 @@ Public Class frmPagosMasivos
                     rCompany.StartTransaction()
                     If TipoSolicitudPMTransferencia = "Nomina" Then
 
+                        Dim oPay As SAPbobsCOM.Payments = CType(rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oVendorPayments), SAPbobsCOM.Payments)
+
+                        ' Moneda local (empresa)
+                        Dim bob As SAPbobsCOM.SBObob = CType(rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoBridge), SAPbobsCOM.SBObob)
+                        Dim rsLocal As SAPbobsCOM.Recordset = bob.GetLocalCurrency()
+                        Dim localCur As String = CStr(rsLocal.Fields.Item(0).Value)
+
                         Dim nErr As Long
                         Dim errMsg As String, Qr As String = ""
                         Dim acumulador As Double = 0
@@ -2173,7 +2180,8 @@ Public Class frmPagosMasivos
                         pag.DueDate = DateTime.ParseExact(txtFArc.Value, formato, Globalization.CultureInfo.InvariantCulture) 'Date.Now
                         pag.TaxDate = DateTime.ParseExact(txtFArc.Value, formato, Globalization.CultureInfo.InvariantCulture) 'Date.Now
                         pag.ApplyVAT = SAPbobsCOM.BoYesNoEnum.tYES
-                        pag.DocCurrency = "USD"
+                        pag.DocCurrency = localCur
+                        Utilitario.Util_Log.Escribir_Log($"Pasando por Currency {pag.DocCurrency.ToString}", "frmPagosMasivos")
                         pag.UserFields.Fields.Item("U_DE_PM").Value = txtDocEnt.Value
                         'pag.Remarks = "P/c de pago de nomina de empleados cash management"
 
@@ -2232,7 +2240,7 @@ Public Class frmPagosMasivos
                                 pag.CardCode = a.CodPro
                                 pag.TaxDate = DateTime.ParseExact(txtFArc.Value, formato, Globalization.CultureInfo.InvariantCulture)  'Date.Now
                                 pag.ApplyVAT = SAPbobsCOM.BoYesNoEnum.tYES
-                                pag.DocCurrency = "USD"
+                                'pag.DocCurrency = "USD"
                                 pag.UserFields.Fields.Item("U_DE_PM").Value = txtDocEnt.Value
 
                                 pag.Remarks = $"PAGO A PROVEDORES CASH MANAGEMENT SEGUN SOLICITUD #{txtDocEnt.Value}"
@@ -2306,7 +2314,7 @@ Public Class frmPagosMasivos
                             pag2.DueDate = DateTime.ParseExact(txtFArc.Value, formato, Globalization.CultureInfo.InvariantCulture)  'Date.NowDate.Now
                             pag2.TaxDate = DateTime.ParseExact(txtFArc.Value, formato, Globalization.CultureInfo.InvariantCulture)  'Date.Now Date.Now
                             pag2.ApplyVAT = SAPbobsCOM.BoYesNoEnum.tYES
-                            pag2.DocCurrency = "USD"
+                            'pag2.DocCurrency = "USD"
                             pag2.UserFields.Fields.Item("U_DE_PM").Value = txtDocEnt.Value
 
                             pag2.Remarks = $"PAGO A PROVEDORES CASH MANAGEMENT SEGUN SOLICITUD #{txtDocEnt.Value}"
@@ -2456,7 +2464,7 @@ Public Class frmPagosMasivos
                         pag.CardCode = a.CodPro
                         pag.TaxDate = Date.Now
                         pag.ApplyVAT = SAPbobsCOM.BoYesNoEnum.tYES
-                        pag.DocCurrency = "USD"
+                        'pag.DocCurrency = "USD"
                         pag.UserFields.Fields.Item("U_DE_PM").Value = a.DocEntry.ToString
 
                         'Dim i As Integer = 0
