@@ -3,6 +3,8 @@
     Public Property infoFactura As infoFacturaFE
     Public Property detalles As List(Of detalleFE)
     Public Property infoAdicional As List(Of infoAdicionalFE)
+    Public Property campoAdicional1 As String
+    Public Property campoAdicional2 As String
 End Class
 
 Public Class infoTributariaFE
@@ -20,8 +22,8 @@ Public Class infoTributariaFE
     Public Property diaEmission As String
     Public Property mesEmission As String
     Public Property anioEmission As String
-    Public Property campoAdicional1 As String
-    Public Property campoAdicional2 As String
+    'Public Property campoAdicional1 As String
+    'Public Property campoAdicional2 As String
 End Class
 
 Public Class infoFacturaFE

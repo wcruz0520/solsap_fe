@@ -467,17 +467,17 @@ Public Class FacturaManager
                                 oFactura.infoTributaria.anioEmission = CDate(r("FechaEmision")).ToString("yyyy")
 
                                 Try
-                                    oFactura.infoTributaria.campoAdicional1 = r("campoAdicional1")
-                                    Utilitario.Util_Log.Escribir_Log(" oFactura.infoTributaria.campoAdicional1 : " & r("campoAdicional1"), "ManejoDeDocumentos")
+                                    oFactura.campoAdicional1 = r("campoAdicional1")
+                                    Utilitario.Util_Log.Escribir_Log(" oFactura.campoAdicional1 : " & r("campoAdicional1"), "ManejoDeDocumentos")
                                 Catch ex As Exception
-                                    Utilitario.Util_Log.Escribir_Log(" oFactura.infoTributaria.campoAdicional1 : " & ex.Message.ToString, "ManejoDeDocumentos")
+                                    Utilitario.Util_Log.Escribir_Log(" oFactura.campoAdicional1 : " & ex.Message.ToString, "ManejoDeDocumentos")
                                 End Try
 
                                 Try
-                                    oFactura.infoTributaria.campoAdicional2 = r("campoAdicional2")
-                                    Utilitario.Util_Log.Escribir_Log(" oFactura.infoTributaria.campoAdicional2 : " & r("campoAdicional2"), "ManejoDeDocumentos")
+                                    oFactura.campoAdicional2 = r("campoAdicional2")
+                                    Utilitario.Util_Log.Escribir_Log(" oFactura.campoAdicional2 : " & r("campoAdicional2"), "ManejoDeDocumentos")
                                 Catch ex As Exception
-                                    Utilitario.Util_Log.Escribir_Log(" oFactura.infoTributaria.campoAdicional2 : " & ex.Message.ToString, "ManejoDeDocumentos")
+                                    Utilitario.Util_Log.Escribir_Log(" oFactura.campoAdicional2 : " & ex.Message.ToString, "ManejoDeDocumentos")
                                 End Try
 
                                 Try

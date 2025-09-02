@@ -3,6 +3,8 @@
     Public Property infoNotaCredito As infoNotaCreditoNCE
     Public Property detalles As List(Of detalleNCE)
     Public Property infoAdicional As List(Of infoAdicionalNCE)
+    Public Property campoAdicional1 As String
+    Public Property campoAdicional2 As String
 End Class
 
 Public Class infoTributariaNCE
@@ -20,8 +22,8 @@ Public Class infoTributariaNCE
     Public Property diaEmission As String
     Public Property mesEmission As String
     Public Property anioEmission As String
-    Public Property campoAdicional1 As String
-    Public Property campoAdicional2 As String
+    'Public Property campoAdicional1 As String
+    'Public Property campoAdicional2 As String
 End Class
 
 Public Class infoNotaCreditoNCE

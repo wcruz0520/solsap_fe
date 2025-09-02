@@ -3,6 +3,8 @@
     Public Property infoCompRetencion As InfoCompRetencionRET
     Public Property docsSustento As List(Of DocSustentoRET)
     Public Property infoAdicional As List(Of InfoAdicionalRET)
+    Public Property campoAdicional1 As String
+    Public Property campoAdicional2 As String
 End Class
 
 Public Class InfoTributariaRET
@@ -20,8 +22,8 @@ Public Class InfoTributariaRET
     Public Property diaEmission As String
     Public Property mesEmission As String
     Public Property anioEmission As String
-    Public Property campoAdicional1 As String
-    Public Property campoAdicional2 As String
+    'Public Property campoAdicional1 As String
+    'Public Property campoAdicional2 As String
 End Class
 
 Public Class InfoCompRetencionRET

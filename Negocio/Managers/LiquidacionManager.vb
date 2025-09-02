@@ -91,17 +91,17 @@ Public Class LiquidacionManager
                     liquidacion.infoLiquidacionCompra.fechaEmision = fecha.ToString("dd/MM/yyyy")
 
                     Try
-                        liquidacion.infoTributaria.campoAdicional1 = r("campoAdicional1")
-                        Utilitario.Util_Log.Escribir_Log(" liquidacion.infoTributaria.campoAdicional1 : " & r("campoAdicional1"), "ManejoDeDocumentos")
+                        liquidacion.campoAdicional1 = r("campoAdicional1")
+                        Utilitario.Util_Log.Escribir_Log(" liquidacion.campoAdicional1 : " & r("campoAdicional1"), "ManejoDeDocumentos")
                     Catch ex As Exception
-                        Utilitario.Util_Log.Escribir_Log(" liquidacion.infoTributaria.campoAdicional1 : " & ex.Message.ToString, "ManejoDeDocumentos")
+                        Utilitario.Util_Log.Escribir_Log(" liquidacion.campoAdicional1 : " & ex.Message.ToString, "ManejoDeDocumentos")
                     End Try
 
                     Try
-                        liquidacion.infoTributaria.campoAdicional2 = r("campoAdicional2")
-                        Utilitario.Util_Log.Escribir_Log(" liquidacion.infoTributaria.campoAdicional2 : " & r("campoAdicional2"), "ManejoDeDocumentos")
+                        liquidacion.campoAdicional2 = r("campoAdicional2")
+                        Utilitario.Util_Log.Escribir_Log(" liquidacion.campoAdicional2 : " & r("campoAdicional2"), "ManejoDeDocumentos")
                     Catch ex As Exception
-                        Utilitario.Util_Log.Escribir_Log(" liquidacion.infoTributaria.campoAdicional2 : " & ex.Message.ToString, "ManejoDeDocumentos")
+                        Utilitario.Util_Log.Escribir_Log(" liquidacion.campoAdicional2 : " & ex.Message.ToString, "ManejoDeDocumentos")
                     End Try
 
 

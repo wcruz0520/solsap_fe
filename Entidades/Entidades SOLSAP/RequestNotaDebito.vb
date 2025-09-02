@@ -3,6 +3,8 @@
     Public Property infoNotaDebito As infoNotaDebitoND
     Public Property motivos As List(Of motivoND)
     Public Property infoAdicional As List(Of infoAdicionalND)
+    Public Property campoAdicional1 As String
+    Public Property campoAdicional2 As String
 End Class
 
 Public Class infoTributariaND
@@ -20,8 +22,8 @@ Public Class infoTributariaND
     Public Property diaEmission As String
     Public Property mesEmission As String
     Public Property anioEmission As String
-    Public Property campoAdicional1 As String
-    Public Property campoAdicional2 As String
+    'Public Property campoAdicional1 As String
+    'Public Property campoAdicional2 As String
 End Class
 
 Public Class infoNotaDebitoND

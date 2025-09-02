@@ -4,6 +4,8 @@
     Public Property detalles As List(Of detalleLQ)
     Public Property reembolsos As List(Of reembolsoLQ)
     Public Property infoAdicional As List(Of campoAdicionalLQ)
+    Public Property campoAdicional1 As String
+    Public Property campoAdicional2 As String
 End Class
 
 Public Class infoTributariaLQ
@@ -21,8 +23,8 @@ Public Class infoTributariaLQ
     Public Property diaEmission As String
     Public Property mesEmission As String
     Public Property anioEmission As String
-    Public Property campoAdicional1 As String
-    Public Property campoAdicional2 As String
+    'Public Property campoAdicional1 As String
+    'Public Property campoAdicional2 As String
 End Class
 
 Public Class infoLiquidacionCompraLQ
