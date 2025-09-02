@@ -1,7 +1,7 @@
 ﻿Imports System.ServiceProcess
 
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class Servico_Ivend_Citikold
+Partial Class Servico_Ivend
     Inherits System.ServiceProcess.ServiceBase
 
     'UserService reemplaza a Dispose para limpiar la lista de componentes.
@@ -28,7 +28,7 @@ Partial Class Servico_Ivend_Citikold
         '
         '   ServicesToRun = New System.ServiceProcess.ServiceBase () {New Service1, New MySecondUserService}
         '
-        ServicesToRun = New System.ServiceProcess.ServiceBase() {New Servico_Ivend_Citikold}
+        ServicesToRun = New System.ServiceProcess.ServiceBase() {New Servico_Ivend}
 
         System.ServiceProcess.ServiceBase.Run(ServicesToRun)
     End Sub
@@ -42,11 +42,11 @@ Partial Class Servico_Ivend_Citikold
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         '
-        'Servico_Ivend_Citikold
+        'Servico_Ivend
         '
         Me.CanPauseAndContinue = True
         Me.CanShutdown = True
-        Me.ServiceName = "Servico_Ivend_Citikold"
+        Me.ServiceName = "Servico_Ivend"
 
     End Sub
 

@@ -22,7 +22,7 @@
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.ServiceProcessInstaller1 = New System.ServiceProcess.ServiceProcessInstaller()
-        Me.Servico_Ivend_Citikold = New System.ServiceProcess.ServiceInstaller()
+        Me.Servico_Ivend = New System.ServiceProcess.ServiceInstaller()
         '
         'ServiceProcessInstaller1
         '
@@ -30,19 +30,19 @@
         Me.ServiceProcessInstaller1.Password = Nothing
         Me.ServiceProcessInstaller1.Username = Nothing
         '
-        'Servico_Ivend_Citikold
+        'Servico_Ivend
         '
-        Me.Servico_Ivend_Citikold.Description = "Procesador de Facturas Integradas"
-        Me.Servico_Ivend_Citikold.DisplayName = "Servico_Ivend_Citikold"
-        Me.Servico_Ivend_Citikold.ServiceName = "Servico_Ivend_Citikold"
-        Me.Servico_Ivend_Citikold.StartType = System.ServiceProcess.ServiceStartMode.Automatic
+        Me.Servico_Ivend.Description = "Procesador de Facturas Integradas"
+        Me.Servico_Ivend.DisplayName = "Servico_Ivend"
+        Me.Servico_Ivend.ServiceName = "Servico_Ivend"
+        Me.Servico_Ivend.StartType = System.ServiceProcess.ServiceStartMode.Automatic
         '
         'ProjectInstaller
         '
-        Me.Installers.AddRange(New System.Configuration.Install.Installer() {Me.ServiceProcessInstaller1, Me.Servico_Ivend_Citikold})
+        Me.Installers.AddRange(New System.Configuration.Install.Installer() {Me.ServiceProcessInstaller1, Me.Servico_Ivend})
 
     End Sub
     Friend WithEvents ServiceProcessInstaller1 As System.ServiceProcess.ServiceProcessInstaller
-    Friend WithEvents Servico_Ivend_Citikold As System.ServiceProcess.ServiceInstaller
+    Friend WithEvents Servico_Ivend As System.ServiceProcess.ServiceInstaller
 
 End Class

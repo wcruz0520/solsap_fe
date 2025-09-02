@@ -11,7 +11,7 @@ Imports System.Net.Security
 Imports System.Web.Compilation
 Imports System.Xml.Serialization
 
-Public Class Servico_Ivend_Citikold
+Public Class Servico_Ivend
 
 
     Private ReadOnly miobj As New Object
@@ -44,17 +44,17 @@ Public Class Servico_Ivend_Citikold
 
     Dim listaParametros() As Entidades.wsSS_LICENCIA_SAP.ClsConfigValores = Nothing
 
+    'comentar para instalar servicio
 
+    'Sub New()
+    '    'descomentar el sub new para pruebas y limpiar y generar nuevamente para que no de error
+    '    ' Llamada necesaria para el diseñador.
+    '    InitializeComponent()
+    '    servicio_Core()
 
-    Sub New()
-        'descomentar el sub new para pruebas y limpiar y generar nuevamente para que no de error
-        ' Llamada necesaria para el diseñador.
-        InitializeComponent()
-        servicio_Core()
+    '    ' Agregue cualquier inicialización después de la llamada a InitializeComponent().
 
-        ' Agregue cualquier inicialización después de la llamada a InitializeComponent().
-
-    End Sub
+    'End Sub
     Protected Overrides Sub OnStart(ByVal args() As String)
 
         servicio_Core()
@@ -149,7 +149,7 @@ Public Class Servico_Ivend_Citikold
                     GuardaLog("Parametros Obtenidos")
 
                     'COMENTAR CUANDO SE GENERE EL INSTALADOR
-                    procesar_docEnvios()
+                    'procesar_docEnvios()
 
                     Dim timer As Int64 = ConfigurationManager.AppSettings("timer") * 1000
                     oTimer = New System.Timers.Timer(timer)
@@ -200,7 +200,11 @@ Public Class Servico_Ivend_Citikold
         Functions.VariablesGlobales._ApiAutPw = ConsultaParametro("SAED", "PARAMETROS", "CONFIGURACION", "APISS_Pw") 'clave
         Functions.VariablesGlobales._ApiFactEmiSS = ConsultaParametro("SAED", "PARAMETROS", "CONFIGURACION", "APISS_EpFac") 'endp factura
         Functions.VariablesGlobales._ApiNCEmiSS = ConsultaParametro("SAED", "PARAMETROS", "CONFIGURACION", "APISS_EpNc") 'endp NC
+        Functions.VariablesGlobales._ApiConEstSS = ConsultaParametro("SAED", "PARAMETROS", "CONFIGURACION", "APISS_EpCnEst") 'endp consulta
         Functions.VariablesGlobales._ApiLiqEmiSS = ConsultaParametro("SAED", "PARAMETROS", "CONFIGURACION", "APISS_EpLiq") 'endp Liq
+        Functions.VariablesGlobales._ApiRetEmiSS = ConsultaParametro("SAED", "PARAMETROS", "CONFIGURACION", "APISS_EpRet") 'endp Ret
+        Functions.VariablesGlobales._ApiNDEmiSS = ConsultaParametro("SAED", "PARAMETROS", "CONFIGURACION", "APISS_EpND") 'endp ND
+        Functions.VariablesGlobales._ApiGrEmiSS = ConsultaParametro("SAED", "PARAMETROS", "CONFIGURACION", "APISS_EpGr") 'endp Gr
 
 
         Functions.VariablesGlobales._WsEmisionConsultaEcua = ConsultaParametro("SAED", "PARAMETROS", "CONFIGURACION", "WsConsultaEcu")

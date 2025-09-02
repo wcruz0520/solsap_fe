@@ -8,10 +8,10 @@ Imports System.Runtime.InteropServices
 
 ' Revisar los valores de los atributos del ensamblado
 
-<Assembly: AssemblyTitle("SS_ProcesadorFE_Citikold")>
+<Assembly: AssemblyTitle("SS_ProcesadorFE")>
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("SS_ProcesadorFE_Citikold")>
+<Assembly: AssemblyProduct("SS_ProcesadorFE")>
 <Assembly: AssemblyCopyright("Copyright ©  2016")> 
 <Assembly: AssemblyTrademark("")> 
 
