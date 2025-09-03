@@ -6,6 +6,7 @@ Public Class DatabaseQueryManager
     Private rsboApp As SAPbouiCOM.Application
     Private _tipoManejo As String
     Private oFuncionesAddon As Functions.FuncionesAddon
+    Public CONEXION As Odbc.OdbcConnection
 
     Public Sub New(company As SAPbobsCOM.Company, sboApp As SAPbouiCOM.Application, tipoManejo As String, funciones As Functions.FuncionesAddon)
         rCompany = company
@@ -128,9 +129,148 @@ Public Class DatabaseQueryManager
         End Try
     End Function
 
-    Private Function ObtenerColeccion(SP As String, flag As Boolean) As DataSet
-        ' Esta función es placeholder para mantener compatibilidad
-        Return Nothing
+    Private Function ObtenerColeccion(ByVal Consulta As String, Optional ByVal KeepOpen As Boolean = False) As DataSet
+        Dim ds As New DataSet
+        Try
+            If Consulta = String.Empty Then Return Nothing
+
+            ConectaHANA()
+
+            If CONEXION.State = ConnectionState.Closed Then
+                CONEXION.Open()
+            End If
+
+            Dim DapTable As New Odbc.OdbcDataAdapter(Consulta, CONEXION)
+            DapTable.SelectCommand.CommandTimeout = 0
+            DapTable.Fill(ds)
+
+            If Not KeepOpen Then
+                If CONEXION.State = ConnectionState.Open Then
+                    CONEXION.Close()
+                End If
+            End If
+            Return ds
+
+        Catch ex As Odbc.OdbcException
+            Utilitario.Util_Log.Escribir_Log("ObtenerColeccion: " + ex.Message + " QUERY: " + Consulta.ToString(), "ManejoDeDocumentos")
+            Return Nothing
+        End Try
+    End Function
+
+
+    Public Function ConectaHANA(Optional ByRef mensaje As String = "") As Boolean
+        Dim ConexionHana As String = String.Empty
+
+        Dim BD_User As String = ""
+        Dim BD_Pass As String = ""
+        Dim _ServerNode As String = ""
+        If _tipoManejo = "S" Then
+            _ServerNode = ConsultaParametro("SAED", "PARAMETROS", "CONFIGURACION", "ServerNode")
+            If String.IsNullOrEmpty(_ServerNode) Then
+                _ServerNode = rCompany.Server
+            End If
+            BD_User = ConsultaParametro("SAED", "PARAMETROS", "CONFIGURACION", "BD_User")
+            BD_Pass = ConsultaParametro("SAED", "PARAMETROS", "CONFIGURACION", "BD_Pass")
+            Utilitario.Util_Log.Escribir_Log("_ServerNode: " + _ServerNode.ToString(), "ManejoDeDocumentos")
+            Utilitario.Util_Log.Escribir_Log("BD_User: " + BD_User.ToString(), "ManejoDeDocumentos")
+            Utilitario.Util_Log.Escribir_Log("BD_Pass: " + BD_Pass.ToString(), "ManejoDeDocumentos")
+        End If
+
+
+        Try
+
+
+            If _tipoManejo <> "A" Then
+
+
+            Else
+                BD_User = Functions.VariablesGlobales._vgUserBD
+            End If
+            'BD_User = ConsultaParametro("SAED", "PARAMETROS", "CONFIGURACION", "BD_User")
+
+            If BD_User = "" Then
+                rsboApp.SetStatusBarMessage("GS - No existe configuracion del Usuario Base De Datos, BD_User. Contacte a su Administrador.", SAPbouiCOM.BoMessageTime.bmt_Medium, True)
+                Exit Function
+            End If
+
+
+            If _tipoManejo <> "A" Then
+
+
+            Else
+                BD_Pass = Functions.VariablesGlobales._vgPassBD
+            End If
+            'BD_Pass = ConsultaParametro("SAED", "PARAMETROS", "CONFIGURACION", "BD_Pass")
+
+            If BD_Pass = "" Then
+                rsboApp.SetStatusBarMessage("GS - No existe configuracion de la Clave del Usuario Base De Datos, BD_Pass. Contacte a su Administrador.", SAPbouiCOM.BoMessageTime.bmt_Medium, True)
+                Exit Function
+            End If
+
+            If rCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_HANADB Then
+
+                If (IntPtr.Size = 8) Then
+                    ConexionHana = String.Concat(ConexionHana, "Driver={HDBODBC};")
+                Else
+                    ConexionHana = String.Concat(ConexionHana, "Driver={HDBODBC32};")
+                End If
+                If _tipoManejo = "A" Then
+                    If Not String.IsNullOrEmpty(Functions.VariablesGlobales._vgServerNode) Then
+                        ConexionHana = String.Concat(ConexionHana, "ServerNode=", Functions.VariablesGlobales._vgServerNode & ";")
+                        ConexionHana = String.Concat(ConexionHana, "UID=", Functions.VariablesGlobales._vgUserBD, ";")
+                        ConexionHana = String.Concat(ConexionHana, "PWD=", Functions.VariablesGlobales._vgPassBD, ";")
+                    Else
+                        ConexionHana = String.Concat(ConexionHana, "ServerNode=", rCompany.Server & ";")
+                        ConexionHana = String.Concat(ConexionHana, "UID=", Functions.VariablesGlobales._vgUserBD, ";")
+                        ConexionHana = String.Concat(ConexionHana, "PWD=", Functions.VariablesGlobales._vgPassBD, ";")
+                    End If
+                Else
+
+                    ConexionHana = String.Concat(ConexionHana, "ServerNode=", _ServerNode & ";")
+                    ConexionHana = String.Concat(ConexionHana, "UID=", BD_User, ";")
+                    ConexionHana = String.Concat(ConexionHana, "PWD=", BD_Pass, ";")
+
+
+                End If
+
+
+                'pswBD_HANA
+
+                CONEXION = New Odbc.OdbcConnection(ConexionHana)
+
+                If CONEXION.State = ConnectionState.Closed Then
+                    CONEXION.Open()
+                End If
+                If CONEXION.State = ConnectionState.Open Then
+                    CONEXION.Close()
+                End If
+
+                Return True
+
+                'Else
+                '    'CONEXION = New Odbc.OdbcConnection("DRIVER={SQL Server Native Client 10.0}; Server= " & serv & "; Database=" & bd & "; Uid=" & userdb & "; Pwd=" & passdb)
+                '    CONEXION = New Odbc.OdbcConnection("DRIVER={" + _driversql + "}; Server= " & serv & "; Database=" & bd & "; Uid=" & userdb & "; Pwd=" & passdb)
+                '    'CONEXION = New Odbc.OdbcConnection(GetSqlConnectionBaseString())
+                '    If CONEXION.State = ConnectionState.Closed Then
+                '        CONEXION.Open()
+                '    End If
+                '    If CONEXION.State = ConnectionState.Open Then
+                '        CONEXION.Close()
+                '    End If
+
+                '    Return True
+
+            End If
+            Return False
+
+        Catch ex As Exception
+            Utilitario.Util_Log.Escribir_Log("ConexionHana: " + ConexionHana.ToString(), "ManejoDeDocumentos")
+            Utilitario.Util_Log.Escribir_Log("Conecta_HANA: " + ex.Message, "ManejoDeDocumentos")
+            Return False
+
+        End Try
+
+#Disable Warning BC42353 ' La función 'ConectaHANA' no devuelve un valor en todas las rutas de acceso de código. ¿Falta alguna instrucción 'Return'?
     End Function
 
     Public Function ValidarCamposNulos(dataset As DataSet, numTabla As String, ByRef _camponulo As String) As Boolean
