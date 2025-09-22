@@ -45,6 +45,8 @@ Public Class GuiaRemiManager
                 SP = DesencriptarQuery_.GetQueryConsulta(tipoDocumento.GuiaRemisionTraslado, DocEntry)
             ElseIf TipoGR = "TLE" Then
                 SP = DesencriptarQuery_.GetQueryConsulta(tipoDocumento.GuiaRemisionSolicitudTraslado, DocEntry)
+            ElseIf TipoGR = "SSGR" Then
+                SP = DesencriptarQuery_.GetQueryConsulta(tipoDocumento.GuiaRemisionDesatendida, DocEntry)
             End If
 
             Utilitario.Util_Log.Escribir_Log("Query Desencriptado " & SP.ToString(), "ManejoDeDocumentos")
@@ -252,6 +254,9 @@ Public Class GuiaRemiManager
                 Next
             End If
 
+            Return oGuiaRemision
+            Utilitario.Util_Log.Escribir_Log($"GUIA CONSULTADA - {TipoGR}", "ManejoDeDocumentos")
+
         Catch x As ArgumentException
             If _tipoManejo = "A" Then
                 rsboApp.SetStatusBarMessage("ArgumentException-Ocurrio un error al consultar datos de la Guia de Remisión en la Base, DocEntry :  " & DocEntry.ToString() & " Descr: " & x.Message().ToString(), SAPbouiCOM.BoMessageTime.bmt_Short, True)
@@ -265,9 +270,7 @@ Public Class GuiaRemiManager
                 rsboApp.SetStatusBarMessage("Ocurrio un error al consultar datos de la oGuiaRemision en la Base, DocEntry:  " & DocEntry.ToString() & "Descr: " & ex.Message().ToString(), SAPbouiCOM.BoMessageTime.bmt_Short, True)
             End If
             If _tipoManejo = "A" Then
-
                 oFuncionesAddon.GuardaLOG(TipoGR, DocEntry, "Error al Consultar Guia de Remisión con # DocEntry = " + DocEntry.ToString() + ", Descr: " + ex.Message().ToString(), Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
-
             End If
             Return Nothing
         End Try

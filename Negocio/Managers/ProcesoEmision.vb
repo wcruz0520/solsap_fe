@@ -134,6 +134,26 @@ Public Class ProcesoEmision
                     End If
                     RequestconsEst.claveAcceso = u_clave_acceso
                     objetoRespuesta = ApiRequestManager_.ConsultarDoc(RequestconsEst)
+                ElseIf (TipoDocumento = "GRE" Or TipoDocumento = "TRE" Or TipoDocumento = "TLE") Then
+                    Dim tabla_SAP As String = ""
+                    Select Case TipoDocumento
+                        Case "GRE"
+                            tabla_SAP = "ODLN"
+                        Case "TRE"
+                            tabla_SAP = "OWTR"
+                        Case "TLE"
+                            tabla_SAP = "OWTQ"
+                        Case "SSGR"
+                            tabla_SAP = "@SS_GRCAB"
+                    End Select
+
+                    oRs_.DoQuery($"SELECT ""U_CLAVE_ACCESO"" FROM ""{tabla_SAP}"" WHERE ""DocEntry"" = {DocEntry}")
+
+                    If Not oRs_.EoF Then
+                        u_clave_acceso = oRs_.Fields.Item("U_CLAVE_ACCESO").Value.ToString().Trim()
+                    End If
+                    RequestconsEst.claveAcceso = u_clave_acceso
+                    objetoRespuesta = ApiRequestManager_.ConsultarDoc(RequestconsEst)
 
                 End If
 
@@ -239,7 +259,7 @@ Public Class ProcesoEmision
                 ElseIf TipoDocumento = "LQE" Then
                     oObjeto = LiquidacionManager_.ConsultarLiquidacion(DocEntry, _Error)
                 ElseIf TipoDocumento = "SSGR" Then
-                    oObjeto = GuiasRemision_.ConsultarGuiaDeRemision(TipoDocumento, DocEntry)
+                    'oObjeto = GuiasRemision_.ConsultarGuiaDeRemision(TipoDocumento, DocEntry)
                 End If
 
                 If Not oObjeto Is Nothing Then
@@ -345,6 +365,8 @@ Public Class ProcesoEmision
                             Case "TLE"
                                 oTransferencia = rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oInventoryTransferRequest)
                                 oTransferencia.DocObjectCode = SAPbobsCOM.BoObjectTypes.oInventoryTransferRequest
+                            Case "SSGR"
+
                         End Select
 
                     End If
@@ -380,7 +402,7 @@ Public Class ProcesoEmision
                             _Observacion = FuncionesProcesoEmision_.recorreError_Solsap(CType(objetoRespuesta, Entidades.ResponseDocuments), DocEntry.ToString())
                         ElseIf (TipoDocumento = "REE" Or TipoDocumento = "REA" Or TipoDocumento = "RER") And (TipoWS = "NUBE_4_1" And Functions.VariablesGlobales._ActApiSS = "Y") Then
                             _Observacion = FuncionesProcesoEmision_.recorreError_Solsap(CType(objetoRespuesta, Entidades.ResponseDocuments), DocEntry.ToString())
-                        ElseIf (TipoDocumento = "GRE" Or TipoDocumento = "TRE" Or TipoDocumento = "TLE") Then
+                        ElseIf (TipoDocumento = "GRE" Or TipoDocumento = "TRE" Or TipoDocumento = "TLE" Or TipoDocumento = "SSGR") Then
                             _Observacion = FuncionesProcesoEmision_.recorreError_Solsap(CType(objetoRespuesta, Entidades.ResponseDocuments), DocEntry.ToString())
                         End If
 
