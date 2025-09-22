@@ -3705,6 +3705,8 @@ Public Class Estructura
             CreaUDOPagoMasivo()
             CreaUDOCashManagement()
 
+            oFuncionesB1.creaCampoMD("DSC1", "SS_IDBANCO", "(SS) Id Banco", SAPbobsCOM.BoFieldTypes.db_Alpha, SAPbobsCOM.BoFldSubTypes.st_None, 25, SAPbobsCOM.BoYesNoEnum.tNO)
+
         Catch ex As Exception
             rSboApp.StatusBar.SetText(NombreAddon + " - Error CreacionEstructuraCM " & ex.Message.ToString, SAPbouiCOM.BoMessageTime.bmt_Short, SAPbouiCOM.BoStatusBarMessageType.smt_Error)
         End Try

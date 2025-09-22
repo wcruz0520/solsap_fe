@@ -156,6 +156,10 @@ Public Class frmPagosMasivos
             '    ''Dim NomBanco = PruebaBanco.BankName
             'End If
 
+            Dim oGrid As SAPbouiCOM.Grid
+            oGrid = oForm.Items.Item("oGrid").Specific
+            oGrid.SelectionMode = SAPbouiCOM.BoMatrixSelect.ms_Single
+
             oForm.Mode = SAPbouiCOM.BoFormMode.fm_OK_MODE
 
             oForm.Visible = True
@@ -171,7 +175,7 @@ Public Class frmPagosMasivos
     Public Sub CargaFormularioPagosMasivosExistente(ByVal DocEntryUDO As Integer, ByVal NivelUsr As String, ByVal LineaPA As Integer)
         Dim xmlDoc As New Xml.XmlDocument
         Dim strPath As String
-        If RecorreFormulario(rsboApp, "frmPagosMasivos") Then Exit Sub
+        If RecorreFormulario(rsboApp, "frmPagosMasivos") Then rsboApp.Forms.Item("frmPagosMasivos").Close()
 
         strPath = System.Windows.Forms.Application.StartupPath & "\frmPagosMasivos.srf"
         xmlDoc.Load(strPath)
@@ -778,14 +782,26 @@ Public Class frmPagosMasivos
             CtaBcoPropio.Browser.Recordset = oRecordSet
             CtaBcoPropio.Browser.MoveFirst()
             ValoresValidos = cbxCuenta.ValidValues
-
+            Dim idBanco As String = ""
             If CtaBcoPropio.Browser.RecordCount >= 1 Then
                 Do While Not CtaBcoPropio.Browser.EoF
                     If cbxCuenta.Value = "" Then
-                        ValoresValidos.Add(CtaBcoPropio.GLAccount, CtaBcoPropio.BankCode & ":" & CtaBcoPropio.AccountName)
+                        'ValoresValidos.Add(CtaBcoPropio.GLAccount, CtaBcoPropio.BankCode & ":" & CtaBcoPropio.AccountName)
+                        idBanco = CtaBcoPropio.UserFields.Fields.Item("U_SS_IDBANCO").Value.ToString()
+                        If String.IsNullOrEmpty(idBanco) Then
+                            rsboApp.MessageBox("LLenar ID Banco en tabla de Cuentas de banco propio", 1, "OK")
+                            Exit Sub
+                        End If
+                        ValoresValidos.Add(CtaBcoPropio.GLAccount, idBanco & ":" & CtaBcoPropio.AccountName)
                         CtaBcoPropio.Browser.MoveNext()
                     Else
-                        If cbxCuenta.Value <> CtaBcoPropio.GLAccount Then ValoresValidos.Add(CtaBcoPropio.GLAccount, CtaBcoPropio.BankCode & ":" & CtaBcoPropio.AccountName)
+                        'If cbxCuenta.Value <> CtaBcoPropio.GLAccount Then ValoresValidos.Add(CtaBcoPropio.GLAccount, CtaBcoPropio.BankCode & ":" & CtaBcoPropio.AccountName)
+                        idBanco = CtaBcoPropio.UserFields.Fields.Item("U_SS_IDBANCO").Value.ToString()
+                        If String.IsNullOrEmpty(idBanco) Then
+                            rsboApp.MessageBox("LLenar ID Banco en tabla de Cuentas de banco propio", "OK")
+                            Exit Sub
+                        End If
+                        If cbxCuenta.Value <> CtaBcoPropio.GLAccount Then ValoresValidos.Add(CtaBcoPropio.GLAccount, idBanco & ":" & CtaBcoPropio.AccountName)
                         CtaBcoPropio.Browser.MoveNext()
                     End If
                 Loop
@@ -909,6 +925,7 @@ Public Class frmPagosMasivos
                                                 Dim oGrid As SAPbouiCOM.Grid = oForm.Items.Item("oGrid").Specific
                                                 Dim IdRowDataTable As Integer = oGrid.GetDataTableRowIndex(pVal.Row)
                                                 Dim isChecked As String = oGrid.DataTable.GetValue("Chek", IdRowDataTable)
+                                                oGrid.Rows.SelectedRows.Add(pVal.Row)
                                                 If isChecked = "Y" Then
                                                     If Not ListadeLineas.Contains(IdRowDataTable) Then ListadeLineas.Add(IdRowDataTable)
                                                 Else
@@ -1081,43 +1098,48 @@ Public Class frmPagosMasivos
                             Select Case pVal.ItemUID
                                 Case "btnSolPag"
 
+                                    Dim cbxfpago As SAPbouiCOM.ComboBox = oForm.Items.Item("cbxfpago").Specific
                                     Dim cbxCuenta As SAPbouiCOM.ComboBox = oForm.Items.Item("cbxCuenta").Specific
 
                                     If cbxCuenta.Value <> "" Then
                                         Dim DocEntryFacturaRecibida_UDO As String = ""
+                                        Dim e As Integer = 0
 
-                                        If DocEntry <> "" Then
-                                            If EdicionSolicitudPago(DocEntry) Then
-                                                oForm.Mode = SAPbouiCOM.BoFormMode.fm_OK_MODE
-                                                oForm.Close()
+                                        e = rsboApp.MessageBox("Desea realizar la solicitud para aprobacion de pagos tipo: " + cbxfpago.Value.ToUpper, 2, "SI", "Cancelar")
+                                        If e = 1 Then
+                                            If DocEntry <> "" Then
+                                                If EdicionSolicitudPago(DocEntry) Then
+                                                    oForm.Mode = SAPbouiCOM.BoFormMode.fm_OK_MODE
+                                                    oForm.Close()
 
-                                                rsboApp.Forms.Item("frmPagosAprobacion").Freeze(True)
-                                                Dim odt As SAPbouiCOM.DataTable = rsboApp.Forms.Item("frmPagosAprobacion").DataSources.DataTables.Item("dtDocs")
-                                                odt.Rows.Remove(Linea)
-                                                rsboApp.Forms.Item("frmPagosAprobacion").Freeze(False)
-                                            End If
-                                        Else
-                                            If CrearSolicitudPago(DocEntryFacturaRecibida_UDO) Then
-                                                oForm.Freeze(True)
-                                                CargarDatos()
+                                                    rsboApp.Forms.Item("frmPagosAprobacion").Freeze(True)
+                                                    Dim odt As SAPbouiCOM.DataTable = rsboApp.Forms.Item("frmPagosAprobacion").DataSources.DataTables.Item("dtDocs")
+                                                    odt.Rows.Remove(Linea)
+                                                    rsboApp.Forms.Item("frmPagosAprobacion").Freeze(False)
+                                                End If
+                                            Else
+                                                If CrearSolicitudPago(DocEntryFacturaRecibida_UDO) Then
+                                                    oForm.Freeze(True)
+                                                    CargarDatos()
 
-                                                Dim mMatrix As SAPbouiCOM.Matrix = rsboApp.Forms.Item(rsboApp.Forms.ActiveForm.UniqueID).Items.Item("MTX_SER").Specific
-                                                mMatrix.Clear()
+                                                    Dim mMatrix As SAPbouiCOM.Matrix = rsboApp.Forms.Item(rsboApp.Forms.ActiveForm.UniqueID).Items.Item("MTX_SER").Specific
+                                                    mMatrix.Clear()
 
-                                                Dim lblFac As SAPbouiCOM.StaticText = oForm.Items.Item("lblFac").Specific
-                                                lblFac.Caption = ""
+                                                    Dim lblFac As SAPbouiCOM.StaticText = oForm.Items.Item("lblFac").Specific
+                                                    lblFac.Caption = ""
 
-                                                Dim lblSMon As SAPbouiCOM.StaticText = oForm.Items.Item("lblSMon").Specific
-                                                lblSMon.Caption = ""
-                                                Dim lblSSal As SAPbouiCOM.StaticText = oForm.Items.Item("lblSSal").Specific
-                                                lblSSal.Caption = ""
+                                                    Dim lblSMon As SAPbouiCOM.StaticText = oForm.Items.Item("lblSMon").Specific
+                                                    lblSMon.Caption = ""
+                                                    Dim lblSSal As SAPbouiCOM.StaticText = oForm.Items.Item("lblSSal").Specific
+                                                    lblSSal.Caption = ""
 
-                                                Dim txtMP As SAPbouiCOM.EditText = oForm.Items.Item("txtMP").Specific
-                                                txtMP.Value = ""
+                                                    Dim txtMP As SAPbouiCOM.EditText = oForm.Items.Item("txtMP").Specific
+                                                    txtMP.Value = ""
 
-                                                oForm.Mode = SAPbouiCOM.BoFormMode.fm_OK_MODE
+                                                    oForm.Mode = SAPbouiCOM.BoFormMode.fm_OK_MODE
 
-                                                oForm.Freeze(False)
+                                                    oForm.Freeze(False)
+                                                End If
                                             End If
                                         End If
                                     Else

@@ -190,6 +190,7 @@ Public Class FuncionesProcesoEmision
             ElseIf TipoDocumento = "NDE" Then 'NOTA DE DEBITO DE CLIENTES
                 oDocumento = rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oInvoices)
                 oDocumento.DocObjectCode = SAPbobsCOM.BoObjectTypes.oInvoices
+                oDocumento.DocumentSubType = SAPbobsCOM.BoDocumentSubType.bod_DebitMemo
                 'objectType = oDocumento.DocObjectCode
                 'CodDoc = "04"
             ElseIf TipoDocumento = "REE" Or TipoDocumento = "REA" Or TipoDocumento = "RER" Then
@@ -212,6 +213,8 @@ Public Class FuncionesProcesoEmision
                         Else
                             If _Nombre_Proveedor_SAP_BO = Functions.FuncionesAddon.PROVEEDOR_DE_SAPBO.SOLSAP Then
                                 oDocumento.UserFields.Fields.Item("U_SS_NumAut").Value = _NumAutorizacion.ToString()
+                            ElseIf _Nombre_Proveedor_SAP_BO = Functions.FuncionesAddon.PROVEEDOR_DE_SAPBO.EXXIS Then
+                                oDocumento.UserFields.Fields.Item("U_NUM_AUTOR").Value = _NumAutorizacion.ToString()
                             End If
 
                             Try 'SI PARAMETRO ESTA ACTIVO, GUARDA EL NUMERO DE DOCUMENTO QUE SE ENVIÓ AL SRI EN EL CAMPO NUMATCARD

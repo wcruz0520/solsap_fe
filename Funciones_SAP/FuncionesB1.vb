@@ -2947,6 +2947,13 @@ Optional ByVal objectType As SAPbobsCOM.BoUDOObjType = SAPbobsCOM.BoUDOObjType.b
                 Dim yyyy = textoFecha.Substring(4, 4)
                 Return New Date(CInt(yyyy), CInt(mm), CInt(dd))
             End If
+        ElseIf banco.ToUpperInvariant().Contains("GUAYAQUIL") Then
+            If textoFecha.Length >= 8 Then
+                Dim dd = textoFecha.Substring(8, 2)
+                Dim mm = textoFecha.Substring(5, 2)
+                Dim yyyy = textoFecha.Substring(0, 4)
+                Return New Date(CInt(yyyy), CInt(mm), CInt(dd))
+            End If
         End If
 
         ' Último intento genérico

@@ -1140,7 +1140,8 @@ Public Class frmDocumentosRecibidos
                 oDataTable.Rows.Clear()
 
                 'SE QUITA PORQUE EN HANA SE QUEDA COLGADO
-                'MarcarVistosDocumentosPendientes()
+                'DESCOMENTADA 16/09/2025 - Seactualizó la función
+                MarcarVistosDocumentosPendientes()
 
                 If CargarDocumento() Then
                     rsboApp.StatusBar.SetText(NombreAddon + " - Cargando Documentos Recibidos, Listo..!", SAPbouiCOM.BoMessageTime.bmt_Medium, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
@@ -1164,7 +1165,78 @@ Public Class frmDocumentosRecibidos
         End Try
 
     End Sub
+
     Private Sub MarcarVistosDocumentosPendientes()
+        Dim oRS As SAPbobsCOM.Recordset = rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset)
+        Try
+
+            Dim udo As String = ""
+            Dim QueryV As String = ""
+            Dim codDoc As Integer = 0
+
+            Dim cbxTipo As SAPbouiCOM.ComboBox = oForm.Items.Item("cbxTipo").Specific
+            Select Case cbxTipo.Value
+                Case "01"
+                    udo = "@GS_FVR"
+                    codDoc = 1
+                Case "04"
+                    udo = "@GS_NCR"
+                    codDoc = 3
+                Case "07"
+                    udo = "@GS_RER"
+                    codDoc = 2
+            End Select
+
+            If rCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_HANADB Then
+                QueryV = " SELECT top 20 ""U_IdGS"", ""DocEntry"" As IdDocumentoRecibido, 1 AS TipoDoc, ""U_ClaAcc"" As ClaveAcceso "
+                QueryV += " FROM """ + udo + """ where ""U_Estado"" = 'docFinal' and ""U_Sincro"" = 1 AND IFNULL(""U_SincroE"",0) = 0 "
+            Else
+                QueryV = " SELECT top 20 U_IdGS, DocEntry As IdDocumentoRecibido, 1 AS TipoDoc, U_ClaAcc As ClaveAcceso "
+                QueryV += " FROM """ + udo + """ where U_Estado = 'docFinal' and U_Sincro = 1 AND ISNULL(U_SincroE,0) = 0 "
+            End If
+
+            Utilitario.Util_Log.Escribir_Log("Query MarcarVistosDocumentosPendientes: " + QueryV.ToString(), "frmDocumentosRecibidos")
+
+            oRS.DoQuery(QueryV)
+
+            Do While Not oRS.EoF
+
+                Dim U_IdGS As Integer = oRS.Fields.Item("U_IdGS").Value
+                Dim IdDocumentoRecibido As String = oRS.Fields.Item("IdDocumentoRecibido").Value.ToString.Trim
+                Dim TipoDoc As Integer = oRS.Fields.Item("TipoDoc").Value
+                Dim ClaveAcceso As String = oRS.Fields.Item("ClaveAcceso").Value.ToString.Trim
+
+                If codDoc = 1 Then
+                    Try
+                        ofrmDocumento.MarcarVisto(U_IdGS, codDoc, mensaje, IdDocumentoRecibido)
+                        Utilitario.Util_Log.Escribir_Log("ReProceso Visto(Integrado FC) en EDOC: " + ClaveAcceso + mensaje.ToString(), "frmDocumentosRecibidos")
+                    Catch ex As Exception
+                        Utilitario.Util_Log.Escribir_Log("Error ofrmDocumento.MarcarVisto : " + ex.Message.ToString(), "frmDocumentosRecibidos")
+                    End Try
+
+                ElseIf codDoc = 3 Then
+                    ofrmDocumentoNC.MarcarVisto(U_IdGS, codDoc, mensaje, IdDocumentoRecibido)
+                    Utilitario.Util_Log.Escribir_Log("ReProceso Visto(Integrado NC) en EDOC: " + ClaveAcceso + mensaje.ToString(), "frmDocumentosRecibidos")
+                ElseIf codDoc = 2 Then
+                    ofrmDocumentoRE.MarcarVisto(U_IdGS, codDoc, mensaje, IdDocumentoRecibido)
+                    Utilitario.Util_Log.Escribir_Log("ReProceso Visto(Integrado RT) en EDOC: " + ClaveAcceso + mensaje.ToString(), "frmDocumentosRecibidos")
+                End If
+
+                rsboApp.StatusBar.SetText(NombreAddon + " - Documento  " + ClaveAcceso + " Actualizado", SAPbouiCOM.BoMessageTime.bmt_Medium, SAPbouiCOM.BoStatusBarMessageType.smt_Success)
+
+                oRS.MoveNext()
+
+            Loop
+
+        Catch ex As Exception
+            Utilitario.Util_Log.Escribir_Log("Erro en MarcarVistosDocumentosPendientes: " + ex.Message.ToString(), "frmDocumentosRecibidos")
+        Finally
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(oRS)
+            oRS = Nothing
+        End Try
+    End Sub
+
+    Private Sub MarcarVistosDocumentosPendientes_bck()
 
         Try
             oForm = rsboApp.Forms.Item("frmDocumentosRecibidos")

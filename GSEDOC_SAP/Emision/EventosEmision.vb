@@ -2446,7 +2446,7 @@ Public Class EventosEmision
 
             Dim ctaContable As String = CType(mForm.Items.Item("17").Specific, SAPbouiCOM.EditText).Value
 
-            If ctaContable = "" Then
+            If String.IsNullOrEmpty(ctaContable) Then
                 Throw New Exception("Debe primero seleccionar una cuenta de mayor.")
 
             End If
@@ -2464,14 +2464,6 @@ Public Class EventosEmision
             End If
 
             Dim oMatrix As SAPbouiCOM.Matrix = CType(mForm.Items.Item("5").Specific, SAPbouiCOM.Matrix)
-
-
-
-
-
-
-
-
 
             rSboApp.SetStatusBarMessage("Archivo seleccionado: " & selectedFile, SAPbouiCOM.BoMessageTime.bmt_Short, False)
 
@@ -2525,6 +2517,18 @@ Public Class EventosEmision
                 columnasMapeo.Add("Oficina", "Lugar")
                 columnasMapeo.Add("Monto", "Valor")
                 'columnasMapeo.Add("Saldo", "SALDO DISPONIBLE")
+            ElseIf nombreBanco.ToUpperInvariant().Contains("GUAYAQUIL") Then
+                tipoBanco = "GUAYAQUIL"
+                columnasEsperadas = {"#", "Fecha de transacción", "Fecha contable", "Tipo de movimiento", "Documento", "Concepto", "Agencia", "Monto", "Saldo efectivo", "Saldo total", "Referencia", "Referencia 2", "Referencia 3", "Signo"}
+                filaInicio = 11
+                columnasMapeo.Add("Fecha", "Fecha de transacción")
+                columnasMapeo.Add("Codigo", "Documento")
+                columnasMapeo.Add("Concepto", "Concepto")
+                columnasMapeo.Add("Tipo", "Signo")
+                columnasMapeo.Add("Documento", "Referencia 3")
+                columnasMapeo.Add("Oficina", "Agencia")
+                columnasMapeo.Add("Monto", "Monto")
+
             Else
                 Throw New Exception("El nombre del banco no coincide con Pichincha o Produbanco.")
             End If
@@ -2566,9 +2570,9 @@ Public Class EventosEmision
                 Dim codigo = Convert.ToString(range.Cells(i, headers(columnasMapeo("Codigo").ToUpperInvariant())).Value)
                 Dim concepto = Convert.ToString(range.Cells(i, headers(columnasMapeo("Concepto").ToUpperInvariant())).Value)
                 Dim tipo = Convert.ToString(range.Cells(i, headers(columnasMapeo("Tipo").ToUpperInvariant())).Value)
-                Dim documento = Convert.ToString(range.Cells(i, headers(columnasMapeo("Documento").ToUpperInvariant())).Value)
+                Dim documento = Left(Convert.ToString(range.Cells(i, headers(columnasMapeo("Documento").ToUpperInvariant())).Value), 27)
                 Dim oficina = Convert.ToString(range.Cells(i, headers(columnasMapeo("Oficina").ToUpperInvariant())).Value)
-                Dim monto = Convert.ToString(range.Cells(i, headers(columnasMapeo("Monto").ToUpperInvariant())).Value)
+                Dim monto = Convert.ToString(range.Cells(i, headers(columnasMapeo("Monto").ToUpperInvariant())).Value).Replace("$", "")
                 'Dim saldo = Convert.ToString(range.Cells(i, headers(columnasMapeo("Saldo").ToUpperInvariant())).Value)
 
                 ' Mostrar mensaje de avance
@@ -2585,7 +2589,7 @@ Public Class EventosEmision
                     ElseIf tipo = "D" AndAlso oMatrix.Columns.Item("5").Editable Then
                         oMatrix.Columns.Item("5").Cells.Item(rowIndex).Specific.Value = monto
                     End If
-                ElseIf tipoBanco = "PRODUBANCO" Then
+                ElseIf tipoBanco = "PRODUBANCO" Or tipoBanco = "GUAYAQUIL" Then
                     If tipo = "+" AndAlso oMatrix.Columns.Item("6").Editable Then
                         oMatrix.Columns.Item("6").Cells.Item(rowIndex).Specific.Value = monto
                     ElseIf tipo = "-" AndAlso oMatrix.Columns.Item("5").Editable Then
@@ -4700,6 +4704,8 @@ Public Class EventosEmision
                                             If Not EnviaDocumentosEnBackGround = "Y" Then
                                                 If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                     oManejoDocumentosEcua.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
+                                                ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                    oManejoDocumentosSolsap.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
                                                 Else
                                                     oManejoDocumentos.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
                                                 End If
@@ -4785,6 +4791,8 @@ Public Class EventosEmision
                                             If Not EnviaDocumentosEnBackGround = "Y" Then
                                                 If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                     oManejoDocumentosEcua.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
+                                                ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                    oManejoDocumentosSolsap.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
                                                 Else
                                                     oManejoDocumentos.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
                                                 End If
@@ -4806,6 +4814,9 @@ Public Class EventosEmision
                                         If Not EnviaDocumentosEnBackGround = "Y" Then
                                             If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                 oManejoDocumentosEcua.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
+
+                                            ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                oManejoDocumentosSolsap.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
                                             Else
                                                 oManejoDocumentos.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
                                             End If
@@ -4825,6 +4836,9 @@ Public Class EventosEmision
                                             If Not EnviaDocumentosEnBackGround = "Y" Then
                                                 If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                     oManejoDocumentosEcua.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
+
+                                                ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                    oManejoDocumentosSolsap.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
                                                 Else
                                                     oManejoDocumentos.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
                                                 End If
@@ -4842,6 +4856,10 @@ Public Class EventosEmision
                                         If Not EnviaDocumentosEnBackGround = "Y" Then
                                             If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                 oManejoDocumentosEcua.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
+
+                                            ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                oManejoDocumentosSolsap.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
+
                                             Else
                                                 oManejoDocumentos.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
                                             End If
@@ -4860,6 +4878,10 @@ Public Class EventosEmision
                                             If Not EnviaDocumentosEnBackGround = "Y" Then
                                                 If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                     oManejoDocumentosEcua.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
+
+                                                ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                    oManejoDocumentosSolsap.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
+
                                                 Else
                                                     oManejoDocumentos.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
                                                 End If
@@ -4877,6 +4899,10 @@ Public Class EventosEmision
                                         If Not EnviaDocumentosEnBackGround = "Y" Then
                                             If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                 oManejoDocumentosEcua.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
+
+                                            ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                oManejoDocumentosSolsap.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
+
                                             Else
                                                 oManejoDocumentos.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
                                             End If
@@ -4896,6 +4922,10 @@ Public Class EventosEmision
                                     If Not EnviaDocumentosEnBackGround = "Y" Then
                                         If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                             oManejoDocumentosEcua.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
+
+                                        ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                            oManejoDocumentosSolsap.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
+
                                         Else
                                             oManejoDocumentos.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
                                         End If
@@ -4915,6 +4945,10 @@ Public Class EventosEmision
                             If Not EnviaDocumentosEnBackGround = "Y" Then
                                 If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                     oManejoDocumentosEcua.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
+
+                                ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                    oManejoDocumentosSolsap.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
+
                                 Else
                                     oManejoDocumentos.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
                                 End If
@@ -4939,6 +4973,10 @@ Public Class EventosEmision
                                 If Not EnviaDocumentosEnBackGround = "Y" Then
                                     If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                         oManejoDocumentosEcua.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
+
+                                    ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                        oManejoDocumentosSolsap.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
+
                                     Else
                                         oManejoDocumentos.ProcesaEnvioDocumento(oTransferencia.DocEntry, oTipoTabla)
                                     End If
@@ -5261,6 +5299,10 @@ Public Class EventosEmision
                                                         If Not EnviaDocumentosEnBackGround = "Y" Then
                                                             If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                                 oManejoDocumentosEcua.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+
+                                                            ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                                oManejoDocumentosSolsap.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+
                                                             Else
                                                                 oManejoDocumentos.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                             End If
@@ -5293,6 +5335,10 @@ Public Class EventosEmision
                                                     If Not EnviaDocumentosEnBackGround = "Y" Then
                                                         If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                             oManejoDocumentosEcua.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+
+                                                        ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                            oManejoDocumentosSolsap.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+
                                                         Else
                                                             oManejoDocumentos.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                         End If
@@ -5314,6 +5360,9 @@ Public Class EventosEmision
                                                         If Not EnviaDocumentosEnBackGround = "Y" Then
                                                             If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                                 oManejoDocumentosEcua.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+
+                                                            ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                                oManejoDocumentosSolsap.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                             Else
                                                                 oManejoDocumentos.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                             End If
@@ -5333,6 +5382,10 @@ Public Class EventosEmision
                                                     If Not EnviaDocumentosEnBackGround = "Y" Then
                                                         If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                             oManejoDocumentosEcua.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+
+                                                        ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                            oManejoDocumentosSolsap.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+
                                                         Else
                                                             oManejoDocumentos.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                         End If
@@ -5353,6 +5406,10 @@ Public Class EventosEmision
                                                         If Not EnviaDocumentosEnBackGround = "Y" Then
                                                             If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                                 oManejoDocumentosEcua.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+
+                                                            ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                                oManejoDocumentosSolsap.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+
                                                             Else
                                                                 oManejoDocumentos.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                             End If
@@ -5372,6 +5429,10 @@ Public Class EventosEmision
                                                     If Not EnviaDocumentosEnBackGround = "Y" Then
                                                         If Functions.VariablesGlobales._IntegracionEcuanexus = "Y" Then
                                                             oManejoDocumentosEcua.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+
+                                                        ElseIf Functions.VariablesGlobales._ActApiSS = "Y" Then
+                                                            oManejoDocumentosSolsap.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
+
                                                         Else
                                                             oManejoDocumentos.ProcesaEnvioDocumento(oDocumento.DocEntry, oTipoTabla)
                                                         End If
@@ -9074,12 +9135,9 @@ Public Class EventosEmision
 
     Private Function GenerarEnlaceQR(clave As String, Optional tipoDoc As String = Nothing, Optional id_SN As String = Nothing) As String
 
-
-
         If Functions.VariablesGlobales._wsConsultaEmision <> "" And clave <> "" Then
 
             Dim x() = Functions.VariablesGlobales._wsConsultaEmision.Split("/")
-
 
             If Functions.VariablesGlobales._wsConsultaEmision.ToLower.Contains("edocnube.com") And Functions.VariablesGlobales._ActApiSS <> "Y" Then
                 Return $"{x(0)}//{x(2)}/WSEDOC_FILES/files/{clave}.pdf"
@@ -9090,12 +9148,11 @@ Public Class EventosEmision
                     Return $"{Functions.VariablesGlobales._ApiPDFSS}/{tipoDoc}/{id_SN}/{clave}"
                 End If
             End If
+        ElseIf Functions.VariablesGlobales._ActApiSS = "Y" And clave <> "" And Functions.VariablesGlobales._ApiPDFSS <> "" Then
+            Return $"{Functions.VariablesGlobales._ApiPDFSS}/{tipoDoc}/{id_SN}/{clave}"
         End If
 
-
-
         Return String.Empty
-
 
     End Function
 
@@ -10549,6 +10606,14 @@ Public Class EventosEmision
 
         End Select
 
+        Utilitario.Util_Log.Escribir_Log($"*********SECCION QR - ENLACE*********", "ManejoDeDocumentos")
+        Utilitario.Util_Log.Escribir_Log($"Documento: {oTabla}", "ManejoDeDocumentos")
+        Utilitario.Util_Log.Escribir_Log($"SubDocumento: {docsubtype}", "ManejoDeDocumentos")
+        Utilitario.Util_Log.Escribir_Log($"Clasificacion: {oTipoTabla}", "ManejoDeDocumentos")
+        Utilitario.Util_Log.Escribir_Log($"Directorio: {carpeta}", "ManejoDeDocumentos")
+        Utilitario.Util_Log.Escribir_Log($"RUC: {taxIdNum}", "ManejoDeDocumentos")
+        Utilitario.Util_Log.Escribir_Log($"ClaveAcceso: {mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_CLAVE_ACCESO", 0).Trim}", "ManejoDeDocumentos")
+
         Dim EnlaceQR = GenerarEnlaceQR(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_CLAVE_ACCESO", 0).Trim, carpeta, taxIdNum)
 
         Dim EnlaceQRLIQ = GenerarEnlaceQR(mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_LQ_CLAVE", 0).Trim, "liquidacioncompra", taxIdNum)
@@ -10560,8 +10625,9 @@ Public Class EventosEmision
         Try
             'item creado para guardar la URL del pdf de documentos
             mForm.Items.Item("etssut6").Specific.string = EnlaceQR
+            Utilitario.Util_Log.Escribir_Log($"Enlace: {EnlaceQR}", "ManejoDeDocumentos")
         Catch ex As Exception
-
+            Utilitario.Util_Log.Escribir_Log($"Error al cargar enlace en eampo de documento. Enlace: {EnlaceQR}" & ex.Message, "ManejoDeDocumentos")
         End Try
 
         Try
@@ -10573,7 +10639,7 @@ Public Class EventosEmision
 
         CargarQRenPantalla(mForm, EnlaceQR, NombreImagen)
         CargarQRenPantalla(mForm, EnlaceQRLIQ, NombreImagenLIQ, True)
-
+        Utilitario.Util_Log.Escribir_Log($"*********FIN SECCION QR - ENLACE*********", "ManejoDeDocumentos")
     End Sub
 
     Private Sub AddChooseFromList(ByRef oForm As SAPbouiCOM.Form)

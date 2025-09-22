@@ -142,7 +142,7 @@ Public Class ProcesoEmision
                     _ClaveAcceso = objetoRespuesta.claveAcceso
 
                     If _tipoManejo = "A" Then
-                        oFuncionesAddon.GuardaLOG(TipoDocumento, DocEntry, "GS_SINCRO_Respuesta del SRI: " + _EstadoAutorizacion.ToString(), Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
+                        oFuncionesAddon.GuardaLOG(TipoDocumento, DocEntry, "SS - Sincronización Respuesta del SRI: " + _EstadoAutorizacion.ToString(), Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
                     End If
 
                     Dim mensajeError As String = ""
@@ -158,13 +158,13 @@ Public Class ProcesoEmision
                         End Try
                     Else
                         _NumAutorizacion = "0000000000"
-                        _Observacion = "GS_SINCRO: " & objetoRespuesta.ErrorEDOC
+                        _Observacion = "SS_SINCRO: " & objetoRespuesta.mensaje
                         mensajeError = _Observacion.ToString
                     End If
 
                     If _tipoManejo = "A" Then
-                        rsboApp.SetStatusBarMessage("GS_SINCRO_Grabando respuesta de SRI..!!", SAPbouiCOM.BoMessageTime.bmt_Short, False)
-                        oFuncionesAddon.GuardaLOG(TipoDocumento, DocEntry, "GS_SINCRO_Grabando Respuesta del SRI en Documento - " + TipoDocumento + " - " + DocEntry.ToString(), Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
+                        rsboApp.SetStatusBarMessage("SS_SINCRO_Grabando respuesta de SRI..!!", SAPbouiCOM.BoMessageTime.bmt_Short, False)
+                        oFuncionesAddon.GuardaLOG(TipoDocumento, DocEntry, "SS_SINCRO_Grabando Respuesta del SRI en Documento - " + TipoDocumento + " - " + DocEntry.ToString(), Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
                     End If
 
                     _Observacion = String.Format("SINCRO Estado:{0} - # AUTORIZACION {1} - Mensaje - {2}", _EstadoAutorizacion.ToString, _NumAutorizacion.ToString, mensajeError)
