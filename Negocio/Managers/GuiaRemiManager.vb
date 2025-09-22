@@ -22,7 +22,7 @@ Public Class GuiaRemiManager
         DesencriptarQuery_ = dsQm
     End Sub
 
-    Public Function ConsultarGuiaDeRemision(TipoGR As String, DocEntry As Integer, oGuia As Entidades.RequestGuiaRemision) As Object
+    Public Function ConsultarGuiaDeRemision(TipoGR As String, DocEntry As Integer) As Object
 
         Dim oGuiaRemision As Entidades.RequestGuiaRemision = Nothing
         Dim oDestinatario As Entidades.destinatarioGR
@@ -169,24 +169,24 @@ Public Class GuiaRemiManager
                         For Each r As DataRow In ds.Tables(1).Rows
                             oDestinatario = New Entidades.destinatarioGR
 
-                            oDestinatario.IdentificacionDestinatario = r("IdentificacionDestinatario")
-                            oDestinatario.RazonSocialDestinatario = r("RazonSocialDestinatario")
-                            oDestinatario.DirDestinatario = r("DirDestinatario")
+                            oDestinatario.identificacionDestinatario = r("IdentificacionDestinatario")
+                            oDestinatario.razonSocialDestinatario = r("RazonSocialDestinatario")
+                            oDestinatario.dirDestinatario = r("DirDestinatario")
 
-                            oDestinatario.MotivoTraslado = r("MotivoTraslado")
-                            oDestinatario.CodEstabDestino = r("CodEstabDestino")
+                            oDestinatario.motivoTraslado = r("MotivoTraslado")
+                            oDestinatario.codEstabDestino = r("CodEstabDestino")
 
                             If Not r("Ruta").ToString() = "" Then
-                                oDestinatario.Ruta = r("Ruta")
+                                oDestinatario.ruta = r("Ruta")
                             End If
 
                             ' If oDestinatario.MotivoTraslado = "VENTA" Then
-                            oDestinatario.CodDocSustento = r("CodDocSustento")
-                            oDestinatario.NumDocSustento = r("NumDocSustento")
-                            oDestinatario.NumAutDocSustento = r("NumAutDocSustento")
+                            oDestinatario.codDocSustento = r("CodDocSustento")
+                            oDestinatario.numDocSustento = r("NumDocSustento")
+                            oDestinatario.numAutDocSustento = r("NumAutDocSustento")
                             '  oDestinatario.FechaEmisionDocSustentoSpecified = True
                             If Not r("FechaEmisionDocSustento").ToString() = "" Then
-                                oDestinatario.FechaEmisionDocSustento = r("FechaEmisionDocSustento")
+                                oDestinatario.fechaEmisionDocSustento = r("FechaEmisionDocSustento")
                             End If
 
                             listaDestinatarios.Add(oDestinatario)
@@ -198,10 +198,10 @@ Public Class GuiaRemiManager
                             Dim itemDetalle As New Entidades.detalleGR
                             'itemDetalle.CantidadSpecified = True
 
-                            itemDetalle.CodigoInterno = r("CodigoPrincipal")
-                            itemDetalle.CodigoAdicional = r("CodigoAuxiliar")
-                            itemDetalle.Descripcion = r("Descripcion")
-                            itemDetalle.Cantidad = r("Cantidad")
+                            itemDetalle.codigoInterno = r("CodigoPrincipal")
+                            itemDetalle.codigoAdicional = r("CodigoAuxiliar")
+                            itemDetalle.descripcion = r("Descripcion")
+                            itemDetalle.cantidad = r("Cantidad")
 
                             Dim listaDetalleDatoAdicional As Object
                             listaDetalleDatoAdicional = New List(Of Entidades.detalleAdicionalGR)
@@ -243,7 +243,7 @@ Public Class GuiaRemiManager
                     ElseIf i = 3 Then
                         For Each r As DataRow In ds.Tables(3).Rows
                             Dim itemDatoAdicionalFac As New Entidades.infoAdicionalGR
-                            itemDatoAdicionalFac.Nombre = r("Concepto")
+                            itemDatoAdicionalFac.nombre = r("Concepto")
                             itemDatoAdicionalFac.valor = r("Descripcion")
                             listaDatosAdicional.Add(itemDatoAdicionalFac)
                         Next

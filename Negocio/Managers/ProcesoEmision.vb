@@ -13,6 +13,7 @@ Public Class ProcesoEmision
     Dim NotaDebitoManager_ As NotaDebitoManager
     Dim LiquidacionManager_ As LiquidacionManager
     Dim RetencionManager_ As RetencionManager
+    Dim GuiasRemision_ As GuiaRemiManager
     Dim DesencriptarQuery_ As DesencriptarQuery
     Dim FuncionesProcesoEmision_ As FuncionesProcesoEmision
 
@@ -32,6 +33,7 @@ Public Class ProcesoEmision
         NotaDebitoManager_ = New Negocio.NotaDebitoManager(rCompany, rsboApp, _tipoManejo, oFuncionesAddon, DatabaseQueryManager_, DesencriptarQuery_)
         LiquidacionManager_ = New Negocio.LiquidacionManager(rCompany, rsboApp, _tipoManejo, oFuncionesAddon, DatabaseQueryManager_, DesencriptarQuery_)
         RetencionManager_ = New Negocio.RetencionManager(rCompany, rsboApp, _tipoManejo, oFuncionesAddon, DatabaseQueryManager_, DesencriptarQuery_)
+        GuiasRemision_ = New Negocio.GuiaRemiManager(rCompany, rsboApp, _tipoManejo, oFuncionesAddon, DatabaseQueryManager_, DesencriptarQuery_)
         FuncionesProcesoEmision_ = New Negocio.FuncionesProcesoEmision(rCompany, rsboApp, _tipoManejo, oFuncionesAddon)
     End Sub
     Public Function ProcesaEnvioDocumento(DocEntry As Integer,
@@ -175,7 +177,7 @@ Public Class ProcesoEmision
                     ElseIf Functions.VariablesGlobales._FacturaGuiaRemision = "SI" Then
 
                     ElseIf TipoDocumento = "SSGR" Then
-
+                        FuncionesProcesoEmision_.GrabaDatosAutGuiasDesatendidas(DocEntry, TipoDocumento, _Nombre_Proveedor_SAP_BO, _NumAutorizacion, _FechaAutorizacion, _NumeroDeDocumentoSRI, _Observacion, _EstadoAutorizacion, _ClaveAcceso, _Error)
                     Else
                         result = FuncionesProcesoEmision_.GrabaDatosAutorizacion(DocEntry, TipoDocumento, _Nombre_Proveedor_SAP_BO, _NumAutorizacion, _FechaAutorizacion, _NumeroDeDocumentoSRI, _Observacion, _EstadoAutorizacion, _ClaveAcceso, _Error)
                     End If
@@ -183,14 +185,11 @@ Public Class ProcesoEmision
                         If _tipoManejo = "A" Then
                             rsboApp.SetStatusBarMessage("Proceso terminado con exito..!!", SAPbouiCOM.BoMessageTime.bmt_Short, False)
                         End If
-
                     Else
                         If _tipoManejo = "A" Then
                             rsboApp.SetStatusBarMessage("Ocurrio un Error al Guardar los datos de Autorización..!!", SAPbouiCOM.BoMessageTime.bmt_Short, True)
                         End If
-
                     End If
-
                 Else
 
                     'No se pudo sincronizar
@@ -198,19 +197,16 @@ Public Class ProcesoEmision
                     _Error = "GS_SINCRO-No se recibio respuesta inmediata del servicio : " + _errorMensajeWSEnvío.ToString()
                     If _tipoManejo = "A" Then
                         rsboApp.SetStatusBarMessage("GS_SINCRO-No se recibio respuesta, Presione nuevamente el boton de Consultar Autorizacion.", SAPbouiCOM.BoMessageTime.bmt_Short, True)
-
                         oFuncionesAddon.GuardaLOG(TipoDocumento, DocEntry, "GS_SINCRO-No se recibió respuesta de los Web Services", Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
-
-
                     End If
 
                     Try
                         If TipoDocumento = "LQE" Then
-
+                            FuncionesProcesoEmision_.GrabaDatosAutorizacion_Error_LQ(DocEntry, TipoDocumento, _MsgError, _Error)
                         ElseIf Functions.VariablesGlobales._FacturaGuiaRemision = "SI" Then
-
+                            FuncionesProcesoEmision_.GrabaDatosAutorizacion_Error_FacturaGuiaRemision(DocEntry, TipoDocumento, _MsgError, _Error)
                         ElseIf TipoDocumento = "SSGR" Then
-
+                            FuncionesProcesoEmision_.GrabaDatosAutGuiasDesatendidas_Error(DocEntry, TipoDocumento, _MsgError, _Error)
                         Else
                             FuncionesProcesoEmision_.GrabaDatosAutorizacion_Error(DocEntry, TipoDocumento, _MsgError, _Error)
                         End If
@@ -226,12 +222,24 @@ Public Class ProcesoEmision
                     oObjeto = FacturaManager_.ConsultarFactura(TipoDocumento, DocEntry, _Error, _campoNulo)
                 ElseIf TipoDocumento = "NCE" Then
                     oObjeto = NotaCreditoManager_.ConsultarNotaCredito(TipoDocumento, DocEntry, _Error, _campoNulo)
+                ElseIf TipoDocumento = "GRE" Or TipoDocumento = "TRE" Or TipoDocumento = "TLE" Then 'AGREGADO TLE solicitud de traslado
+                    If Functions.VariablesGlobales._FacturaGuiaRemision = "SI" Then
+                        oObjeto = GuiasRemision_.ConsultarGuiaDeRemision(TipoDocumento, DocEntry)
+                        'TipoDocumento = "GRE"
+                    ElseIf Functions.VariablesGlobales._SalidaMercanciasGuiaRemision = "SI" Then
+                        oObjeto = GuiasRemision_.ConsultarGuiaDeRemision(TipoDocumento, DocEntry)
+                        'TipoDocumento = "GRE"
+                    Else
+                        oObjeto = GuiasRemision_.ConsultarGuiaDeRemision(TipoDocumento, DocEntry)
+                    End If
                 ElseIf TipoDocumento = "NDE" Then
                     oObjeto = NotaDebitoManager_.ConsultarNotaDebito(DocEntry, _Error)
                 ElseIf TipoDocumento = "REE" Or TipoDocumento = "REA" Or TipoDocumento = "RER" Then
                     oObjeto = RetencionManager_.ConsultarRetencion(DocEntry, TipoDocumento)
                 ElseIf TipoDocumento = "LQE" Then
                     oObjeto = LiquidacionManager_.ConsultarLiquidacion(DocEntry, _Error)
+                ElseIf TipoDocumento = "SSGR" Then
+                    oObjeto = GuiasRemision_.ConsultarGuiaDeRemision(TipoDocumento, DocEntry)
                 End If
 
                 If Not oObjeto Is Nothing Then
@@ -315,6 +323,30 @@ Public Class ProcesoEmision
                                 RequestconsEst.claveAcceso = oDocumento.UserFields.Fields.Item("U_CLAVE_ACCESO").Value
                                 objetoRespuesta = ApiRequestManager_.ConsultarDoc(RequestconsEst)
                         End Select
+                    ElseIf Functions.VariablesGlobales._ActApiSS = "Y" And (TipoDocumento = "GRE" Or TipoDocumento = "TRE" Or TipoDocumento = "TLE") Then
+                        Dim oDocumento As SAPbobsCOM.Documents = Nothing
+                        Dim oTransferencia As SAPbobsCOM.StockTransfer = Nothing
+                        Dim RequestconsEst As Entidades.RequestConsulta = New Entidades.RequestConsulta
+                        Select Case TipoDocumento
+                            Case "GRE"
+                                oDocumento = rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oDeliveryNotes)
+                                oDocumento.DocObjectCode = SAPbobsCOM.BoObjectTypes.oDeliveryNotes
+
+                                Select Case oDocumento.UserFields.Fields.Item("U_ESTADO_AUTORIZACIO").Value
+                                    Case "0", "3", "4", "6"
+                                        objetoRespuesta = ApiRequestManager_.EnviarGRSolsap(DirectCast(oObjeto, Entidades.RequestGuiaRemision))
+                                    Case "1", "5", "7"
+                                        RequestconsEst.claveAcceso = oDocumento.UserFields.Fields.Item("U_CLAVE_ACCESO").Value
+                                        objetoRespuesta = ApiRequestManager_.ConsultarDoc(RequestconsEst)
+                                End Select
+                            Case "TRE"
+                                oTransferencia = rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oStockTransfer)
+                                oTransferencia.DocObjectCode = SAPbobsCOM.BoObjectTypes.oStockTransfer
+                            Case "TLE"
+                                oTransferencia = rCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oInventoryTransferRequest)
+                                oTransferencia.DocObjectCode = SAPbobsCOM.BoObjectTypes.oInventoryTransferRequest
+                        End Select
+
                     End If
 
                     If Not objetoRespuesta Is Nothing Then
@@ -347,6 +379,8 @@ Public Class ProcesoEmision
                         ElseIf TipoDocumento = "LQE" And (TipoWS = "NUBE_4_1" And Functions.VariablesGlobales._ActApiSS = "Y") Then
                             _Observacion = FuncionesProcesoEmision_.recorreError_Solsap(CType(objetoRespuesta, Entidades.ResponseDocuments), DocEntry.ToString())
                         ElseIf (TipoDocumento = "REE" Or TipoDocumento = "REA" Or TipoDocumento = "RER") And (TipoWS = "NUBE_4_1" And Functions.VariablesGlobales._ActApiSS = "Y") Then
+                            _Observacion = FuncionesProcesoEmision_.recorreError_Solsap(CType(objetoRespuesta, Entidades.ResponseDocuments), DocEntry.ToString())
+                        ElseIf (TipoDocumento = "GRE" Or TipoDocumento = "TRE" Or TipoDocumento = "TLE") Then
                             _Observacion = FuncionesProcesoEmision_.recorreError_Solsap(CType(objetoRespuesta, Entidades.ResponseDocuments), DocEntry.ToString())
                         End If
 
@@ -391,11 +425,11 @@ Public Class ProcesoEmision
                         If TipoDocumento = "LQE" Then
                             result = FuncionesProcesoEmision_.GrabaDatosAutorizacion_LQ(DocEntry, TipoDocumento, _Nombre_Proveedor_SAP_BO, _NumAutorizacion, _FechaAutorizacion, _NumeroDeDocumentoSRI, _Observacion, _EstadoAutorizacion, _ClaveAcceso, _Error)
                         ElseIf Functions.VariablesGlobales._FacturaGuiaRemision = "SI" Then
-
-                        ElseIf Functions.VariablesGlobales._SalidaMercanciasGuiaRemision = "SI" Then
+                            result = FuncionesProcesoEmision_.GrabaDatosAutorizacion_HESION_FACTURAGUIA(DocEntry, TipoDocumento, _Nombre_Proveedor_SAP_BO, _NumAutorizacion, _FechaAutorizacion, _NumeroDeDocumentoSRI, _Observacion, _EstadoAutorizacion, _ClaveAcceso, _Error)
+                            'ElseIf Functions.VariablesGlobales._SalidaMercanciasGuiaRemision = "SI" Then
 
                         ElseIf TipoDocumento = "SSGR" Then
-
+                            result = FuncionesProcesoEmision_.GrabaDatosAutGuiasDesatendidas(DocEntry, TipoDocumento, _Nombre_Proveedor_SAP_BO, _NumAutorizacion, _FechaAutorizacion, _NumeroDeDocumentoSRI, _Observacion, _EstadoAutorizacion, _ClaveAcceso, _Error)
                         Else
                             result = FuncionesProcesoEmision_.GrabaDatosAutorizacion(DocEntry, TipoDocumento, _Nombre_Proveedor_SAP_BO, _NumAutorizacion, _FechaAutorizacion, _NumeroDeDocumentoSRI, _Observacion, _EstadoAutorizacion, _ClaveAcceso, _Error)
                         End If
@@ -425,9 +459,9 @@ Public Class ProcesoEmision
                             If TipoDocumento = "LQE" Then
                                 FuncionesProcesoEmision_.GrabaDatosAutorizacion_Error_LQ(DocEntry, TipoDocumento, _MsgError, _Error)
                             ElseIf Functions.VariablesGlobales._FacturaGuiaRemision = "SI" Then
-
+                                FuncionesProcesoEmision_.GrabaDatosAutorizacion_Error_FacturaGuiaRemision(DocEntry, TipoDocumento, _MsgError, _Error)
                             ElseIf TipoDocumento = "SSGR" Then
-
+                                FuncionesProcesoEmision_.GrabaDatosAutGuiasDesatendidas_Error(DocEntry, TipoDocumento, _MsgError, _Error)
                             Else
                                 FuncionesProcesoEmision_.GrabaDatosAutorizacion_Error(DocEntry, TipoDocumento, _MsgError, _Error)
                             End If
@@ -438,22 +472,22 @@ Public Class ProcesoEmision
                     End If
                 Else
                     ' Controlo Error si no se seteo la factura con los datos de base 
-                    _Observacion = "Ocurrio un error al Consultar los datos de la Factura: " & DocEntry.ToString() & " " & _campoNulo
+                    _Observacion = $"Ocurrio un error al Consultar los datos de la {TipoDocumento}: " & DocEntry.ToString() & " " & _campoNulo
                     _Error = _Observacion
                     If _tipoManejo = "A" Then
-                        rsboApp.SetStatusBarMessage("Ocurrio un error al consultar datos de la factura en la Base, DocEntry:  " & DocEntry.ToString(), SAPbouiCOM.BoMessageTime.bmt_Short, True)
-                        oFuncionesAddon.GuardaLOG(TipoDocumento, DocEntry, "Ocurrio un error al consultar datos de la factura en la Base, DocEntry: " & DocEntry.ToString(), Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
+                        rsboApp.SetStatusBarMessage($"Ocurrio un error al consultar datos de la {TipoDocumento} en la Base, DocEntry:  " & DocEntry.ToString(), SAPbouiCOM.BoMessageTime.bmt_Short, True)
+                        oFuncionesAddon.GuardaLOG(TipoDocumento, DocEntry, $"Ocurrio un error al consultar datos de la {TipoDocumento} en la Base, DocEntry: " & DocEntry.ToString(), Functions.FuncionesAddon.Transacciones.Creacion, Functions.FuncionesAddon.TipoLog.Emision)
                     End If
 
                     Try
                         If TipoDocumento = "LQE" Then
                             FuncionesProcesoEmision_.GrabaDatosAutorizacion_Error_LQ(DocEntry, TipoDocumento, _MsgError, _Error)
                         ElseIf Functions.VariablesGlobales._FacturaGuiaRemision = "SI" Then
-
-                        ElseIf Functions.VariablesGlobales._SalidaMercanciasGuiaRemision = "SI" Then
+                            FuncionesProcesoEmision_.GrabaDatosAutorizacion_Error_FacturaGuiaRemision(DocEntry, TipoDocumento, _MsgError, _Error)
+                            'ElseIf Functions.VariablesGlobales._SalidaMercanciasGuiaRemision = "SI" Then
 
                         ElseIf TipoDocumento = "SSGR" Then
-
+                            FuncionesProcesoEmision_.GrabaDatosAutGuiasDesatendidas_Error(DocEntry, TipoDocumento, _MsgError, _Error)
                         Else
                             FuncionesProcesoEmision_.GrabaDatosAutorizacion_Error(DocEntry, TipoDocumento, _MsgError, _Error)
                         End If
