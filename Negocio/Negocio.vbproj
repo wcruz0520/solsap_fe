@@ -127,12 +127,12 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Interop.SAPbobsCOM">
-      <HintPath>..\..\..\LIB\9.2\Interop.SAPbobsCOM.dll</HintPath>
+    <Reference Include="Interop.SAPbobsCOM_SAP10">
+      <HintPath>..\..\..\SERUVI\LIB\Interop.SAPbobsCOM_SAP10.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Interop.SAPbouiCOM">
-      <HintPath>..\..\..\LIB\9.2\Interop.SAPbouiCOM.dll</HintPath>
+    <Reference Include="Interop.SAPbouiCOM_SAP10">
+      <HintPath>..\..\..\SERUVI\LIB\Interop.SAPbouiCOM_SAP10.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
