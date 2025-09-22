@@ -6014,7 +6014,6 @@ Public Class ManejoDeDocumentos
 
 
     End Function
-
     Public Function ConsultarGuiaDesatendida_NUBE_4_1(ByVal TipoGR As String, ByVal DocEntry As Integer, ByVal TipoWS As String) As Object
 
         Dim oGuiaRemision As New Entidades.wsEDoc_GuiaRemision41.ENTGuiaRemision
@@ -6331,8 +6330,6 @@ Public Class ManejoDeDocumentos
 
 
     End Function
-
-
 
     Public Function Consultar_Factura_GuiaDeRemision(ByVal TipoGR As String, ByVal DocEntry As Integer, ByVal TipoWS As String) As Object
 

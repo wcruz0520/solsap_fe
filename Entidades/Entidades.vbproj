@@ -166,6 +166,7 @@
     <Compile Include="DocumentoTipo.vb" />
     <Compile Include="Entidades SOLSAP\ClsGen.vb" />
     <Compile Include="Entidades SOLSAP\RequestFactura.vb" />
+    <Compile Include="Entidades SOLSAP\RequestGuiaRemision.vb" />
     <Compile Include="Entidades SOLSAP\RequestLiquidacion.vb" />
     <Compile Include="Entidades SOLSAP\RequestNotaCredito.vb" />
     <Compile Include="Entidades SOLSAP\RequestNotaDebito.vb" />
