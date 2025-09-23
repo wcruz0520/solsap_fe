@@ -1194,16 +1194,11 @@ Public Class EventosEmision
 
                                     Else
 
-
                                         SetearCamposAutoFE_LOC(xforv, "DespuesPulsar", pVal.FormTypeEx)
-
-
 
                                     End If
 
-
                                 End If
-
 
                             End If
 
@@ -1226,7 +1221,6 @@ Public Class EventosEmision
 
                             End If
 
-
                             'Manejo clik enlaces QR
                         ElseIf (pVal.ItemUID = "pboxQR" Or pVal.ItemUID = "pboxQRL") And pVal.BeforeAction = True Then
 
@@ -1235,6 +1229,12 @@ Public Class EventosEmision
                                 Dim mForm As SAPbouiCOM.Form = rSboApp.Forms.Item(pVal.FormUID)
 
                                 Dim EnlaceQR As String = ""
+                                Dim ClaveAcceso As String = ""
+                                Try
+                                    ClaveAcceso = mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_CLAVE_ACCESO", 0)
+                                Catch ex As Exception
+
+                                End Try
 
                                 Select Case pVal.ItemUID
                                     Case "pboxQR"
@@ -1245,22 +1245,18 @@ Public Class EventosEmision
 
                                 If EnlaceQR <> "" Then
                                     If Functions.VariablesGlobales._ActApiSS = "Y" Then
-                                        oManejoDocumentosSolsap.AbrirEnlaceExterno(EnlaceQR)
+                                        oManejoDocumentosSolsap.AbrirEnlaceExterno(EnlaceQR, ClaveAcceso)
                                     Else
                                         oManejoDocumentos.AbrirEnlaceExterno(EnlaceQR)
                                     End If
                                 End If
-
-
                             Catch ex As Exception
-
                                 rSboApp.SetStatusBarMessage(NombreAddon & " No es Posible Abrir el enlace", True)
-
                             End Try
 
                             'Manejo de Tabs
                         ElseIf (pVal.ItemUID = "TabGenFE" Or pVal.ItemUID = "TabGenLOC") And pVal.BeforeAction = True Then
-
+                            Dim UEA As String = ""
                             Try
                                 Dim mForm As SAPbouiCOM.Form = rSboApp.Forms.Item(pVal.FormUID)
 
@@ -1268,20 +1264,24 @@ Public Class EventosEmision
                                     Case "TabGenFE"
                                         mForm.PaneLevel = 50
                                         Dim docsubtype As String = mForm.DataSources.DBDataSources.Item(oTabla).GetValue("DocSubType", 0)
-                                        ObtenerEnlacesURLyGenerarRQ(mForm, pVal.FormUID, docsubtype, oTipoTabla)
+
+                                        Try
+                                            UEA = mForm.DataSources.DBDataSources.Item(oTabla).GetValue("U_ESTADO_AUTORIZACIO", 0)
+                                        Catch ex As Exception
+
+                                        End Try
+
+                                        If Functions.VariablesGlobales._ActApiSS = "Y" And UEA = "2" Then
+                                            ObtenerEnlacesURLyGenerarRQ(mForm, pVal.FormUID, docsubtype, oTipoTabla)
+                                        ElseIf Functions.VariablesGlobales._ActApiSS <> "Y" Then
+                                            ObtenerEnlacesURLyGenerarRQ(mForm, pVal.FormUID, docsubtype, oTipoTabla)
+                                        End If
 
                                     Case "TabGenLOC"
-
                                         mForm.PaneLevel = 51
-
                                 End Select
 
-
-
-
                             Catch ex As Exception
-
-
 
                             End Try
 
@@ -6537,9 +6537,11 @@ Public Class EventosEmision
                 Try
 
                     If oForm.PaneLevel = 50 Then
-
-                        ObtenerEnlacesURLyGenerarRQ(oForm, formUID)
-
+                        If Functions.VariablesGlobales._ActApiSS = "Y" And UDFEA = "2" Then
+                            ObtenerEnlacesURLyGenerarRQ(oForm, formUID)
+                        ElseIf Functions.VariablesGlobales._ActApiSS <> "Y" Then
+                            ObtenerEnlacesURLyGenerarRQ(oForm, formUID)
+                        End If
                     End If
                 Catch ex As Exception
 

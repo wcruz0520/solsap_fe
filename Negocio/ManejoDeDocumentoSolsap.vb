@@ -117,17 +117,43 @@ Public Class ManejoDeDocumentoSolsap
         Return valor.ToString()
     End Function
 
-    Public Function AbrirEnlaceExterno(enlace As String) As Boolean
+    'Public Function AbrirEnlaceExterno(enlace As String) As Boolean
+    '    Try
+    '        If Not String.IsNullOrEmpty(enlace) Then
+    '            Dim rn As New System.Diagnostics.Process
+    '            rn.StartInfo.FileName = enlace
+    '            rn.Start()
+    '            rn.Dispose()
+    '            Return True
+    '        End If
+    '    Catch ex As Exception
+    '    End Try
+    '    Return False
+    'End Function
+
+    Public Function AbrirEnlaceExterno(enlace As String, Optional claveacceso As String = "") As Boolean
         Try
             If Not String.IsNullOrEmpty(enlace) Then
-                Dim rn As New System.Diagnostics.Process
-                rn.StartInfo.FileName = enlace
-                rn.Start()
-                rn.Dispose()
+                ' Definir nombre temporal
+                Dim rutaTemp As String = Path.Combine(Path.GetTempPath(), Path.GetFileName($"{claveacceso}.pdf"))
+
+                ' Descargar el recurso
+                Using wc As New Net.WebClient()
+                    wc.DownloadFile(enlace, rutaTemp)
+                End Using
+
+                ' Abrir desde local en vez del enlace real
+                Dim proc As New Process()
+                proc.StartInfo.FileName = rutaTemp
+                proc.Start()
+                proc.Dispose()
+
                 Return True
             End If
         Catch ex As Exception
+            ' Manejo de error
         End Try
         Return False
     End Function
+
 End Class
